@@ -212,7 +212,11 @@ export function useTrailMap({
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
     const resize = () => map.resize();
-    map.on("load", resize);
+    map.on("load", () => {
+      resize();
+      requestAnimationFrame(resize);
+      window.setTimeout(resize, 150);
+    });
     const observer = new ResizeObserver(resize);
     observer.observe(container);
 
