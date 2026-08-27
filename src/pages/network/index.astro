@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NetworkExplorer from "../../components/NetworkExplorer.tsx";
+import { getSegments, loadCorridors, uniqueLandManagers } from "../../lib/network";
+
+const segments = getSegments();
+const corridors = loadCorridors();
+const landManagers = uniqueLandManagers(segments);
+const view = Astro.url.searchParams.get("view") === "list" ? "list" : "map";
+const corridor = Astro.url.searchParams.get("corridor");
+---
+
+<BaseLayout
+  title="Network"
+  description="Every existing and proposed trail segment on Revillagigedo Island, with land managers attached."
+>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">The network</p>
+    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">
+      {segments.length} segments on Revilla
+    </h1>
+    <p class="mt-3 max-w-2xl text-sm leading-relaxed text-ink/85">
+      Status is in the line, not just the color: solid ink is usable, faded ink needs work, muskeg
+      dashes are under construction, pink dashes do not exist yet. Tab cycles segments. Enter
+      selects.
+    </p>
+    <div class="mt-8">
+      <NetworkExplorer
+        client:load
+        segments={segments}
+        corridors={corridors}
+        landManagers={landManagers}
+        initialView={view}
+        initialCorridor={corridor}
+      />
+    </div>
+  </div>
+</BaseLayout>

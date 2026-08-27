@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/archivo";
+@import "@fontsource/public-sans/400.css";
+@import "@fontsource/public-sans/500.css";
+@import "@fontsource/public-sans/600.css";
+@import "@fontsource/public-sans/700.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource-variable/source-serif-4/wght-italic.css";
+
+:root {
+  --ink: #17211f;
+  --tide: #24404a;
+  --muskeg: #b4863c;
+  --sheet: #e7e4d9;
+  --contour: #a9a695;
+  --flagging: #e8467c;
+}
+
+@theme {
+  --color-ink: #17211f;
+  --color-tide: #24404a;
+  --color-muskeg: #b4863c;
+  --color-sheet: #e7e4d9;
+  --color-contour: #a9a695;
+  --color-flagging: #e8467c;
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-hydro: "Source Serif 4", ui-serif, Georgia, serif;
+}
+
+html {
+  background: var(--sheet);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--sheet);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-stretch: expanded;
+  font-variation-settings: "wdth" 125;
+}
+
+.hydro {
+  font-family: var(--font-hydro);
+  font-style: italic;
+  font-weight: 400;
+}
+
+:focus-visible {
+  outline: 2px solid var(--flagging);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--muskeg) 45%, var(--sheet));
+  color: var(--ink);
+}

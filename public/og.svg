@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Revilla Trails  Connect the island.">
+  <rect width="1200" height="630" fill="#E7E4D9"/>
+  <text x="72" y="160" font-family="Archivo, sans-serif" font-size="28" font-weight="600" fill="#24404A" letter-spacing="4">REVILLA TRAILS</text>
+  <text x="72" y="280" font-family="Archivo, sans-serif" font-size="88" font-weight="700" fill="#17211F">Connect the island.</text>
+  <line x1="72" y1="380" x2="720" y2="380" stroke="#17211F" stroke-width="8"/>
+  <line x1="736" y1="380" x2="1128" y2="380" stroke="#E8467C" stroke-width="8" stroke-dasharray="16 12"/>
+  <text x="72" y="520" font-family="IBM Plex Mono, monospace" font-size="22" fill="#24404A">EXISTING  INK    GAP  FLAGGING</text>
+</svg>

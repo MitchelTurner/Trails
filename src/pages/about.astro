@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../config/site";
+---
+
+<BaseLayout
+  title="About"
+  description="An informal association working to connect Revillagigedo Island's trails across jurisdictions."
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">About</p>
+    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">{site.name}</h1>
+    <p class="mt-5 text-lg leading-relaxed">
+      Working name for the Ketchikan Trail Association — an informal group of residents who want
+      the island's trails to function as a network. There is no entity and no 501(c)(3). That is
+      why this site does not ask for money.
+    </p>
+
+    <h2 class="font-display mt-12 text-2xl font-semibold">Who this is for</h2>
+    <ul class="mt-4 list-disc space-y-2 pl-5 leading-relaxed">
+      <li>Residents who already use the trails and can see the gaps between them.</li>
+      <li>
+        Land managers — USFS, State, Mental Health Trust, Borough, City, Native corporations —
+        who need a coherent, honest plan that spans jurisdictions.
+      </li>
+      <li>Future funders who need a mapped project pipeline, not a brochure.</li>
+    </ul>
+
+    <h2 class="font-display mt-12 text-2xl font-semibold">Partners we have to talk to</h2>
+    <p class="mt-4 leading-relaxed">
+      Tongass National Forest, Alaska State Parks, the Alaska Mental Health Trust, Ketchikan
+      Gateway Borough, the City of Ketchikan, the City of Saxman, and Native corporations with
+      surface estate on Revilla. None of them are listed here as endorsing the map.
+    </p>
+
+    <h2 class="font-display mt-12 text-2xl font-semibold">Board</h2>
+    <p class="mt-4 leading-relaxed">
+      Names go here when the group is ready to put them on a public page. Until then, write
+      {" "}
+      <a class="underline decoration-contour underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+
+    <h2 class="font-display mt-12 text-2xl font-semibold">Legal posture</h2>
+    <p class="mt-4 leading-relaxed">
+      This is not legal advice. The group should get some before taking a dollar. The two ordinary
+      paths are incorporating as an Alaska nonprofit with DCCED and filing IRS Form 1023-EZ, or
+      operating under a fiscal sponsor — Alaska Trails or a community foundation — and taking
+      donations through them in the meantime.
+    </p>
+  </div>
+</BaseLayout>

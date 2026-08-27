@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ReportForm from "../components/ReportForm.tsx";
+
+const formId = import.meta.env.PUBLIC_FORMSPREE_REPORT;
+---
+
+<BaseLayout
+  title="Report an issue"
+  description="A plain form for trail issues. Phase 1 is a mailbox, not a live work queue."
+>
+  <div class="mx-auto max-w-xl px-4 py-12">
+    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">Report</p>
+    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">Report an issue</h1>
+    <p class="mt-4 leading-relaxed">
+      Blowdown, missing boardwalk, a drainage failure, a place that has become unsafe. This is a
+      mailbox. It does not update the public map until there is an entity and a moderation queue.
+    </p>
+    <div class="mt-8">
+      <ReportForm client:visible formId={formId} />
+    </div>
+  </div>
+</BaseLayout>

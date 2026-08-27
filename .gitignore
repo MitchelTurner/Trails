@@ -1,0 +1,12 @@
+node_modules
+dist
+.astro
+.env
+.env.*
+!.env.example
+data/raw/*
+!data/raw/.gitkeep
+.DS_Store
+*.log
+.vercel
+.railway

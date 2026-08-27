@@ -1,0 +1,64 @@
+[
+  {
+    "id": "downtown-to-ward-lake",
+    "name": "Downtown to Ward Lake",
+    "segmentIds": [
+      "rainbird-trail",
+      "rainbird-to-carlanna",
+      "carlanna-lake",
+      "carlanna-to-ward-lake",
+      "perseverance-trail",
+      "pipeline-trail",
+      "ward-lake-nature-trail"
+    ],
+    "blurb": "The first fundable spine: from the downtown hillside to the Ward Lake recreation area, stitching trails residents already use across City, Borough, and Forest Service land.",
+    "totalMi": 10.432,
+    "existingMi": 6.77,
+    "gapMi": 3.662,
+    "percentComplete": 64.9
+  },
+  {
+    "id": "ward-to-lunch-creek",
+    "name": "Ward Lake to Lunch Creek",
+    "segmentIds": [
+      "ward-creek",
+      "ward-lake-to-connell",
+      "connell-lake",
+      "connell-to-lunch-creek",
+      "lunch-creek"
+    ],
+    "blurb": "North from Ward through Connell Lake toward Lunch Creek — the interior connection that turns scattered USFS trails into a through-route instead of a set of dead ends.",
+    "totalMi": 10.54,
+    "existingMi": 6.177,
+    "gapMi": 4.363,
+    "percentComplete": 58.6
+  },
+  {
+    "id": "deer-mountain-to-silvis",
+    "name": "Deer Mountain to Silvis Lake",
+    "segmentIds": [
+      "deer-mountain",
+      "deer-to-silvis",
+      "silvis-lake"
+    ],
+    "blurb": "The south-island ridge: a surveyed-later connection from the Deer Mountain National Recreation Trail to Silvis Lake, so the high country is a network instead of a single out-and-back.",
+    "totalMi": 12.073,
+    "existingMi": 10.158,
+    "gapMi": 1.915,
+    "percentComplete": 84.1
+  },
+  {
+    "id": "north-tongass-coastal",
+    "name": "North Tongass coastal",
+    "segmentIds": [
+      "refuge-cove-coastal",
+      "north-tongass-coastal",
+      "dude-mountain"
+    ],
+    "blurb": "A coastal walking connection along North Tongass — Refuge Cove toward Settler's Cove — so the highway is not the only way to move between the north-end communities and the interior trails.",
+    "totalMi": 16.768,
+    "existingMi": 1.478,
+    "gapMi": 15.29,
+    "percentComplete": 8.8
+  }
+]

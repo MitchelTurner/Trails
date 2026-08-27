@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://revillatrails.org/sitemap-index.xml

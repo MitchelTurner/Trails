@@ -1,0 +1,120 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rainbird-trail",
+        "name": "Rainbird Trail",
+        "status": "existing",
+        "corridorId": "downtown-to-ward-lake",
+        "sourceRef": "hand-attributed-pending-borough-gis",
+        "surface": "native",
+        "difficulty": "moderate",
+        "landManagers": ["City of Ketchikan"],
+        "elevationGainFt": 500,
+        "summary": "The downtown hillside trail residents already use. Alignment is approximate until the Borough publishes a trails FeatureServer. South anchor of the downtown-to-Ward spine.",
+        "whatItNeeds": null,
+        "seasonality": "Year-round below the snow line; icy in winter"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6486, 55.3448],
+          [-131.6518, 55.3466],
+          [-131.6548, 55.3488],
+          [-131.6582, 55.3512]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "married-mans-trail",
+        "name": "Married Man's Trail",
+        "status": "existing",
+        "sourceRef": "hand-attributed-pending-borough-gis",
+        "surface": "boardwalk",
+        "difficulty": "easy",
+        "landManagers": ["City of Ketchikan"],
+        "summary": "Existing downtown boardwalk connection. Alignment is approximate pending the Borough trails layer. On the map because it is how people already move.",
+        "whatItNeeds": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6428, 55.3412],
+          [-131.6412, 55.3424],
+          [-131.6396, 55.3436]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "schoenbar-trail",
+        "name": "Schoenbar Trail",
+        "status": "existing",
+        "sourceRef": "hand-attributed-pending-borough-gis",
+        "surface": "gravel",
+        "difficulty": "easy",
+        "landManagers": ["City of Ketchikan"],
+        "summary": "Existing in-town trail. Alignment is approximate pending Borough GIS.",
+        "whatItNeeds": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6568, 55.3368],
+          [-131.6542, 55.3384],
+          [-131.6516, 55.3398]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "whitman-trail",
+        "name": "Whitman Trail",
+        "status": "existing",
+        "sourceRef": "hand-attributed-pending-borough-gis",
+        "surface": "native",
+        "difficulty": "moderate",
+        "landManagers": ["Ketchikan Gateway Borough"],
+        "summary": "Existing south-end trail. Alignment is approximate pending Borough GIS.",
+        "whatItNeeds": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6248, 55.3224],
+          [-131.6186, 55.3258],
+          [-131.6124, 55.3286]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "refuge-cove-coastal",
+        "name": "Refuge Cove Coastal Trail",
+        "status": "existing",
+        "corridorId": "north-tongass-coastal",
+        "sourceRef": "hand-attributed-pending-borough-gis",
+        "surface": "native",
+        "difficulty": "easy",
+        "landManagers": ["State of Alaska", "Ketchikan Gateway Borough"],
+        "summary": "Existing coastal trail at Refuge Cove State Recreation Site. Alignment is approximate pending Borough GIS. The built start of the north-highway walking idea.",
+        "whatItNeeds": null
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.7548, 55.4032],
+          [-131.7516, 55.4058],
+          [-131.7488, 55.4086]
+        ]
+      }
+    }
+  ]
+}

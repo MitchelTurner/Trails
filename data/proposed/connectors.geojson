@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "carlanna-to-ward-lake",
+        "name": "Carlanna to Ward Lake",
+        "status": "proposed",
+        "corridorId": "downtown-to-ward-lake",
+        "sourceRef": "hand-drawn-concept",
+        "surface": "unbuilt",
+        "summary": "Conceptual alignment only — not surveyed. The longest gap on the downtown-to-Ward spine, crossing the benches between Carlanna Lake and the Ward drainage.",
+        "whatItNeeds": "A surveyed line, land-manager agreement (USFS, Borough, and any Trust parcels), and a funded design package."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6684, 55.3638],
+          [-131.6708, 55.3712],
+          [-131.6742, 55.3796],
+          [-131.6786, 55.3884],
+          [-131.6824, 55.3968],
+          [-131.6856, 55.4048]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "connell-to-lunch-creek",
+        "name": "Connell to Lunch Creek",
+        "status": "proposed",
+        "corridorId": "ward-to-lunch-creek",
+        "sourceRef": "hand-drawn-concept",
+        "surface": "unbuilt",
+        "summary": "Conceptual alignment only — not surveyed. Continues the interior corridor from Connell Lake toward Lunch Creek so the north-island trails stop being isolated walk-ins.",
+        "whatItNeeds": "Survey, USFS review, and a decision on how the line meets existing Lunch Creek tread."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6682, 55.4486],
+          [-131.6624, 55.4568],
+          [-131.6548, 55.4642],
+          [-131.6466, 55.4708],
+          [-131.6408, 55.4762]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "deer-to-silvis",
+        "name": "Deer Mountain to Silvis",
+        "status": "proposed",
+        "corridorId": "deer-mountain-to-silvis",
+        "sourceRef": "hand-drawn-concept",
+        "surface": "unbuilt",
+        "summary": "Conceptual alignment only — not surveyed. A ridge connection from Deer Mountain toward Silvis Lake. Showing this line is a planning statement, not a route description.",
+        "whatItNeeds": "A surveyed alpine alignment, a seasonal-use plan, and Forest Service agreement before anyone hangs flagging."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6148, 55.3476],
+          [-131.6062, 55.3438],
+          [-131.5964, 55.3386],
+          [-131.5868, 55.3334],
+          [-131.5784, 55.3292]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "north-tongass-coastal",
+        "name": "North Tongass coastal connector",
+        "status": "proposed",
+        "corridorId": "north-tongass-coastal",
+        "sourceRef": "hand-drawn-concept",
+        "surface": "unbuilt",
+        "summary": "Conceptual alignment only — not surveyed. A coastal walking connection along North Tongass so the highway is not the only public route between the north-end communities and the interior trails.",
+        "whatItNeeds": "Right-of-way conversations with the Borough, State, and shoreline landowners, then a surveyed line. This is not a road project."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.7488, 55.4086],
+          [-131.7364, 55.4248],
+          [-131.7182, 55.4486],
+          [-131.6924, 55.4782],
+          [-131.6628, 55.5124],
+          [-131.6284, 55.5486],
+          [-131.5862, 55.5724],
+          [-131.5428, 55.5926]
+        ]
+      }
+    }
+  ]
+}
