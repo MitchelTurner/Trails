@@ -64,3 +64,10 @@ body {
   background: color-mix(in srgb, var(--muskeg) 45%, var(--sheet));
   color: var(--ink);
 }
+
+/* MapLibre ships `.maplibregl-ctrl-attrib a { text-decoration: none }` and its
+   stylesheet loads after this one, so match with higher specificity. */
+.maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-inner a {
+  color: var(--ink);
+  text-decoration: underline;
+}

@@ -51,6 +51,24 @@ function boundsFor(feature: TrailFeature): maplibregl.LngLatBounds {
   return bounds;
 }
 
+function boundsForCollection(collection: TrailCollection): maplibregl.LngLatBounds | null {
+  const bounds = new maplibregl.LngLatBounds();
+  let extended = false;
+  for (const feature of collection.features) {
+    const lines =
+      feature.geometry.type === "LineString"
+        ? [feature.geometry.coordinates]
+        : feature.geometry.coordinates;
+    for (const line of lines) {
+      for (const coord of line) {
+        bounds.extend(coord as [number, number]);
+        extended = true;
+      }
+    }
+  }
+  return extended ? bounds : null;
+}
+
 export function webglAvailable(): boolean {
   try {
     const canvas = document.createElement("canvas");
@@ -76,6 +94,8 @@ export function useTrailMap({
   const mapRef = useRef<MapLibreMap | null>(null);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
+  const selectedIdRef = useRef(selectedId);
+  selectedIdRef.current = selectedId;
 
   useEffect(() => {
     if (!enabled || !container || !network || mapRef.current) return;
@@ -216,6 +236,11 @@ export function useTrailMap({
       resize();
       requestAnimationFrame(resize);
       window.setTimeout(resize, 150);
+      // Frame the trails themselves; the island bbox leaves the network tiny on wide viewports.
+      if (!selectedIdRef.current) {
+        const dataBounds = boundsForCollection(network);
+        if (dataBounds) map.fitBounds(dataBounds, { padding: 48, duration: 0 });
+      }
     });
     const observer = new ResizeObserver(resize);
     observer.observe(container);

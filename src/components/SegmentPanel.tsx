@@ -28,7 +28,7 @@ export function SegmentPanel({ segment, corridor, onClose }: SegmentPanelProps) 
             <button
               type="button"
               onClick={onClose}
-              className="font-mono text-[11px] uppercase tracking-wider text-tide hover:text-ink"
+              className="min-h-11 min-w-11 font-mono text-[11px] uppercase tracking-wider text-tide hover:text-ink"
             >
               Close
             </button>
@@ -97,7 +97,7 @@ export function SegmentPanel({ segment, corridor, onClose }: SegmentPanelProps) 
           {corridor ? (
             <a
               href={`/vision#${corridor.id}`}
-              className="mt-6 font-mono text-[12px] uppercase tracking-wider text-tide underline decoration-contour underline-offset-4 hover:text-ink"
+              className="mt-6 flex min-h-11 items-center font-mono text-[12px] uppercase tracking-wider text-tide underline decoration-contour underline-offset-4 hover:text-ink"
             >
               Corridor: {corridor.name}
             </a>
@@ -105,7 +105,7 @@ export function SegmentPanel({ segment, corridor, onClose }: SegmentPanelProps) 
 
           <a
             href={`/network/${segment.id}`}
-            className="mt-auto pt-8 font-mono text-[12px] uppercase tracking-wider text-ink underline decoration-flagging underline-offset-4"
+            className="mt-auto flex min-h-11 items-end pt-8 font-mono text-[12px] uppercase tracking-wider text-ink underline decoration-flagging underline-offset-4"
           >
             Open full segment page
           </a>

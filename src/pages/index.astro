@@ -34,7 +34,9 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
         alt="Static map of existing and proposed trail segments on Revillagigedo Island"
         class="absolute inset-0 h-full w-full object-contain bg-sheet"
       />
-      <TrailMap client:load corridors={corridors} className="absolute inset-0" />
+      <div class="absolute inset-0">
+        <TrailMap client:load corridors={corridors} />
+      </div>
       <noscript>
         <p class="absolute bottom-3 left-3 border border-contour bg-sheet/95 px-3 py-2 text-sm">
           The interactive map needs JavaScript.

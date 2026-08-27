@@ -34,6 +34,7 @@ export default function TrailMap({
   const [basemap, setBasemap] = useState<BasemapId>("topo");
   const [gl, setGl] = useState<boolean | null>(null);
   const [cursor, setCursor] = useState(0);
+  const [keyboardActive, setKeyboardActive] = useState(false);
 
   useEffect(() => {
     setGl(webglAvailable());
@@ -134,11 +135,14 @@ export default function TrailMap({
 
   return (
     <div className={`relative h-full min-h-[28rem] overflow-hidden bg-contour/20 ${className}`}>
+      {/* Sized with h/w, not inset: maplibre-gl.css forces position:relative on .maplibregl-map. */}
       <div
         ref={setContainer}
         tabIndex={0}
         onKeyDown={onKeyDown}
-        className="absolute inset-0"
+        onFocus={() => setKeyboardActive(true)}
+        onBlur={() => setKeyboardActive(false)}
+        className="h-full w-full"
         role="application"
         aria-label="Interactive trail network map. Tab cycles segments, Enter selects."
       />
@@ -158,7 +162,7 @@ export default function TrailMap({
           Imagery
         </button>
       </div>
-      {visibleIds[cursor] && !selectedId ? (
+      {keyboardActive && visibleIds[cursor] && !selectedId ? (
         <p className="pointer-events-none absolute bottom-3 left-3 z-10 border border-contour bg-sheet/95 px-2 py-1 font-mono text-[11px] uppercase tracking-wider text-tide">
           Focused: {network?.features.find((f) => f.properties.id === visibleIds[cursor])?.properties.name}
         </p>
