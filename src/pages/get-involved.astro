@@ -46,19 +46,19 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
               <h3 class="font-display mt-1 text-xl font-semibold">{party.data.title}</h3>
               <dl class="mt-4 grid gap-2 text-sm">
                 <div>
-                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Location</dt>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">Location</dt>
                   <dd>{party.data.location}</dd>
                 </div>
                 <div>
-                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Meeting point</dt>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">Meeting point</dt>
                   <dd>{party.data.meetingPoint}</dd>
                 </div>
                 <div>
-                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">What to bring</dt>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">What to bring</dt>
                   <dd>{party.data.whatToBring}</dd>
                 </div>
                 <div>
-                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Contact</dt>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">Contact</dt>
                   <dd>
                     <a class="underline decoration-contour underline-offset-4" href={`mailto:${party.data.contact}`}>
                       {party.data.contact}

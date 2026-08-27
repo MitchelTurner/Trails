@@ -70,7 +70,7 @@ export default function VolunteerForm({ formId }: { formId?: string }) {
           {state === "submitting" ? "Sending…" : "Join the work party"}
         </button>
         {message && state === "error" ? (
-          <p className="mt-2 text-sm text-flagging" role="alert">
+          <p className="mt-2 text-sm text-ink" role="alert">
             {message}
           </p>
         ) : null}

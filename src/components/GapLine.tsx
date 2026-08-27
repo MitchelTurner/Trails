@@ -128,9 +128,9 @@ export function GapLine({
           })}
         </g>
       </svg>
-      <figcaption className="mt-2 flex min-h-5 flex-wrap items-center justify-between gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-tide/80">
+      <figcaption className="mt-2 flex min-h-5 flex-wrap items-center justify-between gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         <span>{hover ?? `${builtMi.toFixed(1)} mi built · ${gapMi.toFixed(1)} mi gap`}</span>
-        {quiet ? null : <span className="text-contour">Hover a dash for the missing connection</span>}
+        {quiet ? null : <span>Hover a dash for the missing connection</span>}
       </figcaption>
       <style>{`
         .gapline-clip {

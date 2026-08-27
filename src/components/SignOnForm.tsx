@@ -63,7 +63,7 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
 
   return (
     <section className="border border-contour/70 bg-sheet px-5 py-8 md:px-8">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-flagging">Sign on</p>
+      <p className="font-mono text-[11px] uppercase tracking-wider text-tide">Sign on</p>
       <h2 className="font-display mt-2 text-3xl font-semibold tracking-tight md:text-4xl">
         {formatCount(optimistic)} people have signed on to connecting Revilla's trails.
       </h2>
@@ -114,12 +114,12 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
             <button
               type="submit"
               disabled={state === "submitting"}
-              className="bg-flagging px-5 py-2.5 font-display text-sm font-semibold tracking-wide text-sheet disabled:opacity-60"
+              className="bg-flagging px-6 py-3 font-display text-xl font-bold tracking-wide text-ink disabled:opacity-60"
             >
               {state === "submitting" ? "Signing on…" : "Sign on"}
             </button>
             {message && state === "error" ? (
-              <p className="text-sm text-flagging" role="alert">
+              <p className="text-sm text-ink" role="alert">
                 {message}
               </p>
             ) : (

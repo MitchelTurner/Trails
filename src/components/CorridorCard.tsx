@@ -10,7 +10,7 @@ export function CorridorCard({ corridor, segments }: CorridorCardProps) {
   const parts = partsFromCorridor(corridor, segments);
   return (
     <article className="border border-contour/70 bg-sheet/40 p-5">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-tide/70">Corridor</p>
+      <p className="font-mono text-[11px] uppercase tracking-wider text-tide">Corridor</p>
       <h3 className="font-display mt-1 text-xl font-semibold tracking-tight">
         <a href={`/network?corridor=${corridor.id}`} className="hover:text-tide">
           {corridor.name}

@@ -54,7 +54,11 @@ function boundsFor(feature: TrailFeature): maplibregl.LngLatBounds {
 export function webglAvailable(): boolean {
   try {
     const canvas = document.createElement("canvas");
-    return Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl"));
+    const gl =
+      canvas.getContext("webgl2") ||
+      canvas.getContext("webgl") ||
+      canvas.getContext("experimental-webgl");
+    return Boolean(gl);
   } catch {
     return false;
   }
@@ -207,6 +211,10 @@ export function useTrailMap({
     });
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+    const resize = () => map.resize();
+    map.on("load", resize);
+    const observer = new ResizeObserver(resize);
+    observer.observe(container);
 
     map.on("click", (event) => {
       const hits = map.queryRenderedFeatures(event.point, {
@@ -240,6 +248,7 @@ export function useTrailMap({
 
     mapRef.current = map;
     return () => {
+      observer.disconnect();
       map.remove();
       mapRef.current = null;
     };

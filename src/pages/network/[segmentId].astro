@@ -47,19 +47,19 @@ const corridor = segment.corridorId ? getCorridorById(segment.corridorId) : unde
 
     <dl class="mt-6 grid gap-4 border-y border-contour/70 py-5 sm:grid-cols-2 lg:grid-cols-4">
       <div>
-        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Length</dt>
+        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">Length</dt>
         <dd class="mt-1 font-mono text-sm">{formatMiles(segment.lengthMi)}</dd>
       </div>
       <div>
-        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Elevation gain</dt>
+        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">Elevation gain</dt>
         <dd class="mt-1 font-mono text-sm">{formatElevation(segment.elevationGainFt)}</dd>
       </div>
       <div>
-        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Surface</dt>
+        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">Surface</dt>
         <dd class="mt-1 font-mono text-sm">{formatSurface(segment.surface)}</dd>
       </div>
       <div>
-        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Season</dt>
+        <dt class="font-mono text-[11px] uppercase tracking-wider text-tide">Season</dt>
         <dd class="mt-1 font-mono text-sm">{segment.seasonality ?? "—"}</dd>
       </div>
     </dl>
@@ -79,12 +79,12 @@ const corridor = segment.corridorId ? getCorridorById(segment.corridorId) : unde
 
     {segment.status !== "existing" && segment.whatItNeeds ? (
       <section class="mt-6 max-w-3xl">
-        <h2 class="font-mono text-[11px] uppercase tracking-wider text-flagging">What it needs</h2>
+        <h2 class="font-mono text-[11px] uppercase tracking-wider text-tide">What it needs</h2>
         <p class="mt-2 leading-relaxed">{segment.whatItNeeds}</p>
       </section>
     ) : null}
 
-    <p class="mt-4 font-mono text-[11px] uppercase tracking-wider text-contour">
+    <p class="mt-4 font-mono text-[11px] uppercase tracking-wider text-tide">
       Source {segment.sourceRef} · updated {segment.updatedAt}
     </p>
 

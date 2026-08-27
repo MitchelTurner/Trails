@@ -89,7 +89,7 @@ export default function ReportForm({ formId }: ReportFormProps) {
           {state === "submitting" ? "Sending…" : "Report an issue"}
         </button>
         {message && state === "error" ? (
-          <p className="text-sm text-flagging" role="alert">
+          <p className="text-sm text-ink" role="alert">
             {message}
           </p>
         ) : null}

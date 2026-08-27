@@ -20,7 +20,7 @@ export function SegmentPanel({ segment, corridor, onClose }: SegmentPanelProps) 
         <div className="flex h-full flex-col overflow-y-auto p-5">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-wider text-tide/70">Segment</p>
+              <p className="font-mono text-[11px] uppercase tracking-wider text-tide">Segment</p>
               <h2 className="font-display mt-1 text-2xl font-semibold tracking-tight text-ink">
                 {segment.name}
               </h2>
@@ -50,25 +50,25 @@ export function SegmentPanel({ segment, corridor, onClose }: SegmentPanelProps) 
 
           <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 font-mono text-[12px]">
             <div>
-              <dt className="uppercase tracking-wider text-tide/70">Elevation gain</dt>
+              <dt className="uppercase tracking-wider text-tide">Elevation gain</dt>
               <dd className="mt-1 text-ink">{formatElevation(segment.elevationGainFt)}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-wider text-tide/70">Surface</dt>
+              <dt className="uppercase tracking-wider text-tide">Surface</dt>
               <dd className="mt-1 capitalize text-ink">{formatSurface(segment.surface)}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-wider text-tide/70">Difficulty</dt>
+              <dt className="uppercase tracking-wider text-tide">Difficulty</dt>
               <dd className="mt-1 capitalize text-ink">{segment.difficulty ?? "—"}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-wider text-tide/70">Season</dt>
+              <dt className="uppercase tracking-wider text-tide">Season</dt>
               <dd className="mt-1 text-ink">{segment.seasonality ?? "—"}</dd>
             </div>
           </dl>
 
           <div className="mt-6">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-tide/70">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-tide">
               Land managers
             </p>
             <ul className="mt-2 flex flex-wrap gap-2">
@@ -87,7 +87,7 @@ export function SegmentPanel({ segment, corridor, onClose }: SegmentPanelProps) 
 
           {segment.status !== "existing" && segment.whatItNeeds ? (
             <div className="mt-5">
-              <p className="font-mono text-[11px] uppercase tracking-wider text-flagging">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-tide">
                 What it needs
               </p>
               <p className="mt-2 text-sm leading-relaxed">{segment.whatItNeeds}</p>

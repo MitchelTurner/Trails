@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { loadNetworkClient } from "./map/loadNetwork";
 import { SegmentPanel } from "./SegmentPanel";
@@ -28,7 +28,7 @@ export default function TrailMap({
   corridors = [],
   className = "",
 }: TrailMapProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [network, setNetwork] = useState<TrailCollection | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(initialSegmentId);
   const [basemap, setBasemap] = useState<BasemapId>("topo");
@@ -79,7 +79,7 @@ export default function TrailMap({
   }, [urlSync]);
 
   useTrailMap({
-    container: containerRef.current,
+    container,
     network,
     selectedId,
     filterIds,
@@ -124,7 +124,7 @@ export default function TrailMap({
         </p>
         <a
           href="/network?view=list"
-          className="mt-3 font-mono text-[12px] uppercase tracking-wider text-flagging underline underline-offset-4"
+          className="mt-3 font-mono text-[12px] uppercase tracking-wider text-ink underline decoration-flagging underline-offset-4"
         >
           Open the list view
         </a>
@@ -135,7 +135,7 @@ export default function TrailMap({
   return (
     <div className={`relative h-full min-h-[28rem] overflow-hidden bg-contour/20 ${className}`}>
       <div
-        ref={containerRef}
+        ref={setContainer}
         tabIndex={0}
         onKeyDown={onKeyDown}
         className="absolute inset-0"
