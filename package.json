@@ -1,0 +1,41 @@
+{
+  "name": "revilla-trails",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "data": "tsx scripts/fetch-sources.ts && tsx scripts/build-network.ts",
+    "data:build": "tsx scripts/build-network.ts",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^7.0.8",
+    "@astrojs/react": "^6.0.4",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/archivo": "^5.2.8",
+    "@fontsource-variable/source-serif-4": "^5.2.9",
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@fontsource/public-sans": "^5.2.7",
+    "@turf/turf": "^7.3.4",
+    "@types/geojson": "^7946.0.16",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "astro": "^7.2.9",
+    "maplibre-gl": "^5.23.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "tailwindcss": "^4.2.2",
+    "tsx": "^4.21.0"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "rainbird-to-carlanna",
+        "name": "Rainbird to Carlanna",
+        "status": "proposed",
+        "corridorId": "downtown-to-ward-lake",
+        "sourceRef": "hand-drawn-concept",
+        "surface": "unbuilt",
+        "difficulty": null,
+        "summary": "Conceptual alignment only — not surveyed. The missing hillside connection between Rainbird and Carlanna Lake, so downtown does not dead-end at the first neighborhood trail.",
+        "whatItNeeds": "A surveyed alignment, City and Borough agreement, and a construction package. Do not treat this line as engineered."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6582, 55.3512],
+          [-131.6614, 55.3531],
+          [-131.6658, 55.3554],
+          [-131.6695, 55.3572],
+          [-131.6721, 55.3586]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ward-lake-to-connell",
+        "name": "Ward Lake to Connell",
+        "status": "proposed",
+        "corridorId": "ward-to-lunch-creek",
+        "sourceRef": "hand-drawn-concept",
+        "surface": "unbuilt",
+        "difficulty": null,
+        "summary": "Conceptual alignment only — not surveyed. The gap that keeps Ward Lake and Connell Lake as two separate destinations instead of one interior route.",
+        "whatItNeeds": "Forest Service review of a surveyed alignment and a clear statement of what the corridor is not: it is not a road."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.6848, 55.4122],
+          [-131.6812, 55.4195],
+          [-131.6764, 55.4278],
+          [-131.6728, 55.4356],
+          [-131.6701, 55.4424]
+        ]
+      }
+    }
+  ]
+}

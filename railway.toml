@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm ci && npm run data:build && npm run build"
+
+[deploy]
+startCommand = "npx --yes serve dist --single --listen $PORT"
+healthcheckPath = "/"
+restartPolicyType = "on_failure"

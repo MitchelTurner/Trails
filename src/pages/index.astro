@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TrailMap from "../components/TrailMap.tsx";
+import { GapLine, partsFromSegments } from "../components/GapLine.tsx";
+import { CorridorCard } from "../components/CorridorCard.tsx";
+import SignOnForm from "../components/SignOnForm.tsx";
+import { site } from "../config/site";
+import { getSegments, loadCorridors, loadSupporters, networkTotals } from "../lib/network";
+
+const segments = getSegments();
+const corridors = loadCorridors();
+const totals = networkTotals(segments);
+const supporters = loadSupporters();
+const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
+---
+
+<BaseLayout gapLine>
+  <div slot="gapline" class="border-b border-transparent bg-sheet px-4 pt-3">
+    <div class="mx-auto max-w-6xl">
+      <GapLine
+        client:load
+        parts={partsFromSegments(segments)}
+        builtMi={totals.existingMi}
+        gapMi={totals.gapMi}
+        animate
+      />
+    </div>
+  </div>
+
+  <section class="relative">
+    <div class="relative h-[min(78vh,52rem)] border-b border-contour/70">
+      <img
+        src="/data/network-static.svg"
+        alt="Static map of existing and proposed trail segments on Revillagigedo Island"
+        class="absolute inset-0 h-full w-full object-contain bg-sheet"
+      />
+      <TrailMap client:load corridors={corridors} className="absolute inset-0" />
+      <noscript>
+        <p class="absolute bottom-3 left-3 border border-contour bg-sheet/95 px-3 py-2 text-sm">
+          The interactive map needs JavaScript.
+          <a href="/network?view=list" class="underline decoration-flagging underline-offset-4">Open the list of every segment</a>.
+        </p>
+      </noscript>
+    </div>
+    <p class="mx-auto max-w-6xl px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-tide/80">
+      Solid ink is on the ground. Pink dashes are not. USGS topo — public domain, no key.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-14 text-center">
+    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">The thesis</p>
+    <h1 class="font-display mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
+      {site.tagline}
+    </h1>
+    <p class="mt-5 text-lg leading-relaxed text-ink/90">
+      Revilla already has trails. They stop at jurisdiction lines. The work is the gaps — and a
+      map that says so honestly enough that a land manager will take a meeting.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-16">
+    <div class="grid gap-4 md:grid-cols-2">
+      {corridors.map((corridor) => (
+        <CorridorCard client:visible corridor={corridor} segments={segments} />
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-20">
+    <SignOnForm client:visible count={supporters.count} formId={formId} />
+  </section>
+</BaseLayout>

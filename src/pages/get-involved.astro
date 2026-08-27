@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import VolunteerForm from "../components/VolunteerForm.tsx";
+import { getCollection } from "astro:content";
+import { site } from "../config/site";
+
+const parties = (await getCollection("workParties")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const upcoming = parties.filter((item) => item.data.status === "upcoming");
+const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
+---
+
+<BaseLayout
+  title="Get involved"
+  description="Work parties, volunteer signup, and the skills this network actually needs."
+>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">Get involved</p>
+    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">Show up to the work</h1>
+    <p class="mt-5 leading-relaxed">
+      Signing on puts your name on the public count. A work party puts your hands on an existing
+      mile. Both matter. Neither is a donation.
+    </p>
+
+    <h2 class="font-display mt-12 text-2xl font-semibold">Work parties</h2>
+    {
+      upcoming.length === 0 ? (
+        <p class="mt-4 text-sm leading-relaxed">
+          No work party is on the calendar. Email {site.email} if you want to be on the next crew
+          list.
+        </p>
+      ) : (
+        <ol class="mt-6 grid gap-5">
+          {upcoming.map((party) => (
+            <li class="border border-contour/70 p-5">
+              <p class="font-mono text-[11px] uppercase tracking-wider text-tide">
+                {party.data.date.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                  timeZone: "America/Sitka",
+                })}
+              </p>
+              <h3 class="font-display mt-1 text-xl font-semibold">{party.data.title}</h3>
+              <dl class="mt-4 grid gap-2 text-sm">
+                <div>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Location</dt>
+                  <dd>{party.data.location}</dd>
+                </div>
+                <div>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Meeting point</dt>
+                  <dd>{party.data.meetingPoint}</dd>
+                </div>
+                <div>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">What to bring</dt>
+                  <dd>{party.data.whatToBring}</dd>
+                </div>
+                <div>
+                  <dt class="font-mono text-[11px] uppercase tracking-wider text-tide/70">Contact</dt>
+                  <dd>
+                    <a class="underline decoration-contour underline-offset-4" href={`mailto:${party.data.contact}`}>
+                      {party.data.contact}
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+
+    <h2 class="font-display mt-12 text-2xl font-semibold">Skills</h2>
+    <p class="mt-4 leading-relaxed">
+      The useful list is not "likes hiking." It is: sawyers with current certifications, people who
+      can write a land-manager letter, someone who will keep the supporter ZIP codes honest, and
+      anyone willing to spend a Saturday on tread that already exists.
+    </p>
+
+    <div class="mt-8 border border-contour/70 p-5">
+      <h3 class="font-display text-xl font-semibold">Join the work party</h3>
+      <p class="mt-2 text-sm text-ink/80">We'll use this to fill the next crew, not a mailing blast.</p>
+      <div class="mt-5">
+        <VolunteerForm client:visible formId={formId} />
+      </div>
+    </div>
+  </div>
+</BaseLayout>
