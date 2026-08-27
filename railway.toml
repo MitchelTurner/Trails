@@ -1,8 +1,11 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm ci && npm run data:build && npm run build"
+# Nixpacks already runs `npm ci` in the install phase. Do not run it again —
+# a second `npm ci` hits EBUSY on /app/node_modules/.cache.
+# data:build is local-only (data/raw is gitignored); network.geojson is committed.
+buildCommand = "npm run build"
 
 [deploy]
-startCommand = "npx --yes serve dist --single --listen $PORT"
+startCommand = "npx serve dist --single --listen $PORT"
 healthcheckPath = "/"
 restartPolicyType = "on_failure"

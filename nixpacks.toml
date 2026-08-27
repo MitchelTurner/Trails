@@ -1,0 +1,4 @@
+# Pin Node 22 so Nixpacks does not pick nodejs_24 + npm-9_x.
+# Build/start commands live in railway.toml so they are not applied twice.
+[phases.setup]
+nixPkgs = ["nodejs_22"]

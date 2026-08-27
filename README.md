@@ -43,4 +43,4 @@ Copy `.env.example` and set Formspree IDs and an optional Plausible domain. With
 
 ## Deploy
 
-Railway static: `railway.toml` builds the site and serves `dist` with `serve`. Cloudflare Pages also works — publish the `dist` directory after `npm run build`.
+Railway static: `railway.toml` runs `npm run build` (Nixpacks already installed deps) and serves `dist`. Do not run `npm ci` or `data:build` on Railway — raw GIS is gitignored and the network GeoJSON is committed. Cloudflare Pages also works — publish the `dist` directory after `npm run build`.
