@@ -10,3 +10,6 @@ data/raw/*
 *.log
 .vercel
 .railway
+
+# Local screen recordings (test artifacts)
+recordings/
