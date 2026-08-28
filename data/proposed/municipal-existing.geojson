@@ -99,12 +99,11 @@
         "id": "refuge-cove-coastal",
         "name": "Refuge Cove Coastal Trail",
         "status": "existing",
-        "corridorId": "north-tongass-coastal",
         "sourceRef": "hand-attributed-pending-borough-gis",
         "surface": "native",
         "difficulty": "easy",
         "landManagers": ["State of Alaska", "Ketchikan Gateway Borough"],
-        "summary": "Existing coastal trail at Refuge Cove State Recreation Site. Alignment is approximate pending Borough GIS. The built start of the north-highway walking idea.",
+        "summary": "Short shore walk at Refuge Cove State Recreation Site. Alignment is approximate until the Borough publishes a trails layer. Not on a priority corridor.",
         "whatItNeeds": null
       },
       "geometry": {

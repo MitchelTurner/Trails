@@ -85,8 +85,10 @@ function clipLine(feature: Feature): LineFeat | null {
       REVILLA_BBOX.north,
     ]);
     if (!clipped.geometry) return null;
+    // Only drop true degenerates here. Upstream splits one trail into many short pieces,
+    // so the publishable-length test has to wait until after they are dissolved by name.
     const length = turf.length(clipped, { units: "miles" });
-    if (length < 0.02) return null;
+    if (length < 0.005) return null;
     return clipped as LineFeat;
   } catch {
     return null;
@@ -426,7 +428,11 @@ async function main() {
       usfsClipped.push(clipped);
     }
   }
-  const usfsDissolved = dissolveByName(usfsClipped);
+  // Now that each named trail is one feature, drop what is only a bbox-edge sliver.
+  const MIN_PUBLISH_MI = 0.1;
+  const usfsDissolved = dissolveByName(usfsClipped).filter(
+    (feature) => turf.length(feature, { units: "miles" }) >= MIN_PUBLISH_MI,
+  );
 
   const proposed = await loadProposed();
   if (usfsDissolved.length === 0 && proposed.length === 0) {
@@ -498,8 +504,13 @@ async function main() {
       prop(feature.properties, "summary") ??
       defaultSummary(name, status, sourceRef);
 
+    // Every line that does not exist on the ground must say so in its own words. This is
+    // the promise the site makes to the land managers reading it.
+    if (status === "proposed" && !/not surveyed|conceptual/i.test(summary)) {
+      fail(`${id}: proposed segments must state that the alignment is not surveyed.`);
+    }
     if (sourceRef === CONCEPTUAL_SOURCE && !/not surveyed|conceptual/i.test(summary)) {
-      fail(`${id}: proposed conceptual segments must say the alignment is not surveyed.`);
+      fail(`${id}: conceptual segments must say the alignment is not surveyed.`);
     }
 
     const whatItNeeds =
@@ -637,6 +648,17 @@ async function main() {
     }
     return parsed.data;
   });
+
+  // A segment pointing at a corridor that does not exist would render a dead link.
+  const corridorIds = new Set(corridors.map((corridor) => corridor.id));
+  for (const feature of built) {
+    const claimed = feature.properties.corridorId;
+    if (claimed && !corridorIds.has(claimed)) {
+      fail(
+        `${feature.properties.id}: corridorId "${claimed}" is not a corridor in data/corridors.json.`,
+      );
+    }
+  }
 
   const collection = {
     type: "FeatureCollection" as const,

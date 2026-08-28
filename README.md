@@ -1,8 +1,15 @@
 # Revilla Trails
 
-Working name for the Ketchikan Trail Association — a static, prerendered marketing and advocacy site whose homepage is an interactive map of every existing and proposed trail segment on Revillagigedo Island.
+Working name for the Ketchikan Trail Association — a static, prerendered site for connecting the
+trails on Revillagigedo Island. Every existing and proposed segment is mapped, status-coded, and
+carries the land managers who own the ground under it.
 
-Phase 1 has **no donate button**. The group is informal: no entity, no bank account, no 501(c)(3). What replaces it is a public supporter count.
+**First project: walking routes to the Patching Lake and Heckman Lake cabins.** Three Forest
+Service cabins sit up the Naha country and only one can be reached on foot. The route is being
+walked and flagged now; nothing gets cut before a finished survey and a NEPA environmental
+analysis with the Ketchikan–Misty Fjords Ranger District.
+
+Phase 1 has **no donate button**. The group is informal: no entity, no bank account, no 501(c)(3).
 
 ## Stack
 

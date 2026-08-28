@@ -8,27 +8,28 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_REPORT;
 
 <BaseLayout
   title="Report an issue"
-  description="A plain form for trail issues. Phase 1 is a mailbox, not a live work queue."
+  description="Tell us what you found out there. Right now this is a mailbox, not a work queue."
 >
   <PageHeader
     eyebrow="Report"
-    title="Report an issue"
-    lede="Blowdown, missing boardwalk, a drainage failure, a stretch that has become unsafe."
+    title="Tell us what you found"
+    lede="Blowdown across the tread, boardwalk gone soft, a washed-out crossing, a stretch that has quietly become dangerous."
   />
 
   <section class="shell grid gap-10 py-16 lg:grid-cols-[1fr_1.1fr] lg:gap-16 md:py-20">
     <div>
-      <p class="eyebrow">How this works right now</p>
+      <p class="eyebrow">Straight answer about what this does</p>
       <ul class="mt-5 space-y-4 text-sm leading-relaxed text-ink/85">
         <li class="border-l-2 border-l-contour pl-4">
-          This is a mailbox. It does not update the public map.
+          It sends an email to us. It does not change anything on the public map.
         </li>
         <li class="border-l-2 border-l-contour pl-4">
-          Photo upload, map pins, and a moderation queue arrive once the association is a real entity
-          with somewhere to put files.
+          Photos, a map pin, and a queue you can actually watch come once there is an entity with
+          somewhere to put files.
         </li>
         <li class="border-l-2 border-l-flagging pl-4">
-          For anything urgent or unsafe, contact the land manager for that ground directly.
+          If it is dangerous or urgent, call the outfit that manages that ground. On Tongass
+          trails that is the Ketchikan–Misty Fjords Ranger District, not us.
         </li>
       </ul>
     </div>

@@ -1,0 +1,67 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "heckman-shore-link",
+        "name": "Heckman Lake shore link",
+        "status": "proposed",
+        "corridorId": "patching-heckman-cabins",
+        "sourceRef": "field-scouted-not-surveyed",
+        "surface": "unbuilt",
+        "difficulty": "moderate",
+        "seasonality": "Snow-free May–October; lake ice November–March",
+        "summary": "Picks up where the mapped Naha tread ends, follows the shore past the Heckman Lake cabin, and carries on around the south side to the Southeast Heckman cabin. Walked on foot, not surveyed. Today that second cabin is float-plane only.",
+        "whatItNeeds": "A finished GPS track off the bushwhack, then a NEPA environmental analysis with the Ketchikan–Misty Fjords Ranger District before a single stem gets cut. Wet ground on the benches will want puncheon."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.554716, 55.591927],
+          [-131.5505, 55.59],
+          [-131.547, 55.5885],
+          [-131.544, 55.5872],
+          [-131.54083, 55.58583],
+          [-131.538, 55.5842],
+          [-131.531, 55.577],
+          [-131.53, 55.5745],
+          [-131.52671, 55.57525]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "heckman-to-patching",
+        "name": "Heckman Lake to Patching Lake",
+        "status": "proposed",
+        "corridorId": "patching-heckman-cabins",
+        "sourceRef": "field-scouted-not-surveyed",
+        "surface": "unbuilt",
+        "difficulty": "difficult",
+        "seasonality": "Snow-free May–October",
+        "summary": "The main project. Leaves the southeast arm of Heckman Lake, works up the muskeg benches, and crosses a low divide under 400 feet to the Patching Lake cabin. Being walked and flagged now. Not surveyed.",
+        "whatItNeeds": "The bushwhack track finished end to end, a NEPA environmental analysis with the Ketchikan–Misty Fjords Ranger District, and a materials plan for puncheon and tent platforms through the wet ground. No cutting before the study clears."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-131.52671, 55.57525],
+          [-131.524, 55.5729],
+          [-131.518, 55.5721],
+          [-131.513, 55.5689],
+          [-131.508, 55.5745],
+          [-131.503, 55.5741],
+          [-131.4978, 55.5759],
+          [-131.4936, 55.5795],
+          [-131.4904, 55.5848],
+          [-131.488, 55.5916],
+          [-131.4864, 55.5997],
+          [-131.4853, 55.6087],
+          [-131.4845, 55.6181]
+        ]
+      }
+    }
+  ]
+}
