@@ -28,8 +28,19 @@ export function loadCorridors(): Corridor[] {
   return cachedCorridors;
 }
 
-export function loadSupporters(): { count: number; updatedAt: string } {
-  return readJson<{ count: number; updatedAt: string }>("data/supporters.json");
+export interface Supporters {
+  count: number | null;
+  updatedAt: string | null;
+}
+
+/** count is null until the group has a real number; never invent one. */
+export function loadSupporters(): Supporters {
+  const raw = readJson<{ count?: unknown; updatedAt?: unknown }>("data/supporters.json");
+  const count = typeof raw.count === "number" && Number.isFinite(raw.count) ? raw.count : null;
+  return {
+    count,
+    updatedAt: typeof raw.updatedAt === "string" ? raw.updatedAt : null,
+  };
 }
 
 export function getSegments(): Segment[] {

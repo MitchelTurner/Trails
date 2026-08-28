@@ -48,6 +48,17 @@ const USFS_OWNERSHIP =
   "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_BasicOwnership_01/MapServer/0";
 
 /**
+ * Tongass administrative boundary — coarse fallback only. Basic/Surface Ownership were
+ * still returning HTTP 500 for this bbox on 2026-08-28 (retried f=json and f=geojson on
+ * BasicOwnership, SurfaceOwnership, and ALPStatusAndEncumbrance layer 80). This layer
+ * says "inside the national forest", not "the Forest Service owns this parcel", so
+ * build-network only applies it where no finer layer matched, and labels it as such.
+ * https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_ForestSystemBoundaries_01/MapServer/0
+ */
+const USFS_FOREST_BOUNDARY =
+  "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_ForestSystemBoundaries_01/MapServer/0";
+
+/**
  * Alaska DNR Mapper ownership layers. Checked 2026-08-27.
  * https://arcgis.dnr.alaska.gov/arcgis/rest/services/Mapper/Ownership_Layers/FeatureServer
  *   6  Mental Health Trust Land Poly
@@ -78,6 +89,12 @@ async function main() {
       url: USFS_OWNERSHIP,
       outPath: `${RAW}/usfs-ownership.geojson`,
       outFields: "OWNERCLASSIFICATION,FORESTNAME",
+    }),
+    fetchArcgisLayer({
+      name: "USFS Forest Boundary (coarse fallback)",
+      url: USFS_FOREST_BOUNDARY,
+      outPath: `${RAW}/usfs-forest-boundary.geojson`,
+      outFields: "FORESTNAME,REGION",
     }),
     fetchArcgisLayer({
       name: "DNR Mental Health Trust",

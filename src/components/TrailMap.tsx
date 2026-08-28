@@ -59,6 +59,18 @@ export default function TrailMap({
     return all.filter((id) => filterIds.includes(id));
   }, [network, filterIds]);
 
+  const presentStatuses = useMemo(() => {
+    if (!network) return undefined;
+    const visible = new Set(visibleIds);
+    return [
+      ...new Set(
+        network.features
+          .filter((feature) => visible.has(feature.properties.id))
+          .map((feature) => feature.properties.status),
+      ),
+    ];
+  }, [network, visibleIds]);
+
   const select = useCallback(
     (id: string | null) => {
       setSelectedId(id);
@@ -102,20 +114,19 @@ export default function TrailMap({
     ? corridors.find((item) => item.id === selected.corridorId) ?? null
     : null;
 
+  // Arrows cycle so Tab still escapes the map; trapping Tab strands keyboard users.
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (!visibleIds.length) return;
-    if (event.key === "Tab") {
+    const step = (delta: number) => {
       event.preventDefault();
-      const next = event.shiftKey
-        ? (cursor - 1 + visibleIds.length) % visibleIds.length
-        : (cursor + 1) % visibleIds.length;
-      setCursor(next);
-    }
-    if (event.key === "Enter") {
+      setCursor((current) => (current + delta + visibleIds.length) % visibleIds.length);
+    };
+    if (event.key === "ArrowDown" || event.key === "ArrowRight") step(1);
+    else if (event.key === "ArrowUp" || event.key === "ArrowLeft") step(-1);
+    else if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       select(visibleIds[cursor] ?? null);
-    }
-    if (event.key === "Escape") {
+    } else if (event.key === "Escape") {
       select(null);
     }
   };
@@ -152,7 +163,7 @@ export default function TrailMap({
         onBlur={() => setKeyboardActive(false)}
         className="h-full w-full"
         role="application"
-        aria-label="Interactive trail network map. Tab cycles segments, Enter selects."
+        aria-label="Interactive trail network map. Arrow keys cycle segments, Enter selects, Escape clears."
       />
       {/* Left column only: maplibre owns top-right (nav, fullscreen, geolocate). */}
       <div className="pointer-events-none absolute left-3 top-3 z-10 flex max-w-[calc(100%-5rem)] flex-col items-start gap-2">
@@ -177,7 +188,7 @@ export default function TrailMap({
         </div>
         {showLegend ? (
           <div className="hidden sm:block">
-            <MapLegend />
+            <MapLegend statuses={presentStatuses} />
           </div>
         ) : null}
       </div>

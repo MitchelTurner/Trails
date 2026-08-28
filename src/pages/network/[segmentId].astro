@@ -35,7 +35,12 @@ const neighbors = segment.connectsTo
   .filter((item): item is NonNullable<typeof item> => Boolean(item));
 ---
 
-<BaseLayout title={segment.name} description={segment.summary} canonical={`/network/${segment.id}`}>
+<BaseLayout
+  title={segment.name}
+  description={segment.summary}
+  canonical={`/network/${segment.id}`}
+  image={`/og/segment-${segment.id}.png`}
+>
   <article>
     <section class="on-dark bg-ink text-sheet">
       <div class="shell py-12 md:py-16">

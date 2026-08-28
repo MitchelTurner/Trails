@@ -15,27 +15,53 @@ Phase 1 has **no donate button**. The group is informal: no entity, no bank acco
 ```bash
 npm install
 npm run data          # fetch public GIS layers, then build the network
-npm run data:build    # rebuild from data/raw + data/proposed (offline)
+npm run data:build    # rebuild from data/raw + data/proposed
+npm run og            # regenerate Open Graph cards into public/og/
+npm test              # schema, transform, and committed-dataset contract tests
 npm run dev
 npm run build
 ```
 
 Swap the public name in `src/config/site.ts`. It is used everywhere.
 
+### Before you ship
+
+Set the real supporter count in `data/supporters.json`. It ships as `null`, which makes the
+site ask people to sign on without claiming a total. **Do not invent a number** — an honest
+count is the entire Phase 1 argument, and a fabricated one is what loses a Forest Service
+meeting.
+
 ## Data
 
 | Path | Role |
 |---|---|
-| `scripts/fetch-sources.ts` | Pull USFS NFS trails, USFS ownership, Alaska DNR ownership, KGB tax parcels |
-| `scripts/build-network.ts` | Clip, dissolve, intersect land managers, validate with zod |
+| `scripts/fetch-sources.ts` | Pull USFS NFS trails, USFS ownership + forest boundary, Alaska DNR ownership, KGB tax parcels |
+| `scripts/build-network.ts` | Clip, dissolve, intersect land managers, measure elevation, validate with zod |
+| `scripts/build-og.ts` | Render per-segment and per-corridor Open Graph cards |
+| `scripts/lib/transform.ts` | Pure transforms (unit tested) |
+| `scripts/lib/elevation.ts` | USGS 3DEP elevation sampling |
 | `data/proposed/` | Hand-drawn connectors and approximate municipal trails |
 | `data/corridors.json` | Named priority routes |
-| `data/overrides.json` | Status, copy, and include/exclude for USFS names |
+| `data/overrides.json` | Status, copy, and include/exclude per segment |
+| `data/elevation-cache.json` | Committed 3DEP cache; makes offline rebuilds deterministic |
 | `public/data/network.geojson` | Build output, committed |
 
-Source endpoints were checked **2026-08-27**. The Borough's public FeatureServer (`KetchikanAKFeatures`) has tax parcels, not trails. Municipal alignments in `data/proposed/municipal-existing.geojson` are approximate until a trails layer is published.
+`data/raw/` is gitignored and regenerable (~17 MB). `build-network` refuses to run without it
+so a partial rebuild cannot quietly overwrite the committed network; pass `--allow-partial`
+if you really mean to. Pass `--no-elevation` to stay offline — cached elevations are still
+reused.
 
-Proposed lines are conceptual and not surveyed. The site says so on every one of them.
+Source endpoints were checked **2026-08-28**. Two caveats:
+
+- The Borough's public FeatureServer (`KetchikanAKFeatures`) has tax parcels, not trails.
+  Municipal alignments in `data/proposed/municipal-existing.geojson` are approximate until a
+  trails layer is published.
+- USFS Basic/Surface Ownership returned HTTP 500 for this bbox. Segments with no finer match
+  fall back to the Tongass administrative boundary, labelled
+  `Tongass National Forest (boundary — parcel unconfirmed)` so the coarser claim is visible.
+
+Proposed lines are conceptual and not surveyed. The site says so on every one of them, and a
+test enforces it.
 
 ## Forms and analytics
 
@@ -43,4 +69,7 @@ Copy `.env.example` and set Formspree IDs and an optional Plausible domain. With
 
 ## Deploy
 
-Railway static: `railway.toml` runs `npm run build` (Nixpacks already installed deps) and serves `dist`. Do not run `npm ci` or `data:build` on Railway — raw GIS is gitignored and the network GeoJSON is committed. Cloudflare Pages also works — publish the `dist` directory after `npm run build`.
+Railway static: `railway.toml` runs `npm run build` (Nixpacks already installed deps) and
+serves `dist`. Do **not** add `--single` — this is a prerendered multi-page site, and that
+flag serves the homepage for every route and turns 404s into soft 200s. Cloudflare Pages also
+works: publish `dist` after `npm run build`.

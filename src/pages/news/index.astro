@@ -10,7 +10,9 @@ const [lead, ...rest] = posts;
 ---
 
 <BaseLayout title="News" description="Notes from the work of connecting Revilla's trails.">
-  <PageHeader eyebrow="News" title="Notes from the work" />
+  <PageHeader eyebrow="News" title="Notes from the work">
+    <a href="/rss.xml" class="btn btn-outline mt-8 !min-h-11 !px-5 !text-sm">Subscribe by RSS</a>
+  </PageHeader>
 
   <section class="shell py-16 md:py-20">
     {

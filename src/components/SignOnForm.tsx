@@ -3,7 +3,8 @@ import { site } from "../config/site";
 import { formatCount } from "../lib/format";
 
 interface SignOnFormProps {
-  count: number;
+  /** null until the group has counted a real list. */
+  count: number | null;
   formId?: string;
 }
 
@@ -27,9 +28,10 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
   const [zip, setZip] = useState("");
   const [state, setState] = useState<State>("idle");
   const [message, setMessage] = useState<string | null>(null);
-  const [optimistic, setOptimistic] = useState(count);
+  const [signed, setSigned] = useState(false);
 
   const endpoint = formId || site.formspree.signOn;
+  const shown = count == null ? null : count + (signed ? 1 : 0);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -41,15 +43,14 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
     }
     setState("submitting");
     setMessage(null);
-    setOptimistic(count + 1);
 
     if (!endpoint) {
       setState("error");
-      setOptimistic(count);
       setMessage(`The list is not connected yet. Email ${site.email} to sign on.`);
       return;
     }
 
+    setSigned(true);
     try {
       const response = await fetch(`https://formspree.io/f/${endpoint}`, {
         method: "POST",
@@ -58,9 +59,11 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
       });
       if (!response.ok) throw new Error("form");
       setState("success");
-      setMessage("You're on the list. We'll use this number in front of the Assembly and the Forest Service.");
+      setMessage(
+        "You're on the list. We'll use this number in front of the Assembly and the Forest Service.",
+      );
     } catch {
-      setOptimistic(count);
+      setSigned(false);
       setState("error");
       setMessage("The list didn't accept that. Check your connection and try again.");
     }
@@ -72,11 +75,14 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
         Add your name
       </p>
       <p className="mt-2 font-display text-2xl font-bold tracking-tight text-sheet">
-        {formatCount(optimistic)} and counting
+        {shown == null ? "Sign on" : `${formatCount(shown)} and counting`}
       </p>
 
       {state === "success" ? (
-        <p className="mt-6 border border-sheet/25 bg-sheet/10 px-4 py-3 text-sm text-sheet" role="status">
+        <p
+          className="mt-6 border border-sheet/25 bg-sheet/10 px-4 py-3 text-sm text-sheet"
+          role="status"
+        >
           {message}
         </p>
       ) : (
