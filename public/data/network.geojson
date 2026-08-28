@@ -14906,7 +14906,7 @@
       },
       "properties": {
         "id": "naha-river",
-        "name": "Naha River",
+        "name": "Naha River National Recreation Trail",
         "status": "existing",
         "corridorId": null,
         "landManagers": [
@@ -14915,10 +14915,10 @@
         "lengthMi": 4.87,
         "elevationGainFt": null,
         "difficulty": "moderate",
-        "surface": "native",
-        "seasonality": "Snow-free May–October",
+        "surface": "boardwalk",
+        "seasonality": "June–September are the practical hiking months",
         "connectsTo": [],
-        "summary": "Existing National Recreation Trail at the north end of the island. Not on a Phase 1 priority corridor; it shows how far the built network already reaches.",
+        "summary": "National Recreation Trail from the floating dock at the head of Naha Bay to Heckman Lake Cabin — boardwalk along Roosevelt Lagoon, then native tread inland past Jordan Lake. Boat- or floatplane-access only, 23 miles north of Ketchikan. The Naha is regionally famous steelhead water.",
         "whatItNeeds": null,
         "sourceRef": "usfs-nfs-trails",
         "updatedAt": "2026-08-27"
