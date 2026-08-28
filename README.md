@@ -24,6 +24,7 @@ npm install
 npm run data          # fetch public GIS layers, then build the network
 npm run data:build    # rebuild from data/raw + data/proposed
 npm run og            # regenerate Open Graph cards into public/og/
+npm run topo          # regenerate the hero contour background
 npm test              # schema, transform, and committed-dataset contract tests
 npm run dev
 npm run build
@@ -45,6 +46,8 @@ meeting.
 | `scripts/fetch-sources.ts` | Pull USFS NFS trails, USFS ownership + forest boundary, Alaska DNR ownership, KGB tax parcels |
 | `scripts/build-network.ts` | Clip, dissolve, intersect land managers, measure elevation, validate with zod |
 | `scripts/build-og.ts` | Render per-segment and per-corridor Open Graph cards |
+| `scripts/build-topo-bg.ts` | Generate the quad-sheet contour background for the hero |
+| `data/proposed/cabin-access.geojson` | The first project: Heckman shore link and Heckman→Patching |
 | `scripts/lib/transform.ts` | Pure transforms (unit tested) |
 | `scripts/lib/elevation.ts` | USGS 3DEP elevation sampling |
 | `data/proposed/` | Hand-drawn connectors and approximate municipal trails |
