@@ -29,6 +29,19 @@ export interface UseTrailMapOptions {
   enabled: boolean;
 }
 
+/** Trails must stay legible in a wide hero at z9 and on a detail map at z14. */
+const LINE_WIDTH: maplibregl.ExpressionSpecification = [
+  "interpolate",
+  ["linear"],
+  ["zoom"],
+  8,
+  2.6,
+  12,
+  4,
+  15,
+  5.5,
+];
+
 const STATUS_PAINT: Record<
   Segment["status"],
   { color: string; dash?: number[]; opacity: number }
@@ -142,10 +155,12 @@ export function useTrailMap({
             id: "trails-casing",
             type: "line",
             source: SOURCE_ID,
+            layout: { "line-cap": "round", "line-join": "round" },
             paint: {
               "line-color": "#E7E4D9",
-              "line-width": 5,
-              "line-opacity": 0.7,
+              "line-width": ["interpolate", ["linear"], ["zoom"], 8, 5, 12, 8, 15, 11],
+              "line-opacity": 0.75,
+              "line-blur": 0.4,
             },
           },
           {
@@ -153,9 +168,10 @@ export function useTrailMap({
             type: "line",
             source: SOURCE_ID,
             filter: ["==", ["get", "status"], "existing"],
+            layout: { "line-cap": "round", "line-join": "round" },
             paint: {
               "line-color": STATUS_PAINT.existing.color,
-              "line-width": 3,
+              "line-width": LINE_WIDTH,
               "line-opacity": STATUS_PAINT.existing.opacity,
             },
           },
@@ -164,9 +180,10 @@ export function useTrailMap({
             type: "line",
             source: SOURCE_ID,
             filter: ["==", ["get", "status"], "needs-work"],
+            layout: { "line-cap": "round", "line-join": "round" },
             paint: {
               "line-color": STATUS_PAINT["needs-work"].color,
-              "line-width": 3,
+              "line-width": LINE_WIDTH,
               "line-opacity": STATUS_PAINT["needs-work"].opacity,
             },
           },
@@ -175,10 +192,11 @@ export function useTrailMap({
             type: "line",
             source: SOURCE_ID,
             filter: ["==", ["get", "status"], "under-construction"],
+            layout: { "line-cap": "butt", "line-join": "round" },
             paint: {
               "line-color": STATUS_PAINT["under-construction"].color,
-              "line-width": 3,
-              "line-dasharray": [2, 2],
+              "line-width": LINE_WIDTH,
+              "line-dasharray": [2, 1.75],
             },
           },
           {
@@ -186,20 +204,23 @@ export function useTrailMap({
             type: "line",
             source: SOURCE_ID,
             filter: ["==", ["get", "status"], "proposed"],
+            layout: { "line-cap": "butt", "line-join": "round" },
             paint: {
               "line-color": STATUS_PAINT.proposed.color,
-              "line-width": 3,
-              "line-dasharray": [2, 2],
+              "line-width": LINE_WIDTH,
+              "line-dasharray": [2, 1.75],
             },
           },
           {
             id: "trails-highlight",
             type: "line",
             source: HIGHLIGHT_SOURCE,
+            layout: { "line-cap": "round", "line-join": "round" },
             paint: {
-              "line-color": "#E8467C",
-              "line-width": 6,
-              "line-opacity": 0.35,
+              // Tide, not flagging: pink is reserved for "does not exist yet".
+              "line-color": "#24404A",
+              "line-width": ["interpolate", ["linear"], ["zoom"], 8, 8, 12, 13, 15, 18],
+              "line-opacity": 0.38,
             },
           },
           {
@@ -231,6 +252,12 @@ export function useTrailMap({
     });
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+    map.addControl(new maplibregl.FullscreenControl(), "top-right");
+    map.addControl(
+      new maplibregl.GeolocateControl({ trackUserLocation: true, showAccuracyCircle: true }),
+      "top-right",
+    );
+    map.addControl(new maplibregl.ScaleControl({ maxWidth: 110, unit: "imperial" }), "bottom-left");
     const resize = () => map.resize();
     map.on("load", () => {
       resize();
@@ -351,7 +378,13 @@ export function useTrailMap({
         features: feature ? [feature] : [],
       });
       if (feature) {
-        map.fitBounds(boundsFor(feature), { padding: 80, maxZoom: 13, duration: 600 });
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        map.fitBounds(boundsFor(feature), {
+          padding: { top: 80, bottom: 80, left: 80, right: 80 },
+          maxZoom: 13.5,
+          duration: reduce ? 0 : 700,
+          essential: true,
+        });
       }
     };
     if (map.isStyleLoaded()) apply();

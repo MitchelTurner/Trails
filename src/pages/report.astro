@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
 import ReportForm from "../components/ReportForm.tsx";
 
 const formId = import.meta.env.PUBLIC_FORMSPREE_REPORT;
@@ -9,15 +10,30 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_REPORT;
   title="Report an issue"
   description="A plain form for trail issues. Phase 1 is a mailbox, not a live work queue."
 >
-  <div class="mx-auto max-w-xl px-4 py-12">
-    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">Report</p>
-    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">Report an issue</h1>
-    <p class="mt-4 leading-relaxed">
-      Blowdown, missing boardwalk, a drainage failure, a place that has become unsafe. This is a
-      mailbox. It does not update the public map until there is an entity and a moderation queue.
-    </p>
-    <div class="mt-8">
+  <PageHeader
+    eyebrow="Report"
+    title="Report an issue"
+    lede="Blowdown, missing boardwalk, a drainage failure, a stretch that has become unsafe."
+  />
+
+  <section class="shell grid gap-10 py-16 lg:grid-cols-[1fr_1.1fr] lg:gap-16 md:py-20">
+    <div>
+      <p class="eyebrow">How this works right now</p>
+      <ul class="mt-5 space-y-4 text-sm leading-relaxed text-ink/85">
+        <li class="border-l-2 border-l-contour pl-4">
+          This is a mailbox. It does not update the public map.
+        </li>
+        <li class="border-l-2 border-l-contour pl-4">
+          Photo upload, map pins, and a moderation queue arrive once the association is a real entity
+          with somewhere to put files.
+        </li>
+        <li class="border-l-2 border-l-flagging pl-4">
+          For anything urgent or unsafe, contact the land manager for that ground directly.
+        </li>
+      </ul>
+    </div>
+    <div class="card p-6 md:p-8">
       <ReportForm client:visible formId={formId} />
     </div>
-  </div>
+  </section>
 </BaseLayout>

@@ -1,20 +1,28 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import StatBand from "../components/StatBand.astro";
 import { GapLine, partsFromCorridor, partsFromSegments } from "../components/GapLine.tsx";
-import { getSegments, loadCorridors, networkTotals } from "../lib/network";
+import { getSegments, loadCorridors, namedLandManagers, networkTotals } from "../lib/network";
 
 const segments = getSegments();
 const corridors = loadCorridors();
 const totals = networkTotals(segments);
+const managers = namedLandManagers(segments);
 ---
 
 <BaseLayout
   title="Vision"
-  description="The plan: a short list of corridors, honest land ownership, and what the gaps actually need."
-  gapLine
+  description="The plan: a short list of corridors, honest land ownership, and what each gap actually needs."
 >
-  <div slot="gapline" class="border-b border-transparent bg-sheet px-4 pt-3">
-    <div class="mx-auto max-w-6xl">
+  <PageHeader
+    eyebrow="The plan"
+    title="Connect the island"
+    lede="This is connective public infrastructure, not a hiking club. The artifact is a status-coded map of every existing and proposed segment on Revilla, with land ownership attached."
+  />
+
+  <div class="border-b border-contour/60 bg-sheet-raised">
+    <div class="shell py-8">
       <GapLine
         client:load
         parts={partsFromSegments(segments)}
@@ -25,63 +33,119 @@ const totals = networkTotals(segments);
     </div>
   </div>
 
-  <div class="mx-auto max-w-3xl px-4 py-12">
-    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">The plan</p>
-    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">Connect the island</h1>
-    <p class="mt-5 text-lg leading-relaxed">
-      This is connective public infrastructure, not a hiking club. The artifact is a status-coded
-      map of every existing and proposed segment on Revilla, with land ownership attached. A short
-      list of corridors the group can stand behind beats an exhaustive one nobody agreed to.
-    </p>
+  <StatBand
+    stats={[
+      { value: totals.existingMi.toFixed(0), label: "Miles usable today" },
+      { value: totals.gapMi.toFixed(0), label: "Miles of gap", accent: true },
+      { value: String(corridors.length), label: "Priority corridors" },
+      { value: String(managers.length), label: "Land managers to convince" },
+    ]}
+  />
 
-    <h2 class="font-display mt-12 text-2xl font-semibold">Land ownership is the work</h2>
-    <p class="mt-4 leading-relaxed">
-      A segment that looks like one line on a topo sheet can cross Forest Service, State, Mental
-      Health Trust, Borough, City, and Native corporation land. That is not a footnote. It is why
-      the network has not been connected, and why every segment page leads with land-manager chips.
-    </p>
-    <p class="mt-4 leading-relaxed">
-      Ownership on this site is intersected at build time from public layers: USFS Basic Ownership,
-      Alaska DNR Mental Health Trust and municipal entitlement, and Ketchikan Gateway Borough tax
-      parcels. It is a planning picture, not a title search.
-    </p>
+  <section class="shell grid gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">
+    <div class="reveal">
+      <h2 class="headline text-[length:var(--text-display-md)]">Land ownership is the work</h2>
+      <p class="mt-5 leading-relaxed text-ink/85">
+        A segment that looks like one line on a topo sheet can cross Forest Service, State, Mental
+        Health Trust, Borough, City, and Native corporation land. That is not a footnote. It is why
+        the network has not been connected, and why every segment page leads with land-manager chips.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink/85">
+        Ownership here is intersected at build time from public layers: USFS Basic Ownership, Alaska
+        DNR Mental Health Trust and municipal entitlement, and Ketchikan Gateway Borough tax parcels.
+        It is a planning picture, not a title search.
+      </p>
+    </div>
+    <div class="reveal">
+      <h2 class="headline text-[length:var(--text-display-md)]">What pink means</h2>
+      <p class="mt-5 leading-relaxed text-ink/85">
+        Pink is surveyor's flagging — the color trail crews hang on an unbuilt alignment. On this
+        site it appears only on gaps: proposed segments and the sign-on button. Nothing else.
+      </p>
+      <p class="mt-4 leading-relaxed text-ink/85">
+        Every proposed line says it is a conceptual alignment and is not surveyed. Treating an
+        unsurveyed line as engineered is how a new group loses a Forest Service meeting.
+      </p>
+      <a href="/network?view=list" class="btn btn-outline mt-8">See every segment</a>
+    </div>
+  </section>
 
-    <h2 class="font-display mt-12 text-2xl font-semibold">What pink means</h2>
-    <p class="mt-4 leading-relaxed">
-      Pink is surveyor's flagging. On this site it appears only on gaps — proposed segments and the
-      sign-on button. Every proposed line says it is a conceptual alignment and is not surveyed.
-      Treating an unsurveyed line as engineered is how a new group loses a Forest Service meeting.
-    </p>
-  </div>
+  <section class="border-t border-contour/60 bg-sheet-raised py-16 md:py-24">
+    <div class="shell">
+      <div class="reveal max-w-2xl">
+        <p class="eyebrow">Priority corridors</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+          Where "connect the island" becomes fundable
+        </h2>
+        <p class="lede mt-5 text-ink/85">
+          A corridor is a named end-to-end connection made of ordered segments. Start with a short
+          list the board actually agrees on.
+        </p>
+      </div>
 
-  <section class="mx-auto max-w-6xl px-4 pb-16">
-    <h2 class="font-display text-2xl font-semibold">Priority corridors</h2>
-    <div class="mt-6 grid gap-8">
-      {corridors.map((corridor) => (
-        <article id={corridor.id} class="scroll-mt-8 border border-contour/70 p-5">
-          <h3 class="font-display text-xl font-semibold">{corridor.name}</h3>
-          <p class="mt-3 max-w-3xl text-sm leading-relaxed">{corridor.blurb}</p>
-          <GapLine
-            client:visible
-            parts={partsFromCorridor(corridor, segments)}
-            builtMi={corridor.existingMi}
-            gapMi={corridor.gapMi}
-            animate={false}
-            quiet
-            className="mt-5"
-          />
-          <p class="mt-3 font-mono text-[12px] uppercase tracking-wider">
-            {corridor.existingMi.toFixed(1)} of {corridor.totalMi.toFixed(1)} miles connected ·{" "}
-            {corridor.percentComplete.toFixed(0)}%
-          </p>
-          <a
-            href={`/network?corridor=${corridor.id}`}
-            class="mt-3 inline-block font-mono text-[12px] uppercase tracking-wider underline decoration-contour underline-offset-4"
-          >
-            Open in the network map
-          </a>
-        </article>
-      ))}
+      <ol class="mt-12 grid gap-6">
+        {
+          corridors.map((corridor, index) => (
+            <li id={corridor.id} class="card reveal scroll-mt-24 p-6 md:p-8">
+              <div class="grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-12">
+                <div>
+                  <p class="eyebrow">Corridor {String(index + 1).padStart(2, "0")}</p>
+                  <h3 class="headline mt-3 text-2xl md:text-3xl">{corridor.name}</h3>
+                  <p class="mt-4 max-w-2xl leading-relaxed text-ink/85">{corridor.blurb}</p>
+                  <GapLine
+                    client:visible
+                    parts={partsFromCorridor(corridor, segments)}
+                    builtMi={corridor.existingMi}
+                    gapMi={corridor.gapMi}
+                    animate={false}
+                    quiet
+                    className="mt-6"
+                  />
+                </div>
+                <div class="flex flex-col justify-between gap-6 border-t border-contour/50 pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+                  <div>
+                    <p class="font-display text-[length:var(--text-stat)] font-bold leading-none tracking-tight">
+                      {corridor.percentComplete.toFixed(0)}<span class="text-2xl">%</span>
+                    </p>
+                    <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+                      {corridor.existingMi.toFixed(1)} of {corridor.totalMi.toFixed(1)} mi connected
+                    </p>
+                    <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-flagging-deep">
+                      {corridor.gapMi.toFixed(1)} mi still unbuilt
+                    </p>
+                  </div>
+                  <a
+                    href={`/network?corridor=${corridor.id}`}
+                    class="btn btn-outline !min-h-11 !px-5 !text-sm"
+                  >
+                    Open on the map
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="on-dark bg-ink py-16 text-sheet md:py-20">
+    <div class="shell max-w-3xl">
+      <p class="eyebrow">Money and legal posture</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+        There is no donate button yet
+      </h2>
+      <p class="mt-5 leading-relaxed text-sheet/85">
+        The group is informal: no entity, no bank account, no liability separation, and nothing is
+        tax-deductible. Alaska also requires charitable-solicitation registration before an
+        organization asks for contributions. So we ask for your name instead.
+      </p>
+      <p class="mt-4 leading-relaxed text-sheet/85">
+        This is not legal advice, and the association should get some before taking a dollar. The two
+        ordinary paths: incorporate as an Alaska nonprofit with DCCED and file IRS Form 1023-EZ, or
+        operate under a fiscal sponsor in the meantime.
+      </p>
+      <a href="/#sign-on" class="btn btn-primary mt-8">Sign on</a>
     </div>
   </section>
 </BaseLayout>

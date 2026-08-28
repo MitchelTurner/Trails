@@ -4,72 +4,253 @@ import TrailMap from "../components/TrailMap.tsx";
 import { GapLine, partsFromSegments } from "../components/GapLine.tsx";
 import { CorridorCard } from "../components/CorridorCard.tsx";
 import SignOnForm from "../components/SignOnForm.tsx";
+import StatBand from "../components/StatBand.astro";
+import Marquee from "../components/Marquee.astro";
+import FeatureBlock from "../components/FeatureBlock.astro";
 import { site } from "../config/site";
-import { getSegments, loadCorridors, loadSupporters, networkTotals } from "../lib/network";
+import {
+  getSegments,
+  loadCorridors,
+  loadSupporters,
+  namedLandManagers,
+  networkTotals,
+} from "../lib/network";
+import { getCollection } from "astro:content";
 
 const segments = getSegments();
 const corridors = loadCorridors();
 const totals = networkTotals(segments);
 const supporters = loadSupporters();
+const managers = namedLandManagers(segments);
 const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
+
+const posts = (await getCollection("news"))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const proposedCount = segments.filter((segment) => segment.status === "proposed").length;
 ---
 
-<BaseLayout gapLine>
-  <div slot="gapline" class="border-b border-transparent bg-sheet px-4 pt-3">
-    <div class="mx-auto max-w-6xl">
-      <GapLine
-        client:load
-        parts={partsFromSegments(segments)}
-        builtMi={totals.existingMi}
-        gapMi={totals.gapMi}
-        animate
-      />
-    </div>
-  </div>
-
-  <section class="relative">
-    <div class="relative h-[min(78vh,52rem)] border-b border-contour/70">
+<BaseLayout>
+  <!-- Hero: the map is the page, with the pitch overlaid. -->
+  <section class="relative isolate">
+    <div class="relative h-[calc(100svh-4rem)] min-h-[34rem]">
       <img
         src="/data/network-static.svg"
-        alt="Static map of existing and proposed trail segments on Revillagigedo Island"
-        class="absolute inset-0 h-full w-full object-contain bg-sheet"
+        alt="Map of existing and proposed trail segments on Revillagigedo Island"
+        class="absolute inset-0 h-full w-full bg-sheet object-contain"
       />
       <div class="absolute inset-0">
         <TrailMap client:load corridors={corridors} />
       </div>
-      <noscript>
-        <p class="absolute bottom-3 left-3 border border-contour bg-sheet/95 px-3 py-2 text-sm">
-          The interactive map needs JavaScript.
-          <a href="/network?view=list" class="underline decoration-flagging underline-offset-4">Open the list of every segment</a>.
+
+      <!-- Overlay must not swallow map interaction. -->
+      <div
+        class="pointer-events-none absolute inset-x-0 bottom-0 top-[34%] z-20 flex items-end bg-gradient-to-t from-ink from-45% via-ink/90 via-75% to-transparent"
+      >
+        <div class="on-dark shell pb-8 pt-10 text-sheet">
+          <div class="max-w-3xl">
+            <p class="eyebrow">Revillagigedo Island · Southeast Alaska</p>
+            <h1 class="headline mt-3 text-[length:var(--text-display-xl)]">{site.tagline}</h1>
+            <p class="lede mt-5 max-w-xl text-sheet/85">
+              Revilla already has trails. They stop at jurisdiction lines. This is every mile that
+              exists, every gap that doesn't, and who owns the ground in between.
+            </p>
+          </div>
+          <div class="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
+            <a href="/network" class="btn btn-primary">Explore the network</a>
+            <a href="#sign-on" class="btn btn-outline">Sign on</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-b border-contour/60 bg-sheet-raised">
+      <div class="shell py-6">
+        <GapLine
+          client:load
+          parts={partsFromSegments(segments)}
+          builtMi={totals.existingMi}
+          gapMi={totals.gapMi}
+          animate
+        />
+      </div>
+    </div>
+  </section>
+
+  <Marquee
+    label="The ground crosses"
+    items={managers.length
+      ? managers
+      : ["USDA Forest Service", "State of Alaska", "Ketchikan Gateway Borough"]}
+  />
+
+  <StatBand
+    dark
+    stats={[
+      { value: totals.existingMi.toFixed(0), label: "Miles usable today" },
+      { value: totals.gapMi.toFixed(0), label: "Miles of gap", accent: true },
+      { value: String(totals.count), label: "Mapped segments" },
+      { value: String(managers.length), label: "Land managers involved" },
+    ]}
+  />
+
+  <section class="shell py-16 md:py-24">
+    <div class="max-w-3xl reveal">
+      <p class="eyebrow">The thesis</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-lg)]">
+        A mission statement can't carry <span class="hydro">connect the island</span>. A map can.
+      </h2>
+      <p class="lede mt-6 text-ink/85">
+        This is connective public infrastructure, not a hiking club. Residents see the trails they
+        already use. Land managers see a plan that spans jurisdictions. Funders see a pipeline.
+        Same artifact, three audiences.
+      </p>
+    </div>
+  </section>
+
+  <FeatureBlock
+    eyebrow="Read the map"
+    title="Status is in the line, not just the color"
+    body="Solid ink is usable today. Faded ink exists but needs work. Muskeg dashes are under construction. Pink dashes do not exist yet. It survives colorblindness and a grayscale printout in a borough packet."
+    href="/network"
+    cta="Open the explorer"
+  >
+    <ul class="card divide-y divide-contour/40">
+      {
+        [
+          { label: "Existing", note: "Usable today", dash: false, color: "var(--ink)", op: 1 },
+          { label: "Needs work", note: "Brushed over or degraded", dash: false, color: "var(--ink)", op: 0.55 },
+          { label: "Under construction", note: "Funded and being built", dash: true, color: "var(--muskeg)", op: 1 },
+          { label: "Proposed", note: "The gap — not surveyed", dash: true, color: "var(--flagging)", op: 1 },
+        ].map((row) => (
+          <li class="flex items-center gap-5 px-5 py-4">
+            <svg width="72" height="6" viewBox="0 0 72 6" aria-hidden="true" class="shrink-0">
+              <line
+                x1="0"
+                y1="3"
+                x2="72"
+                y2="3"
+                stroke={row.color}
+                stroke-opacity={row.op}
+                stroke-width="4"
+                stroke-dasharray={row.dash ? "8 6" : undefined}
+              />
+            </svg>
+            <div>
+              <p class="font-display text-sm font-bold tracking-tight">{row.label}</p>
+              <p class="font-mono text-[10px] uppercase tracking-[0.12em] text-tide">{row.note}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </FeatureBlock>
+
+  <FeatureBlock
+    flip
+    eyebrow="The hard part"
+    title="Land ownership is the work"
+    body="One line on a topo sheet can cross Forest Service, State, Mental Health Trust, Borough, City, and Native corporation ground. That is not a footnote — it is why the network was never connected. Every segment page leads with its land managers."
+    href="/vision"
+    cta="Read the plan"
+  >
+    <div class="card p-6">
+      <p class="eyebrow">Managers on the network</p>
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {managers.map((manager) => <li class="chip">{manager}</li>)}
+      </ul>
+      <p class="mt-6 text-sm leading-relaxed text-ink/75">
+        Intersected at build time from public layers. A planning picture, not a title search.
+      </p>
+    </div>
+  </FeatureBlock>
+
+  <!-- Corridors -->
+  <section class="border-t border-contour/60 bg-sheet-raised py-16 md:py-24">
+    <div class="shell">
+      <div class="reveal max-w-2xl">
+        <p class="eyebrow">Priority corridors</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+          {corridors.length} routes the group can actually stand behind
+        </h2>
+        <p class="lede mt-5 text-ink/85">
+          A corridor is a named end-to-end connection made of ordered segments. A short list beats
+          an exhaustive one nobody agreed to.
         </p>
-      </noscript>
-    </div>
-    <p class="mx-auto max-w-6xl px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-tide">
-      Solid ink is on the ground. Pink dashes are not. USGS topo — public domain, no key.
-    </p>
-  </section>
-
-  <section class="mx-auto max-w-3xl px-4 py-14 text-center">
-    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">The thesis</p>
-    <h1 class="font-display mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
-      {site.tagline}
-    </h1>
-    <p class="mt-5 text-lg leading-relaxed text-ink/90">
-      Revilla already has trails. They stop at jurisdiction lines. The work is the gaps — and a
-      map that says so honestly enough that a land manager will take a meeting.
-    </p>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 pb-16">
-    <h2 class="sr-only">Priority corridors</h2>
-    <div class="grid gap-4 md:grid-cols-2">
-      {corridors.map((corridor) => (
-        <CorridorCard client:visible corridor={corridor} segments={segments} />
-      ))}
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        {
+          corridors.map((corridor) => (
+            <div class="reveal h-full">
+              <CorridorCard client:visible corridor={corridor} segments={segments} />
+            </div>
+          ))
+        }
+      </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 pb-20">
-    <SignOnForm client:visible count={supporters.count} formId={formId} />
+  <!-- Sign on -->
+  <section id="sign-on" class="on-dark scroll-mt-20 bg-ink py-16 text-sheet md:py-24">
+    <div class="shell grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+      <div class="reveal">
+        <p class="eyebrow">Sign on</p>
+        <p class="headline mt-4 text-[length:var(--text-display-lg)] text-flagging">
+          {supporters.count.toLocaleString("en-US")}
+        </p>
+        <p class="headline mt-2 text-[length:var(--text-display-md)]">
+          people have signed on to connecting Revilla's trails.
+        </p>
+        <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
+          There is no donate button. The group is informal, so an email list with a visible number is
+          worth more than a payment processor — it is what we put in front of the Assembly and the
+          Forest Service.
+        </p>
+        <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-sheet/60">
+          Not a donation · Not tax-deductible · {proposedCount} gaps still unbuilt
+        </p>
+      </div>
+      <div class="reveal">
+        <SignOnForm client:visible count={supporters.count} formId={formId} />
+      </div>
+    </div>
+  </section>
+
+  <!-- The latest -->
+  <section class="shell py-16 md:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="reveal">
+        <p class="eyebrow">The latest</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Notes from the work</h2>
+      </div>
+      <a
+        href="/news"
+        class="btn btn-outline !min-h-11 !px-5 !text-sm"
+      >
+        All posts
+      </a>
+    </div>
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {
+        posts.map((post) => (
+          <a href={`/news/${post.id}`} class="card card-hover reveal flex flex-col p-6">
+            <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+              {post.data.date.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+                timeZone: "America/Sitka",
+              })}
+            </p>
+            <h3 class="headline mt-3 text-xl">{post.data.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink/80">{post.data.excerpt}</p>
+            <span class="mt-auto pt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-ink underline decoration-flagging underline-offset-4">
+              Read it
+            </span>
+          </a>
+        ))
+      }
+    </div>
   </section>
 </BaseLayout>

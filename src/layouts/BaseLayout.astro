@@ -1,13 +1,14 @@
 ---
 import "../styles/global.css";
 import { site } from "../config/site";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
 interface Props {
   title?: string;
   description?: string;
   canonical?: string;
   image?: string;
-  gapLine?: boolean;
 }
 
 const {
@@ -15,22 +16,12 @@ const {
   description = site.description,
   canonical,
   image = "/og.png",
-  gapLine = false,
 } = Astro.props;
 
 const pageTitle = title === site.name ? `${site.name} — ${site.tagline}` : `${title} — ${site.name}`;
 const url = new URL(canonical ?? Astro.url.pathname, site.url).toString();
 const imageUrl = new URL(image, site.url).toString();
 const plausible = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN || site.plausibleDomain;
-
-const nav = [
-  { href: "/network", label: "Network" },
-  { href: "/vision", label: "Vision" },
-  { href: "/get-involved", label: "Get involved" },
-  { href: "/report", label: "Report" },
-  { href: "/news", label: "News" },
-  { href: "/about", label: "About" },
-];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -54,7 +45,9 @@ const jsonLd = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={url} />
+    <meta name="theme-color" content="#17211f" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={url} />
@@ -64,6 +57,7 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://basemap.nationalmap.gov" crossorigin />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     {
       plausible ? (
@@ -72,69 +66,16 @@ const jsonLd = {
     }
   </head>
   <body class="min-h-screen bg-sheet text-ink antialiased">
-    {
-      gapLine ? (
-        <div class="contents">
-          <slot name="gapline" />
-        </div>
-      ) : null
-    }
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:bg-sheet focus:px-3 focus:py-2"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:border focus:border-ink focus:bg-sheet focus:px-4 focus:py-3"
     >
       Skip to content
     </a>
-    <header class="border-b border-contour/70">
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-        <a href="/" class="font-display text-lg font-semibold tracking-tight text-ink">
-          {site.name}
-        </a>
-        <nav aria-label="Primary" class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-tide">
-          {
-            nav.map((item) => (
-              <a
-                href={item.href}
-                class:list={[
-                  "hover:text-ink",
-                  Astro.url.pathname === item.href || Astro.url.pathname.startsWith(`${item.href}/`)
-                    ? "text-ink underline decoration-contour underline-offset-4"
-                    : "",
-                ]}
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-      </div>
-    </header>
+    <SiteHeader />
     <main id="main">
       <slot />
     </main>
-    <footer class="mt-16 border-t border-contour/70">
-      <div class="mx-auto grid max-w-6xl gap-6 px-4 py-10 text-sm text-tide md:grid-cols-3">
-        <div>
-          <p class="font-display text-base font-semibold text-ink">{site.name}</p>
-          <p class="mt-2 max-w-xs leading-relaxed">
-            Working name for an informal association on Revillagigedo Island. Not a 501(c)(3). Not
-            soliciting donations.
-          </p>
-        </div>
-        <div>
-          <p class="font-mono text-[11px] uppercase tracking-wider">Contact</p>
-          <a class="mt-2 inline-block text-ink underline decoration-contour underline-offset-4" href={`mailto:${site.email}`}>
-            {site.email}
-          </a>
-        </div>
-        <div>
-          <p class="font-mono text-[11px] uppercase tracking-wider">Map data</p>
-          <p class="mt-2 leading-relaxed">
-            USGS The National Map; USDA Forest Service NFS Trails; Ketchikan Gateway Borough tax
-            parcels; Alaska DNR ownership layers. Proposed lines are conceptual.
-          </p>
-        </div>
-      </div>
-    </footer>
+    <SiteFooter />
   </body>
 </html>

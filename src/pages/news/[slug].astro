@@ -12,23 +12,40 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "America/Sitka",
+});
 ---
 
 <BaseLayout title={post.data.title} description={post.data.excerpt} canonical={`/news/${post.id}`}>
-  <article class="mx-auto max-w-2xl px-4 py-12">
-    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">
-      <a href="/news" class="hover:text-ink">News</a>
-      <span aria-hidden> / </span>
-      {post.data.date.toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-        timeZone: "America/Sitka",
-      })}
-    </p>
-    <h1 class="font-display mt-3 text-4xl font-semibold tracking-tight">{post.data.title}</h1>
-    <div class="prose-revilla mt-8 space-y-4 text-base leading-relaxed">
-      <Content />
+  <article>
+    <header class="on-dark bg-ink text-sheet">
+      <div class="shell py-14 md:py-20">
+        <nav aria-label="Breadcrumb" class="font-mono text-[10px] uppercase tracking-[0.14em]">
+          <a
+            href="/news"
+            class="text-sheet/70 underline decoration-sheet/30 underline-offset-4 hover:text-sheet"
+          >
+            News
+          </a>
+          <span aria-hidden class="px-2 text-sheet/40">/</span>
+          <span class="text-sheet/70">{date}</span>
+        </nav>
+        <h1 class="headline mt-5 max-w-3xl text-[length:var(--text-display-lg)]">
+          {post.data.title}
+        </h1>
+        <p class="lede mt-5 max-w-2xl text-sheet/85">{post.data.excerpt}</p>
+      </div>
+    </header>
+
+    <div class="shell py-14 md:py-20">
+      <div class="prose-revilla max-w-2xl space-y-5 text-base leading-relaxed">
+        <Content />
+      </div>
+      <a href="/news" class="btn btn-outline mt-12">All posts</a>
     </div>
   </article>
 </BaseLayout>
@@ -37,9 +54,18 @@ const { Content } = await render(post);
   .prose-revilla :global(a) {
     text-decoration: underline;
     text-underline-offset: 4px;
+    text-decoration-color: var(--flagging);
   }
   .prose-revilla :global(em) {
     font-family: var(--font-hydro);
     font-style: italic;
+  }
+  .prose-revilla :global(h2) {
+    font-family: var(--font-display);
+    font-stretch: 118%;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
   }
 </style>

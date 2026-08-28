@@ -1,0 +1,28 @@
+---
+interface Props {
+  label: string;
+  items: string[];
+}
+
+const { label, items } = Astro.props;
+---
+
+<section class="border-b border-contour/60 bg-sheet py-5" aria-label={label}>
+  <div class="shell flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
+    <p class="eyebrow shrink-0">{label}</p>
+    <div class="marquee min-w-0 flex-1" aria-hidden="true">
+      {
+        [0, 1].map(() => (
+          <div class="marquee-track">
+            {items.map((item) => (
+              <span class="whitespace-nowrap font-display text-sm font-semibold tracking-tight text-tide">
+                {item}
+              </span>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+    <p class="sr-only">{items.join(", ")}</p>
+  </div>
+</section>

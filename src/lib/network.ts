@@ -55,6 +55,14 @@ export function uniqueLandManagers(segments = getSegments()): string[] {
   );
 }
 
+/**
+ * Real managers only. build-network assigns an "Unmapped" sentinel where no ownership
+ * polygon matched; that belongs in the filters, not in a partner list or a headline count.
+ */
+export function namedLandManagers(segments = getSegments()): string[] {
+  return uniqueLandManagers(segments).filter((manager) => !manager.startsWith("Unmapped"));
+}
+
 export function networkTotals(segments = getSegments()) {
   const totalMi = segments.reduce((sum, segment) => sum + segment.lengthMi, 0);
   const existingMi = segments

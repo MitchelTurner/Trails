@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-@import "@fontsource-variable/archivo";
+/* Archivo needs the wdth axis for the Expanded map-sheet title-block look. */
+@import "@fontsource-variable/archivo/wdth.css";
 @import "@fontsource/public-sans/400.css";
 @import "@fontsource/public-sans/500.css";
 @import "@fontsource/public-sans/600.css";
@@ -16,24 +17,53 @@
   --sheet: #e7e4d9;
   --contour: #a9a695;
   --flagging: #e8467c;
+
+  --sheet-raised: #efece3;
+  --ink-deep: #101715;
+  --shell: 80rem;
+
+  /* --flagging is the documented flagging-tape color and stays exact on map lines,
+     dashes, borders, and large display type. These two variants exist only to hit
+     WCAG AA where the exact value cannot: a hair lighter behind dark button text,
+     and deeper for small pink text on paper. */
+  --flagging-cta: #ea4f82;
+  --flagging-deep: #c2185b;
 }
 
 @theme {
   --color-ink: #17211f;
+  --color-ink-deep: #101715;
   --color-tide: #24404a;
   --color-muskeg: #b4863c;
   --color-sheet: #e7e4d9;
+  --color-sheet-raised: #efece3;
   --color-contour: #a9a695;
   --color-flagging: #e8467c;
-  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --color-flagging-cta: #ea4f82;
+  --color-flagging-deep: #c2185b;
+
+  --font-display: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Public Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-hydro: "Source Serif 4", ui-serif, Georgia, serif;
+  --font-hydro: "Source Serif 4 Variable", ui-serif, Georgia, serif;
+
+  --text-display-xl: clamp(2.75rem, 7vw, 6rem);
+  --text-display-lg: clamp(2.25rem, 4.6vw, 4rem);
+  --text-display-md: clamp(1.75rem, 3vw, 2.75rem);
+  --text-stat: clamp(2rem, 4.4vw, 3.75rem);
 }
 
 html {
   background: var(--sheet);
   color: var(--ink);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -41,18 +71,7 @@ body {
   background: var(--sheet);
   color: var(--ink);
   min-height: 100vh;
-}
-
-.font-display {
-  font-family: var(--font-display);
-  font-stretch: expanded;
-  font-variation-settings: "wdth" 125;
-}
-
-.hydro {
-  font-family: var(--font-hydro);
-  font-style: italic;
-  font-weight: 400;
+  overflow-x: hidden;
 }
 
 :focus-visible {
@@ -65,9 +84,260 @@ body {
   color: var(--ink);
 }
 
-/* MapLibre ships `.maplibregl-ctrl-attrib a { text-decoration: none }` and its
-   stylesheet loads after this one, so match with higher specificity. */
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+    font-stretch: 118%;
+    letter-spacing: -0.02em;
+  }
+
+  .hydro {
+    font-family: var(--font-hydro);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Eyebrow label above every section headline — the onX block rhythm. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--tide);
+  }
+
+  .on-dark .eyebrow {
+    color: color-mix(in srgb, var(--sheet) 88%, var(--tide));
+  }
+
+  .headline {
+    font-family: var(--font-display);
+    font-stretch: 118%;
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+  }
+
+  .lede {
+    font-size: clamp(1.0625rem, 1.5vw, 1.375rem);
+    line-height: 1.55;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding-inline: 1.5rem;
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+    transition:
+      transform 160ms ease,
+      background-color 160ms ease,
+      color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--flagging-cta);
+    color: var(--ink);
+  }
+
+  .btn-primary:hover {
+    background: color-mix(in srgb, var(--flagging-cta) 86%, #fff);
+  }
+
+  .btn-solid {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+
+  .btn-solid:hover {
+    background: var(--tide);
+  }
+
+  .btn-outline {
+    border-color: var(--ink);
+    color: var(--ink);
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+
+  .on-dark .btn-outline {
+    border-color: color-mix(in srgb, var(--sheet) 70%, transparent);
+    color: var(--sheet);
+  }
+
+  .on-dark .btn-outline:hover {
+    background: var(--sheet);
+    color: var(--ink);
+  }
+
+  .card {
+    background: var(--sheet-raised);
+    border: 1px solid color-mix(in srgb, var(--contour) 70%, transparent);
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: var(--tide);
+    box-shadow: 0 18px 40px -24px rgb(23 33 31 / 0.45);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--tide) 30%, transparent);
+    background: color-mix(in srgb, var(--tide) 6%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--tide);
+  }
+
+  .on-dark .chip {
+    border-color: color-mix(in srgb, var(--sheet) 34%, transparent);
+    background: color-mix(in srgb, var(--sheet) 10%, transparent);
+    color: color-mix(in srgb, var(--sheet) 88%, var(--tide));
+  }
+
+  .rule-dotted {
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--contour) 0 6px,
+      transparent 6px 12px
+    );
+    height: 1px;
+  }
+
+  /* Scroll reveal. Opt-in per element; disabled entirely for reduced motion. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    flex-shrink: 0;
+    gap: 2.5rem;
+    padding-right: 2.5rem;
+    animation: marquee-scroll 42s linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+      mask-image: none;
+    }
+
+    .marquee-track {
+      animation: none;
+    }
+  }
+}
+
+/* Unlayered so it beats the Tailwind utilities on the chip itself. */
+.on-dark .status-chip {
+  color: var(--sheet);
+  background: color-mix(in srgb, var(--sheet) 12%, transparent);
+  border-color: color-mix(in srgb, var(--sheet) 50%, transparent);
+}
+
+.on-dark .status-chip[data-status="proposed"] {
+  border-color: var(--flagging);
+  background: color-mix(in srgb, var(--flagging) 28%, transparent);
+}
+
+.on-dark .status-chip[data-status="under-construction"] {
+  border-color: var(--muskeg);
+  background: color-mix(in srgb, var(--muskeg) 28%, transparent);
+}
+
+/* Unlayered: maplibre-gl.css is unlayered and loads after this file. */
 .maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-inner a {
   color: var(--ink);
   text-decoration: underline;
+}
+
+.maplibregl-ctrl-group {
+  border-radius: 0 !important;
+  border: 1px solid color-mix(in srgb, var(--contour) 80%, transparent) !important;
+  box-shadow: none !important;
+  background: color-mix(in srgb, var(--sheet) 94%, transparent) !important;
+  backdrop-filter: blur(6px);
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid color-mix(in srgb, var(--contour) 60%, transparent) !important;
+}
+
+.maplibregl-ctrl-scale {
+  border-color: var(--tide) !important;
+  border-width: 0 0 1px 1px !important;
+  background: color-mix(in srgb, var(--sheet) 82%, transparent) !important;
+  color: var(--ink) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  letter-spacing: 0.08em;
 }

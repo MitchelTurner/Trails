@@ -1,0 +1,41 @@
+---
+interface Stat {
+  value: string;
+  label: string;
+  accent?: boolean;
+}
+
+interface Props {
+  stats: Stat[];
+  dark?: boolean;
+}
+
+const { stats, dark = false } = Astro.props;
+---
+
+<section class:list={[dark ? "on-dark bg-ink text-sheet" : "bg-sheet-raised", "border-y", dark ? "border-ink" : "border-contour/60"]}>
+  <div class="shell grid grid-cols-2 gap-x-6 gap-y-10 py-12 md:grid-cols-4 md:py-16">
+    {
+      stats.map((stat) => (
+        <div class="reveal">
+          <p
+            class:list={[
+              "font-display text-[length:var(--text-stat)] font-bold leading-none tracking-tight",
+              stat.accent ? "text-flagging" : "",
+            ]}
+          >
+            {stat.value}
+          </p>
+          <p
+            class:list={[
+              "mt-3 font-mono text-[10px] uppercase leading-relaxed tracking-[0.16em]",
+              dark ? "text-sheet/70" : "text-tide",
+            ]}
+          >
+            {stat.label}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</section>
