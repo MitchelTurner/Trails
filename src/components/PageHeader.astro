@@ -1,0 +1,31 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  dark?: boolean;
+}
+
+const { eyebrow, title, lede, dark = true } = Astro.props;
+---
+
+<section
+  class:list={[
+    dark ? "on-dark bg-ink text-sheet" : "bg-sheet-raised border-b border-contour/60",
+  ]}
+>
+  <div class="shell py-14 md:py-20">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="headline mt-4 max-w-4xl text-[length:var(--text-display-lg)]">{title}</h1>
+    {
+      lede ? (
+        <p
+          class:list={["lede mt-6 max-w-2xl", dark ? "text-sheet/85" : "text-ink/85"]}
+        >
+          {lede}
+        </p>
+      ) : null
+    }
+    <slot />
+  </div>
+</section>

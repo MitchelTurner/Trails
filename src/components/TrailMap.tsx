@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { loadNetworkClient } from "./map/loadNetwork";
 import { SegmentPanel } from "./SegmentPanel";
+import { MapLegend } from "./MapLegend";
 import { useTrailMap, webglAvailable, type BasemapId, type TrailCollection } from "../hooks/useTrailMap";
 import type { Corridor, Segment } from "../lib/schema";
 
@@ -11,6 +12,9 @@ interface TrailMapProps {
   filterIds?: string[] | null;
   corridors?: Corridor[];
   className?: string;
+  showLegend?: boolean;
+  /** Segment pages already show the detail in the page, so the panel starts closed there. */
+  openPanelForInitial?: boolean;
 }
 
 function segmentFrom(
@@ -27,6 +31,8 @@ export default function TrailMap({
   filterIds = null,
   corridors = [],
   className = "",
+  showLegend = true,
+  openPanelForInitial = true,
 }: TrailMapProps) {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [network, setNetwork] = useState<TrailCollection | null>(null);
@@ -35,6 +41,7 @@ export default function TrailMap({
   const [gl, setGl] = useState<boolean | null>(null);
   const [cursor, setCursor] = useState(0);
   const [keyboardActive, setKeyboardActive] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(Boolean(initialSegmentId) && openPanelForInitial);
 
   useEffect(() => {
     setGl(webglAvailable());
@@ -55,6 +62,7 @@ export default function TrailMap({
   const select = useCallback(
     (id: string | null) => {
       setSelectedId(id);
+      setPanelOpen(Boolean(id));
       if (!urlSync || typeof window === "undefined") return;
       const next = id ? `/network/${id}` : "/network";
       if (window.location.pathname !== next) {
@@ -146,28 +154,43 @@ export default function TrailMap({
         role="application"
         aria-label="Interactive trail network map. Tab cycles segments, Enter selects."
       />
-      <div className="absolute left-3 top-3 z-10 flex gap-1 border border-contour bg-sheet/95 p-1 font-mono text-[11px] uppercase tracking-wider">
-        <button
-          type="button"
-          className={`px-2 py-1 ${basemap === "topo" ? "bg-ink text-sheet" : "text-tide"}`}
-          onClick={() => setBasemap("topo")}
+      {/* Left column only: maplibre owns top-right (nav, fullscreen, geolocate). */}
+      <div className="pointer-events-none absolute left-3 top-3 z-10 flex max-w-[calc(100%-5rem)] flex-col items-start gap-2">
+        <div
+          role="group"
+          aria-label="Basemap"
+          className="pointer-events-auto flex overflow-hidden rounded-full border border-contour/80 bg-sheet/92 p-1 backdrop-blur-sm"
         >
-          Topo
-        </button>
-        <button
-          type="button"
-          className={`px-2 py-1 ${basemap === "imagery" ? "bg-ink text-sheet" : "text-tide"}`}
-          onClick={() => setBasemap("imagery")}
-        >
-          Imagery
-        </button>
+          {(["topo", "imagery"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              aria-pressed={basemap === option}
+              className={`min-h-9 rounded-full px-4 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
+                basemap === option ? "bg-ink text-sheet" : "text-tide hover:text-ink"
+              }`}
+              onClick={() => setBasemap(option)}
+            >
+              {option === "topo" ? "Topo" : "Imagery"}
+            </button>
+          ))}
+        </div>
+        {showLegend ? (
+          <div className="hidden sm:block">
+            <MapLegend />
+          </div>
+        ) : null}
       </div>
       {keyboardActive && visibleIds[cursor] && !selectedId ? (
-        <p className="pointer-events-none absolute bottom-3 left-3 z-10 border border-contour bg-sheet/95 px-2 py-1 font-mono text-[11px] uppercase tracking-wider text-tide">
+        <p className="pointer-events-none absolute bottom-16 left-3 z-10 border border-contour bg-sheet/95 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-ink">
           Focused: {network?.features.find((f) => f.properties.id === visibleIds[cursor])?.properties.name}
         </p>
       ) : null}
-      <SegmentPanel segment={selected} corridor={corridor} onClose={() => select(null)} />
+      <SegmentPanel
+        segment={panelOpen ? selected : null}
+        corridor={corridor}
+        onClose={() => select(null)}
+      />
     </div>
   );
 }

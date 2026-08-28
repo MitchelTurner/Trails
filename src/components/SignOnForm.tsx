@@ -9,6 +9,11 @@ interface SignOnFormProps {
 
 type State = "idle" | "submitting" | "success" | "error";
 
+const LABEL =
+  "flex flex-col gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-sheet/70";
+const FIELD =
+  "min-h-12 border border-sheet/25 bg-ink px-3 font-body text-base text-sheet placeholder:text-sheet/40 focus:border-flagging";
+
 function fieldError(name: string, zip: string, email: string): string | null {
   if (!name.trim()) return "Add your name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Use a real email address.";
@@ -62,33 +67,44 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
   }
 
   return (
-    <section className="border border-contour/70 bg-sheet px-5 py-8 md:px-8">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-tide">Sign on</p>
-      <h2 className="font-display mt-2 text-3xl font-semibold tracking-tight md:text-4xl">
-        {formatCount(optimistic)} people have signed on to connecting Revilla's trails.
-      </h2>
-      <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink/85">
-        An email list with a visible number is the thing we put in front of land managers. This is
-        not a donation and it is not tax-deductible — we are not asking for money.
+    <section className="border border-sheet/20 bg-sheet/5 p-6 md:p-8">
+      <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-sheet/70">
+        Add your name
+      </p>
+      <p className="mt-2 font-display text-2xl font-bold tracking-tight text-sheet">
+        {formatCount(optimistic)} and counting
       </p>
 
       {state === "success" ? (
-        <p className="mt-6 border border-ink/20 bg-ink/5 px-4 py-3 text-sm" role="status">
+        <p className="mt-6 border border-sheet/25 bg-sheet/10 px-4 py-3 text-sm text-sheet" role="status">
           {message}
         </p>
       ) : (
-        <form className="mt-6 grid gap-3 md:grid-cols-3" onSubmit={onSubmit} noValidate>
-          <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
-            Name
-            <input
-              name="name"
-              autoComplete="name"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              className="border border-contour bg-sheet px-3 py-2 font-body text-sm text-ink"
-            />
-          </label>
-          <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
+        <form className="mt-6 grid gap-4" onSubmit={onSubmit} noValidate>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className={LABEL}>
+              Name
+              <input
+                name="name"
+                autoComplete="name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                className={FIELD}
+              />
+            </label>
+            <label className={LABEL}>
+              ZIP
+              <input
+                name="zip"
+                inputMode="numeric"
+                autoComplete="postal-code"
+                value={zip}
+                onChange={(event) => setZip(event.target.value)}
+                className={FIELD}
+              />
+            </label>
+          </div>
+          <label className={LABEL}>
             Email
             <input
               name="email"
@@ -96,34 +112,21 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
               autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="border border-contour bg-sheet px-3 py-2 font-body text-sm text-ink"
+              className={FIELD}
             />
           </label>
-          <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
-            ZIP
-            <input
-              name="zip"
-              inputMode="numeric"
-              autoComplete="postal-code"
-              value={zip}
-              onChange={(event) => setZip(event.target.value)}
-              className="border border-contour bg-sheet px-3 py-2 font-body text-sm text-ink"
-            />
-          </label>
-          <div className="md:col-span-3 flex flex-wrap items-center gap-4">
-            <button
-              type="submit"
-              disabled={state === "submitting"}
-              className="bg-flagging px-6 py-3 font-display text-xl font-bold tracking-wide text-ink disabled:opacity-60"
-            >
+          <div className="flex flex-wrap items-center gap-4">
+            <button type="submit" disabled={state === "submitting"} className="btn btn-primary">
               {state === "submitting" ? "Signing on…" : "Sign on"}
             </button>
             {message && state === "error" ? (
-              <p className="text-sm text-ink" role="alert">
+              <p className="text-sm text-sheet" role="alert">
                 {message}
               </p>
             ) : (
-              <p className="text-xs text-tide/80">ZIP is so we can tell the Assembly how many of you live in the borough.</p>
+              <p className="text-xs text-sheet/70">
+                ZIP tells the Assembly how many supporters live in the borough.
+              </p>
             )}
           </div>
         </form>

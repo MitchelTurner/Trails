@@ -1,51 +1,98 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
 import { site } from "../config/site";
+
+const audiences = [
+  {
+    who: "Residents",
+    need: "Trails they already use, plus the gaps between them.",
+    act: "Sign on, show up to a work party.",
+  },
+  {
+    who: "Land managers",
+    need: "A coherent, honest network plan that spans jurisdictions.",
+    act: "Take a meeting.",
+  },
+  {
+    who: "Future funders",
+    need: "A credible, mapped project pipeline.",
+    act: "Fund a segment.",
+  },
+];
+
+const partners = [
+  "Tongass National Forest",
+  "Alaska State Parks",
+  "Alaska Mental Health Trust",
+  "Ketchikan Gateway Borough",
+  "City of Ketchikan",
+  "City of Saxman",
+  "Native corporations with surface estate",
+];
 ---
 
 <BaseLayout
   title="About"
   description="An informal association working to connect Revillagigedo Island's trails across jurisdictions."
 >
-  <div class="mx-auto max-w-3xl px-4 py-12">
-    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">About</p>
-    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">{site.name}</h1>
-    <p class="mt-5 text-lg leading-relaxed">
-      Working name for the Ketchikan Trail Association — an informal group of residents who want
-      the island's trails to function as a network. There is no entity and no 501(c)(3). That is
-      why this site does not ask for money.
-    </p>
+  <PageHeader
+    eyebrow="About"
+    title={site.name}
+    lede={`Working name for the ${site.orgName} — an informal group of residents who want the island's trails to function as a network. There is no entity and no 501(c)(3). That is why this site does not ask for money.`}
+  />
 
-    <h2 class="font-display mt-12 text-2xl font-semibold">Who this is for</h2>
-    <ul class="mt-4 list-disc space-y-2 pl-5 leading-relaxed">
-      <li>Residents who already use the trails and can see the gaps between them.</li>
-      <li>
-        Land managers — USFS, State, Mental Health Trust, Borough, City, Native corporations —
-        who need a coherent, honest plan that spans jurisdictions.
-      </li>
-      <li>Future funders who need a mapped project pipeline, not a brochure.</li>
-    </ul>
+  <section class="shell py-16 md:py-20">
+    <h2 class="headline text-[length:var(--text-display-md)]">Who this is for</h2>
+    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+      {
+        audiences.map((item) => (
+          <div class="card reveal p-6">
+            <p class="font-display text-xl font-bold tracking-tight">{item.who}</p>
+            <p class="mt-4 text-sm leading-relaxed text-ink/85">{item.need}</p>
+            <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-flagging-deep">
+              {item.act}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
 
-    <h2 class="font-display mt-12 text-2xl font-semibold">Partners we have to talk to</h2>
-    <p class="mt-4 leading-relaxed">
-      Tongass National Forest, Alaska State Parks, the Alaska Mental Health Trust, Ketchikan
-      Gateway Borough, the City of Ketchikan, the City of Saxman, and Native corporations with
-      surface estate on Revilla. None of them are listed here as endorsing the map.
-    </p>
+  <section class="border-y border-contour/60 bg-sheet-raised py-16 md:py-20">
+    <div class="shell grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="eyebrow">Partners we have to talk to</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+          Nobody on this list has endorsed the map
+        </h2>
+        <p class="mt-5 leading-relaxed text-ink/85">
+          These are the entities that hold ground on Revilla. Listing them is a statement of who has
+          to be in the room, not a claim of support.
+        </p>
+      </div>
+      <ul class="flex flex-wrap content-start gap-2">
+        {partners.map((partner) => <li class="chip">{partner}</li>)}
+      </ul>
+    </div>
+  </section>
 
-    <h2 class="font-display mt-12 text-2xl font-semibold">Board</h2>
-    <p class="mt-4 leading-relaxed">
-      Names go here when the group is ready to put them on a public page. Until then, write
-      {" "}
-      <a class="underline decoration-contour underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a>.
-    </p>
-
-    <h2 class="font-display mt-12 text-2xl font-semibold">Legal posture</h2>
-    <p class="mt-4 leading-relaxed">
-      This is not legal advice. The group should get some before taking a dollar. The two ordinary
-      paths are incorporating as an Alaska nonprofit with DCCED and filing IRS Form 1023-EZ, or
-      operating under a fiscal sponsor — Alaska Trails or a community foundation — and taking
-      donations through them in the meantime.
-    </p>
-  </div>
+  <section class="shell grid gap-12 py-16 lg:grid-cols-2 lg:gap-16 md:py-20">
+    <div>
+      <h2 class="headline text-[length:var(--text-display-md)]">Board</h2>
+      <p class="mt-5 leading-relaxed text-ink/85">
+        Names go here when the group is ready to put them on a public page. Until then, write us.
+      </p>
+      <a href={`mailto:${site.email}`} class="btn btn-outline mt-8">{site.email}</a>
+    </div>
+    <div>
+      <h2 class="headline text-[length:var(--text-display-md)]">Legal posture</h2>
+      <p class="mt-5 leading-relaxed text-ink/85">
+        This is not legal advice, and the group should get some before taking a dollar. The two
+        ordinary paths are incorporating as an Alaska nonprofit with DCCED and filing IRS Form
+        1023-EZ, or operating under a fiscal sponsor — Alaska Trails or a community foundation — and
+        taking donations through them in the meantime.
+      </p>
+    </div>
+  </section>
 </BaseLayout>

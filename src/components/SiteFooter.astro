@@ -1,0 +1,98 @@
+---
+import { site } from "../config/site";
+
+const columns = [
+  {
+    title: "The network",
+    links: [
+      { href: "/network", label: "Explore the map" },
+      { href: "/network?view=list", label: "Every segment" },
+      { href: "/vision", label: "Priority corridors" },
+    ],
+  },
+  {
+    title: "Take part",
+    links: [
+      { href: "/#sign-on", label: "Sign on" },
+      { href: "/get-involved", label: "Work parties" },
+      { href: "/report", label: "Report an issue" },
+    ],
+  },
+  {
+    title: "The group",
+    links: [
+      { href: "/about", label: "About" },
+      { href: "/news", label: "News" },
+      { href: `mailto:${site.email}`, label: site.email },
+    ],
+  },
+];
+---
+
+<footer class="on-dark mt-24 bg-ink text-sheet">
+  <div class="shell py-16">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
+      <div>
+        <p class="font-display text-2xl font-bold tracking-tight">{site.name}</p>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-sheet/75">
+          Working name for the {site.orgName} — an informal group on Revillagigedo Island. Not an
+          incorporated entity, not a 501(c)(3), and not soliciting donations.
+        </p>
+        <div class="mt-6 flex items-center gap-3">
+          <svg width="120" height="8" viewBox="0 0 120 8" aria-hidden="true">
+            <line x1="0" y1="4" x2="72" y2="4" stroke="var(--sheet)" stroke-width="3" />
+            <line
+              x1="76"
+              y1="4"
+              x2="120"
+              y2="4"
+              stroke="var(--flagging)"
+              stroke-width="3"
+              stroke-dasharray="6 5"
+            />
+          </svg>
+          <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-sheet/60">
+            Built · Gap
+          </span>
+        </div>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-3">
+        {
+          columns.map((column) => (
+            <div>
+              <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-sheet/60">
+                {column.title}
+              </p>
+              <ul class="mt-4 space-y-1">
+                {column.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="flex min-h-9 items-center text-sm text-sheet/90 underline decoration-sheet/30 underline-offset-4 transition-colors hover:text-sheet hover:decoration-flagging"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      class="mt-14 border-t border-sheet/15 pt-6 text-xs leading-relaxed text-sheet/60 md:flex md:items-start md:justify-between md:gap-10"
+    >
+      <p class="max-w-2xl">
+        Map data: USGS The National Map; USDA Forest Service NFS Trails; Ketchikan Gateway Borough
+        tax parcels; Alaska DNR ownership layers. Proposed alignments are conceptual and not
+        surveyed.
+      </p>
+      <p class="mt-4 font-mono uppercase tracking-[0.12em] md:mt-0">
+        {new Date().getFullYear()} · Revillagigedo Island, Alaska
+      </p>
+    </div>
+  </div>
+</footer>

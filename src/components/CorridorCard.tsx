@@ -8,32 +8,38 @@ interface CorridorCardProps {
 
 export function CorridorCard({ corridor, segments }: CorridorCardProps) {
   const parts = partsFromCorridor(corridor, segments);
+  const pct = Math.round(corridor.percentComplete);
+
   return (
-    <article className="border border-contour/70 bg-sheet/40 p-5">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-tide">Corridor</p>
-      <h3 className="font-display mt-1 text-xl font-semibold tracking-tight">
-        <a href={`/network?corridor=${corridor.id}`} className="hover:text-tide">
+    <article className="card card-hover group flex h-full flex-col p-6">
+      <div className="flex items-start justify-between gap-4">
+        <p className="eyebrow">Corridor</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">{pct}% linked</p>
+      </div>
+
+      <h3 className="headline mt-3 text-2xl">
+        <a href={`/network?corridor=${corridor.id}`} className="transition-colors hover:text-tide">
           {corridor.name}
+          <span className="sr-only"> — open in the network map</span>
         </a>
       </h3>
-      <p className="mt-3 text-sm leading-relaxed text-ink/85">{corridor.blurb}</p>
+
+      <p className="mt-3 text-sm leading-relaxed text-ink/80">{corridor.blurb}</p>
+
       <GapLine
         parts={parts}
         builtMi={corridor.existingMi}
         gapMi={corridor.gapMi}
         animate={false}
         quiet
-        className="mt-5"
+        caption={false}
+        className="mt-6"
       />
-      <p className="mt-3 font-mono text-[12px] uppercase tracking-wider text-ink">
-        {corridor.existingMi.toFixed(1)} of {corridor.totalMi.toFixed(1)} miles connected
+
+      <p className="mt-auto pt-5 font-mono text-xs uppercase tracking-[0.12em] text-ink">
+        {corridor.existingMi.toFixed(1)} of {corridor.totalMi.toFixed(1)} mi connected
+        <span className="ml-2 text-flagging-deep">{corridor.gapMi.toFixed(1)} mi gap</span>
       </p>
-      <a
-        href={`/network?corridor=${corridor.id}`}
-        className="mt-4 inline-block font-mono text-[12px] uppercase tracking-wider text-tide underline decoration-contour underline-offset-4 hover:text-ink"
-      >
-        View on the map
-      </a>
     </article>
   );
 }
