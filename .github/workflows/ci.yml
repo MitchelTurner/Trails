@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Tests validate the committed dataset, so they run before the build.
+      - run: npm test
+
+      - run: npm run build
+
+      # No drift check here: rebuilding the dataset needs ~17 MB of raw GIS layers that
+      # are deliberately gitignored and regenerable. The contract tests above are what
+      # guard the committed data. Re-run `npm run data` locally and commit the result
+      # whenever the pipeline scripts change.

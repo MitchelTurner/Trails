@@ -34,15 +34,23 @@ const proposedCount = segments.filter((segment) => segment.status === "proposed"
 <BaseLayout>
   <!-- Hero: the map is the page, with the pitch overlaid. -->
   <section class="relative isolate">
-    <div class="relative h-[calc(100svh-4rem)] min-h-[34rem]">
-      <img
-        src="/data/network-static.svg"
-        alt="Map of existing and proposed trail segments on Revillagigedo Island"
-        class="absolute inset-0 h-full w-full bg-sheet object-contain"
-      />
+    <div class="relative h-[calc(100svh-4rem)] min-h-[34rem] bg-sheet-raised">
       <div class="absolute inset-0">
         <TrailMap client:load corridors={corridors} />
       </div>
+      <noscript>
+        <img
+          src="/data/network-static.svg"
+          alt="Map of existing and proposed trail segments on Revillagigedo Island"
+          class="absolute inset-0 h-full w-full bg-sheet object-contain"
+        />
+        <p class="absolute bottom-4 left-4 z-30 border border-contour bg-sheet px-3 py-2 text-sm">
+          The interactive map needs JavaScript.
+          <a href="/network?view=list" class="underline decoration-flagging underline-offset-4"
+            >Open the list of every segment</a
+          >.
+        </p>
+      </noscript>
 
       <!-- Overlay must not swallow map interaction. -->
       <div
@@ -196,17 +204,34 @@ const proposedCount = segments.filter((segment) => segment.status === "proposed"
     <div class="shell grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
       <div class="reveal">
         <p class="eyebrow">Sign on</p>
-        <p class="headline mt-4 text-[length:var(--text-display-lg)] text-flagging">
-          {supporters.count.toLocaleString("en-US")}
-        </p>
-        <p class="headline mt-2 text-[length:var(--text-display-md)]">
-          people have signed on to connecting Revilla's trails.
-        </p>
-        <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
-          There is no donate button. The group is informal, so an email list with a visible number is
-          worth more than a payment processor — it is what we put in front of the Assembly and the
-          Forest Service.
-        </p>
+        {
+          supporters.count == null ? (
+            <>
+              <h2 class="headline mt-4 text-[length:var(--text-display-lg)]">
+                Put your name on connecting Revilla's trails.
+              </h2>
+              <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
+                There is no donate button. The group is informal, so an email list is worth more than
+                a payment processor — it is what we put in front of the Assembly and the Forest
+                Service. We will publish the count once there is a real one to publish.
+              </p>
+            </>
+          ) : (
+            <>
+              <p class="headline mt-4 text-[length:var(--text-display-lg)] text-flagging">
+                {supporters.count.toLocaleString("en-US")}
+              </p>
+              <h2 class="headline mt-2 text-[length:var(--text-display-md)]">
+                people have signed on to connecting Revilla's trails.
+              </h2>
+              <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
+                There is no donate button. The group is informal, so an email list with a visible
+                number is worth more than a payment processor — it is what we put in front of the
+                Assembly and the Forest Service.
+              </p>
+            </>
+          )
+        }
         <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-sheet/60">
           Not a donation · Not tax-deductible · {proposedCount} gaps still unbuilt
         </p>

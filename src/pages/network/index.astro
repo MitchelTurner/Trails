@@ -27,7 +27,7 @@ const corridor = Astro.url.searchParams.get("corridor");
   <PageHeader
     eyebrow="The network"
     title={`${segments.length} segments on Revilla`}
-    lede="Status is in the line, not just the color: solid ink is usable, faded ink needs work, muskeg dashes are under construction, pink dashes do not exist yet."
+    lede="Status is in the line, not just the color: solid ink is usable today, faded ink exists but needs work, and pink dashes do not exist yet."
   >
     <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4">
       <div>
@@ -46,7 +46,7 @@ const corridor = Astro.url.searchParams.get("corridor");
       </div>
     </dl>
     <p class="mt-8 font-mono text-[10px] uppercase tracking-[0.14em] text-sheet/60">
-      Tab cycles segments · Enter selects · Esc clears
+      Arrow keys cycle segments · Enter selects · Esc clears
     </p>
   </PageHeader>
 

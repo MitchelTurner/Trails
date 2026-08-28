@@ -1,4 +1,5 @@
 {
-  "count": 412,
-  "updatedAt": "2026-08-01"
+  "count": null,
+  "updatedAt": null,
+  "note": "Set count to the real number of people on the sign-on list, and updatedAt to the date you counted. Leave it null until there is a real number: the whole Phase 1 argument is that an honest count is worth more than a payment processor, and a made-up one is exactly what loses a Forest Service meeting. When null, the site asks people to sign on without claiming a total."
 }

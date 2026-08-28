@@ -26,6 +26,23 @@ import {
   type Segment as SegmentT,
 } from "../src/lib/schema.ts";
 import { CONCEPTUAL_SOURCE, REVILLA_BBOX, SNAP_METERS } from "../src/lib/constants.ts";
+import {
+  computeElevationGainFt,
+  loadElevationCache,
+  saveElevationCache,
+} from "./lib/elevation.ts";
+import {
+  ALL_STATUSES,
+  classifyParcelOwner,
+  computeCorridorTotals,
+  isRoadLike,
+  mapDifficulty,
+  mapSurface,
+  minSeparationMeters,
+  roundGeometry,
+  slugify,
+  titleCase,
+} from "./lib/transform.ts";
 
 const RAW = "data/raw";
 const PROPOSED_DIR = "data/proposed";
@@ -42,22 +59,7 @@ const bboxPoly = turf.bboxPolygon([
   REVILLA_BBOX.north,
 ]);
 
-function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/['']/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
-}
 
-function titleCase(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase())
-    .replace(/\bUsfs\b/g, "USFS")
-    .replace(/\bNfs\b/g, "NFS");
-}
 
 async function readJsonIfExists<T>(path: string): Promise<T | null> {
   if (!existsSync(path)) return null;
@@ -91,19 +93,6 @@ function clipLine(feature: Feature): LineFeat | null {
   }
 }
 
-function isRoadLike(name: string): boolean {
-  const n = name.toLowerCase();
-  return (
-    n.includes("road") ||
-    /\brd\b/.test(n) ||
-    n.includes("ltf") ||
-    /^\d/.test(n.trim()) ||
-    /\d{5,}/.test(n) ||
-    n.includes("system shoal") ||
-    n.includes("betton") ||
-    n.includes("entrance")
-  );
-}
 
 function prop(obj: GeoJsonProperties, ...keys: string[]): string {
   if (!obj) return "";
@@ -116,38 +105,8 @@ function prop(obj: GeoJsonProperties, ...keys: string[]): string {
   return "";
 }
 
-function mapSurface(raw: string): SegmentT["surface"] {
-  const n = raw.toLowerCase();
-  if (n.includes("board")) return "boardwalk";
-  if (n.includes("gravel") || n.includes("crushed") || n.includes("imported")) return "gravel";
-  if (n.includes("rock") || n.includes("bedrock")) return "rock";
-  if (n.includes("unbuilt") || n.includes("proposed")) return "unbuilt";
-  return "native";
-}
 
-function mapDifficulty(trailClass: string): SegmentT["difficulty"] {
-  if (trailClass === "1" || trailClass === "2") return "easy";
-  if (trailClass === "3") return "moderate";
-  if (trailClass === "4" || trailClass === "5") return "difficult";
-  return null;
-}
 
-function classifyParcelOwner(name: string): string | null {
-  const n = name.toUpperCase();
-  if (!n) return null;
-  if (/(FOREST SERVICE|USDA|UNITED STATES OF AMERICA|U\.S\.A\.|USA\b|USFS)/.test(n)) {
-    return "USDA Forest Service";
-  }
-  if (/(MENTAL HEALTH|AMHT|AHFC MENTAL)/.test(n)) return "Alaska Mental Health Trust";
-  if (/(STATE OF ALASKA|ALASKA DNR|AK DNR|STATE OF AK)/.test(n)) return "State of Alaska";
-  if (/(KETCHIKAN GATEWAY BOROUGH|\bKGB\b)/.test(n)) return "Ketchikan Gateway Borough";
-  if (/CITY OF KETCHIKAN/.test(n)) return "City of Ketchikan";
-  if (/CITY OF SAXMAN/.test(n)) return "City of Saxman";
-  if (/(CAPE FOX|KETCHIKAN INDIAN|KIC\b|NATIVE CORP|IRA COUNCIL)/.test(n)) {
-    return "Native corporation / tribal";
-  }
-  return "Private";
-}
 
 function ownershipFromUsfs(raw: FeatureCollection | null): PolyFeat[] {
   if (!raw) return [];
@@ -249,6 +208,12 @@ function endpoints(feature: LineFeat): [Position, Position] {
   return [coords[0], coords[coords.length - 1]];
 }
 
+
+
+
+
+
+
 function stableSegment(segment: SegmentT): SegmentT {
   return {
     id: segment.id,
@@ -324,9 +289,25 @@ function writeStaticSvg(
           : feature.geometry.coordinates;
       return lines
         .map((line) => {
-          const d = line.map((c, i) => {
+          // Drop vertices closer than a pixel; this is a thumbnail, not the dataset.
+          let lastX = Number.NaN;
+          let lastY = Number.NaN;
+          const simplified = line.filter((coord, index) => {
+            const [x, y] = project(coord);
+            if (index === 0 || index === line.length - 1) {
+              lastX = x;
+              lastY = y;
+              return true;
+            }
+            if (Math.abs(x - lastX) < 1.5 && Math.abs(y - lastY) < 1.5) return false;
+            lastX = x;
+            lastY = y;
+            return true;
+          });
+          if (simplified.length < 2) return "";
+          const d = simplified.map((c, i) => {
             const [x, y] = project(c);
-            return `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+            return `${i === 0 ? "M" : "L"}${x.toFixed(0)},${y.toFixed(0)}`;
           }).join(" ");
           return `<path d="${d}" fill="none" stroke="${color(feature.properties.status)}" stroke-width="2.4" stroke-dasharray="${dash(feature.properties.status)}" stroke-linecap="round" stroke-linejoin="round"/>`;
         })
@@ -384,12 +365,28 @@ function dissolveByName(features: LineFeat[]): LineFeat[] {
 }
 
 async function main() {
+  const allowPartial = process.argv.includes("--allow-partial");
+  if (!existsSync(`${RAW}/usfs-trails.geojson`) && !allowPartial) {
+    fail(
+      [
+        "data/raw/usfs-trails.geojson is missing, so this run would rebuild the network from",
+        "hand-drawn segments only and overwrite the committed public/data/network.geojson.",
+        "",
+        "  Run `npm run data` to fetch the public source layers first.",
+        "  Pass --allow-partial only if you really mean to publish a partial network.",
+      ].join("\n  "),
+    );
+  }
+
   const usfsRaw = asCollection(await readJsonIfExists(`${RAW}/usfs-trails.geojson`));
   const usfsOwn = asCollection(await readJsonIfExists(`${RAW}/usfs-ownership.geojson`));
   const dnrMht = asCollection(await readJsonIfExists(`${RAW}/dnr-mht.geojson`));
   const dnrMun = asCollection(await readJsonIfExists(`${RAW}/dnr-municipal.geojson`));
   const dnrState = asCollection(await readJsonIfExists(`${RAW}/dnr-state.geojson`));
   const parcels = asCollection(await readJsonIfExists(`${RAW}/kgb-parcels.geojson`));
+  const forestBoundary = asCollection(
+    await readJsonIfExists(`${RAW}/usfs-forest-boundary.geojson`),
+  );
   const overridesRaw = (await readJsonIfExists<Record<string, unknown>>("data/overrides.json")) ?? {};
   const corridorSource = CorridorSourceList.parse(
     (await readJsonIfExists("data/corridors.json")) ?? [],
@@ -411,6 +408,13 @@ async function main() {
     ...ownershipFromLayer(dnrState.features.length ? dnrState : null, "State of Alaska"),
     ...ownershipFromParcels(parcels.features.length ? parcels : null),
   ];
+
+  // Coarse fallback, applied only where nothing finer matched. "Inside the Tongass" is
+  // not the same claim as "the Forest Service owns this parcel", so it is labelled.
+  const forestFallback: PolyFeat[] = ownershipFromLayer(
+    forestBoundary.features.length ? forestBoundary : null,
+    "Tongass National Forest (boundary — parcel unconfirmed)",
+  );
 
   const usfsClipped: LineFeat[] = [];
   for (const feature of usfsRaw.features) {
@@ -474,7 +478,10 @@ async function main() {
       override.landManagers ??
       (Array.isArray(feature.properties?.landManagers)
         ? (feature.properties.landManagers as string[])
-        : sampleManagers(feature, ownership));
+        : (() => {
+            const matched = sampleManagers(feature, ownership);
+            return matched.length ? matched : sampleManagers(feature, forestFallback);
+          })());
 
     const surface =
       override.surface ??
@@ -560,22 +567,48 @@ async function main() {
     });
   }
 
-  // connectsTo by endpoint proximity
-  for (let i = 0; i < built.length; i += 1) {
-    const [a0, a1] = endpoints(built[i]);
-    const links = new Set<string>();
-    for (let j = 0; j < built.length; j += 1) {
-      if (i === j) continue;
-      const [b0, b1] = endpoints(built[j]);
-      const d = Math.min(
-        turf.distance(a0, b0, { units: "meters" }),
-        turf.distance(a0, b1, { units: "meters" }),
-        turf.distance(a1, b0, { units: "meters" }),
-        turf.distance(a1, b1, { units: "meters" }),
-      );
-      if (d <= SNAP_METERS) links.add(built[j].properties.id);
+  // Measured elevation gain from USGS 3DEP, unless an override already states one.
+  // --no-elevation stays offline but still reuses the cache, so an offline rebuild
+  // never silently drops values that were already measured.
+  const cacheOnly = process.argv.includes("--no-elevation");
+  await loadElevationCache();
+  let filled = 0;
+  for (const feature of built) {
+    if (feature.properties.elevationGainFt != null) continue;
+    const gain = await computeElevationGainFt(feature, { cacheOnly });
+    if (gain != null) {
+      feature.properties.elevationGainFt = gain;
+      filled += 1;
     }
-    built[i].properties.connectsTo = [...links].sort();
+  }
+  await saveElevationCache();
+  console.log(
+    `  elevation: filled ${filled} segment(s) from USGS 3DEP${cacheOnly ? " (cache only)" : ""}`,
+  );
+
+  // A junction is one trail's endpoint meeting anywhere along another trail, not just at
+  // its endpoints — trails routinely tee into the middle of another. Endpoint-to-endpoint
+  // matching found almost nothing.
+  const links = new Map<string, Set<string>>();
+  for (const feature of built) links.set(feature.properties.id, new Set<string>());
+
+  const joins: Array<{ a: string; b: string; meters: number }> = [];
+  for (let i = 0; i < built.length; i += 1) {
+    for (let j = i + 1; j < built.length; j += 1) {
+      const meters = minSeparationMeters(built[i], built[j]);
+      if (meters <= SNAP_METERS) {
+        links.get(built[i].properties.id)!.add(built[j].properties.id);
+        links.get(built[j].properties.id)!.add(built[i].properties.id);
+        joins.push({
+          a: built[i].properties.id,
+          b: built[j].properties.id,
+          meters: Math.round(meters),
+        });
+      }
+    }
+  }
+  for (const feature of built) {
+    feature.properties.connectsTo = [...links.get(feature.properties.id)!].sort();
   }
 
   built.sort((a, b) => a.properties.id.localeCompare(b.properties.id));
@@ -586,25 +619,17 @@ async function main() {
     if (missing.length) {
       fail(`corridor ${source.id} references unknown segment(s): ${missing.join(", ")}`);
     }
-    let totalMi = 0;
-    let existingMi = 0;
-    let gapMi = 0;
-    for (const id of source.segmentIds) {
+    const members = source.segmentIds.map((id) => {
       const segment = byId.get(id)!.properties;
-      totalMi += segment.lengthMi;
-      if (segment.status === "existing" || segment.status === "needs-work") existingMi += segment.lengthMi;
-      if (segment.status === "proposed") gapMi += segment.lengthMi;
       if (!segment.corridorId) segment.corridorId = source.id;
-    }
+      return segment;
+    });
     const corridor = {
       id: source.id,
       name: source.name,
       segmentIds: source.segmentIds,
       blurb: source.blurb,
-      totalMi: Number(totalMi.toFixed(3)),
-      existingMi: Number(existingMi.toFixed(3)),
-      gapMi: Number(gapMi.toFixed(3)),
-      percentComplete: totalMi === 0 ? 0 : Number(((existingMi / totalMi) * 100).toFixed(1)),
+      ...computeCorridorTotals(members),
     };
     const parsed = Corridor.safeParse(corridor);
     if (!parsed.success) {
@@ -618,7 +643,7 @@ async function main() {
     features: built.map((feature) => ({
       type: "Feature" as const,
       id: feature.properties.id,
-      geometry: feature.geometry,
+      geometry: roundGeometry(feature.geometry),
       properties: stableSegment(feature.properties),
     })),
   };
@@ -642,6 +667,53 @@ async function main() {
   console.log(
     `Wrote ${built.length} segments and ${corridors.length} corridors → ${OUT_DIR}/ (${ownership.length} ownership polygons used).`,
   );
+
+  // Editorial gaps are not build failures, but they should never be silent.
+  const report: string[] = [];
+  const statusCounts = new Map<SegmentT["status"], number>();
+  for (const feature of built) {
+    statusCounts.set(
+      feature.properties.status,
+      (statusCounts.get(feature.properties.status) ?? 0) + 1,
+    );
+  }
+  for (const status of ALL_STATUSES) {
+    if (!statusCounts.get(status)) report.push(`no segment uses status "${status}"`);
+  }
+
+  const unmapped = built.filter((f) =>
+    f.properties.landManagers.some((m) => m.startsWith("Unmapped")),
+  );
+  if (unmapped.length) {
+    report.push(
+      `${unmapped.length} segment(s) have no ownership match: ${unmapped.map((f) => f.properties.id).join(", ")}`,
+    );
+  }
+
+  const orphans = built.filter((f) => !f.properties.corridorId);
+  if (orphans.length) {
+    report.push(`${orphans.length} of ${built.length} segment(s) belong to no corridor`);
+  }
+
+  const isolated = built.filter((f) => f.properties.connectsTo.length === 0);
+  if (isolated.length) {
+    report.push(
+      `${isolated.length} segment(s) connect to nothing within ${SNAP_METERS} m: ${isolated
+        .map((f) => f.properties.id)
+        .join(", ")}`,
+    );
+  }
+
+  const noElevation = built.filter((f) => f.properties.elevationGainFt == null);
+  if (noElevation.length) {
+    report.push(`${noElevation.length} segment(s) still have no elevation gain`);
+  }
+
+  console.log(`  junctions found: ${joins.length}`);
+  if (report.length) {
+    console.log("\nReview:");
+    for (const line of report) console.log(`  · ${line}`);
+  }
 }
 
 main().catch((error) => {
