@@ -6,6 +6,9 @@ builder = "nixpacks"
 buildCommand = "npm run build"
 
 [deploy]
-startCommand = "npx serve dist --single --listen $PORT"
+# No --single: this is a prerendered multi-page site, not an SPA. --single rewrites
+# every path to index.html, which serves the homepage for /vision, /network/*, and
+# every other route, and turns real 404s into soft 200s.
+startCommand = "npx serve dist --listen $PORT"
 healthcheckPath = "/"
 restartPolicyType = "on_failure"
