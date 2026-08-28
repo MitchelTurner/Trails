@@ -1,8 +1,15 @@
 # Revilla Trails
 
-Working name for the Ketchikan Trail Association — a static, prerendered marketing and advocacy site whose homepage is an interactive map of every existing and proposed trail segment on Revillagigedo Island.
+Working name for the Ketchikan Trail Association — a static, prerendered site for connecting the
+trails on Revillagigedo Island. Every existing and proposed segment is mapped, status-coded, and
+carries the land managers who own the ground under it.
 
-Phase 1 has **no donate button**. The group is informal: no entity, no bank account, no 501(c)(3). What replaces it is a public supporter count.
+**First project: walking routes to the Patching Lake and Heckman Lake cabins.** Three Forest
+Service cabins sit up the Naha country and only one can be reached on foot. The route is being
+walked and flagged now; nothing gets cut before a finished survey and a NEPA environmental
+analysis with the Ketchikan–Misty Fjords Ranger District.
+
+Phase 1 has **no donate button**. The group is informal: no entity, no bank account, no 501(c)(3).
 
 ## Stack
 
@@ -17,6 +24,7 @@ npm install
 npm run data          # fetch public GIS layers, then build the network
 npm run data:build    # rebuild from data/raw + data/proposed
 npm run og            # regenerate Open Graph cards into public/og/
+npm run topo          # regenerate the hero contour background
 npm test              # schema, transform, and committed-dataset contract tests
 npm run dev
 npm run build
@@ -38,6 +46,8 @@ meeting.
 | `scripts/fetch-sources.ts` | Pull USFS NFS trails, USFS ownership + forest boundary, Alaska DNR ownership, KGB tax parcels |
 | `scripts/build-network.ts` | Clip, dissolve, intersect land managers, measure elevation, validate with zod |
 | `scripts/build-og.ts` | Render per-segment and per-corridor Open Graph cards |
+| `scripts/build-topo-bg.ts` | Generate the quad-sheet contour background for the hero |
+| `data/proposed/cabin-access.geojson` | The first project: Heckman shore link and Heckman→Patching |
 | `scripts/lib/transform.ts` | Pure transforms (unit tested) |
 | `scripts/lib/elevation.ts` | USGS 3DEP elevation sampling |
 | `data/proposed/` | Hand-drawn connectors and approximate municipal trails |

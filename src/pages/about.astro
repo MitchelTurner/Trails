@@ -5,24 +5,25 @@ import { site } from "../config/site";
 
 const audiences = [
   {
-    who: "Residents",
-    need: "Trails they already use, plus the gaps between them.",
-    act: "Sign on, show up to a work party.",
+    who: "People who already go out",
+    need: "Where the tread goes, where it stops, and what is actually walkable in October.",
+    act: "Sign on. Come out on a work party.",
   },
   {
-    who: "Land managers",
-    need: "A coherent, honest network plan that spans jurisdictions.",
+    who: "The outfits that own the ground",
+    need: "A route drawn honestly, with the ownership named and the process respected.",
     act: "Take a meeting.",
   },
   {
-    who: "Future funders",
-    need: "A credible, mapped project pipeline.",
+    who: "Whoever funds trail work",
+    need: "A project with a surveyed line, a study, and a materials list — not a feeling.",
     act: "Fund a segment.",
   },
 ];
 
 const partners = [
   "Tongass National Forest",
+  "Ketchikan–Misty Fjords Ranger District",
   "Alaska State Parks",
   "Alaska Mental Health Trust",
   "Ketchikan Gateway Borough",
@@ -34,12 +35,12 @@ const partners = [
 
 <BaseLayout
   title="About"
-  description="An informal association working to connect Revillagigedo Island's trails across jurisdictions."
+  description="An informal group working on walking routes across Revillagigedo Island, starting with the Naha cabins."
 >
   <PageHeader
     eyebrow="About"
     title={site.name}
-    lede={`Working name for the ${site.orgName} — an informal group of residents who want the island's trails to function as a network. There is no entity and no 501(c)(3). That is why this site does not ask for money.`}
+    lede={`Working name for the ${site.orgName} — a few residents who would rather walk to the cabins than wait on a floatplane. There is no entity and no 501(c)(3) behind it, which is exactly why this site does not ask you for money.`}
   />
 
   <section class="shell py-16 md:py-20">
@@ -62,13 +63,18 @@ const partners = [
   <section class="border-y border-contour/60 bg-sheet-raised py-16 md:py-20">
     <div class="shell grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
-        <p class="eyebrow">Partners we have to talk to</p>
+        <p class="eyebrow">Who owns the ground</p>
         <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-          Nobody on this list has endorsed the map
+          Nobody on this list has signed off on anything
         </h2>
         <p class="mt-5 leading-relaxed text-ink/85">
-          These are the entities that hold ground on Revilla. Listing them is a statement of who has
-          to be in the room, not a claim of support.
+          These are the outfits that hold ground on Revilla. Naming them says who has to be in
+          the room. It does not mean any of them have blessed a line on our map, and we are not
+          going to imply otherwise.
+        </p>
+        <p class="mt-4 leading-relaxed text-ink/85">
+          The first project sits on Tongass ground, so the Ketchikan–Misty Fjords Ranger District
+          is the door we knock on first.
         </p>
       </div>
       <ul class="flex flex-wrap content-start gap-2">
@@ -79,19 +85,20 @@ const partners = [
 
   <section class="shell grid gap-12 py-16 lg:grid-cols-2 lg:gap-16 md:py-20">
     <div>
-      <h2 class="headline text-[length:var(--text-display-md)]">Board</h2>
+      <h2 class="headline text-[length:var(--text-display-md)]">Who is doing this</h2>
       <p class="mt-5 leading-relaxed text-ink/85">
-        Names go here when the group is ready to put them on a public page. Until then, write us.
+        Names go here when the group decides to put them on a public page. Until then, write to
+        us — someone reads it.
       </p>
       <a href={`mailto:${site.email}`} class="btn btn-outline mt-8">{site.email}</a>
     </div>
     <div>
-      <h2 class="headline text-[length:var(--text-display-md)]">Legal posture</h2>
+      <h2 class="headline text-[length:var(--text-display-md)]">Where the paperwork stands</h2>
       <p class="mt-5 leading-relaxed text-ink/85">
-        This is not legal advice, and the group should get some before taking a dollar. The two
-        ordinary paths are incorporating as an Alaska nonprofit with DCCED and filing IRS Form
-        1023-EZ, or operating under a fiscal sponsor — Alaska Trails or a community foundation — and
-        taking donations through them in the meantime.
+        Nothing is incorporated. None of this is legal advice, and the group should get some
+        before it takes a dollar. The two normal roads are incorporating as an Alaska nonprofit
+        with DCCED and filing IRS Form 1023-EZ, or working under a fiscal sponsor — Alaska Trails
+        or a community foundation — in the meantime.
       </p>
     </div>
   </section>

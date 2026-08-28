@@ -1,11 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import TrailMap from "../components/TrailMap.tsx";
-import { GapLine, partsFromSegments } from "../components/GapLine.tsx";
 import { CorridorCard } from "../components/CorridorCard.tsx";
 import SignOnForm from "../components/SignOnForm.tsx";
 import StatBand from "../components/StatBand.astro";
-import Marquee from "../components/Marquee.astro";
 import FeatureBlock from "../components/FeatureBlock.astro";
 import { site } from "../config/site";
 import {
@@ -24,113 +21,103 @@ const supporters = loadSupporters();
 const managers = namedLandManagers(segments);
 const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
 
+const lead = corridors[0];
+const rest = corridors.slice(1);
+
 const posts = (await getCollection("news"))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
-
-const proposedCount = segments.filter((segment) => segment.status === "proposed").length;
 ---
 
 <BaseLayout>
-  <!-- Hero: the map is the page, with the pitch overlaid. -->
-  <section class="relative isolate">
-    <div class="relative h-[calc(100svh-4rem)] min-h-[34rem] bg-sheet-raised">
-      <div class="absolute inset-0">
-        <TrailMap client:load corridors={corridors} />
-      </div>
-      <noscript>
-        <img
-          src="/data/network-static.svg"
-          alt="Map of existing and proposed trail segments on Revillagigedo Island"
-          class="absolute inset-0 h-full w-full bg-sheet object-contain"
-        />
-        <p class="absolute bottom-4 left-4 z-30 border border-contour bg-sheet px-3 py-2 text-sm">
-          The interactive map needs JavaScript.
-          <a href="/network?view=list" class="underline decoration-flagging underline-offset-4"
-            >Open the list of every segment</a
-          >.
-        </p>
-      </noscript>
-
-      <!-- Overlay must not swallow map interaction. -->
-      <div
-        class="pointer-events-none absolute inset-x-0 bottom-0 top-[34%] z-20 flex items-end bg-gradient-to-t from-ink from-45% via-ink/90 via-75% to-transparent"
-      >
-        <div class="on-dark shell pb-8 pt-10 text-sheet">
-          <div class="max-w-3xl">
-            <p class="eyebrow">Revillagigedo Island · Southeast Alaska</p>
-            <h1 class="headline mt-3 text-[length:var(--text-display-xl)]">{site.tagline}</h1>
-            <p class="lede mt-5 max-w-xl text-sheet/85">
-              Revilla already has trails. They stop at jurisdiction lines. This is every mile that
-              exists, every gap that doesn't, and who owns the ground in between.
-            </p>
-          </div>
-          <div class="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
-            <a href="/network" class="btn btn-primary">Explore the network</a>
-            <a href="#sign-on" class="btn btn-outline">Sign on</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="border-b border-contour/60 bg-sheet-raised">
-      <div class="shell py-6">
-        <GapLine
-          client:load
-          parts={partsFromSegments(segments)}
-          builtMi={totals.existingMi}
-          gapMi={totals.gapMi}
-          animate
-        />
+  <!-- Hero: quad-sheet paper, a headline, and the pitch. No map. -->
+  <section
+    class="relative isolate border-b border-contour/60"
+    style="background-image:url('/topo-bg.svg');background-size:cover;background-position:center;"
+  >
+    <div class="shell py-24 md:py-36">
+      <p class="eyebrow">Revillagigedo Island · Southeast Alaska</p>
+      <h1 class="headline mt-5 max-w-4xl text-[length:var(--text-display-xl)]">
+        {site.tagline}
+      </h1>
+      <p class="lede mt-7 max-w-2xl text-ink/85">
+        Revilla has trails. What it does not have is a way to walk from one to the next. The
+        good ground runs out at a property line, a lake, or a stretch of alder nobody has cut,
+        and the rest of the island stays float-plane country. We are mapping the gaps and
+        closing them one at a time.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-3">
+        <a href="/vision" class="btn btn-primary">See the first project</a>
+        <a href="/network" class="btn btn-outline">Open the map</a>
       </div>
     </div>
   </section>
-
-  <Marquee
-    label="The ground crosses"
-    items={managers.length
-      ? managers
-      : ["USDA Forest Service", "State of Alaska", "Ketchikan Gateway Borough"]}
-  />
 
   <StatBand
     dark
     stats={[
-      { value: totals.existingMi.toFixed(0), label: "Miles usable today" },
-      { value: totals.gapMi.toFixed(0), label: "Miles of gap", accent: true },
-      { value: String(totals.count), label: "Mapped segments" },
-      { value: String(managers.length), label: "Land managers involved" },
+      { value: totals.existingMi.toFixed(0), label: "Miles you can walk today" },
+      { value: totals.gapMi.toFixed(0), label: "Miles still to cut", accent: true },
+      { value: String(totals.count), label: "Segments mapped" },
+      { value: String(managers.length), label: "Outfits that own the ground" },
     ]}
   />
 
-  <section class="shell py-16 md:py-24">
-    <div class="max-w-3xl reveal">
-      <p class="eyebrow">The thesis</p>
-      <h2 class="headline mt-4 text-[length:var(--text-display-lg)]">
-        A mission statement can't carry <span class="hydro">connect the island</span>. A map can.
-      </h2>
-      <p class="lede mt-6 text-ink/85">
-        This is connective public infrastructure, not a hiking club. Residents see the trails they
-        already use. Land managers see a plan that spans jurisdictions. Funders see a pipeline.
-        Same artifact, three audiences.
-      </p>
-    </div>
-  </section>
+  <!-- The first project leads the page. -->
+  {
+    lead ? (
+      <section class="shell py-16 md:py-24">
+        <div class="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          <div class="reveal">
+            <p class="eyebrow">First project</p>
+            <h2 class="headline mt-4 text-[length:var(--text-display-lg)]">{lead.name}</h2>
+            <p class="lede mt-6 text-ink/85">{lead.blurb}</p>
+            <p class="mt-6 leading-relaxed text-ink/85">
+              Right now that route only exists as flagging and a track on a handheld. Before
+              anything gets cut it needs a finished survey and an environmental study with the
+              Ketchikan–Misty Fjords Ranger District. After that it is brushing, puncheon
+              through the wet ground, and tent platforms where a person would want to stop.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href={`/network?corridor=${lead.id}`} class="btn btn-outline">
+                Walk it on the map
+              </a>
+              <a href="/get-involved" class="btn btn-outline">Help cut it</a>
+            </div>
+          </div>
+          <div class="reveal">
+            <CorridorCard client:visible corridor={lead} segments={segments} />
+          </div>
+        </div>
+      </section>
+    ) : null
+  }
 
   <FeatureBlock
-    eyebrow="Read the map"
-    title="Status is in the line, not just the color"
-    body="Solid ink is usable today. Faded ink exists but needs work. Muskeg dashes are under construction. Pink dashes do not exist yet. It survives colorblindness and a grayscale printout in a borough packet."
+    eyebrow="Reading the map"
+    title="A solid line means boots. A pink dash means bring a floatplane."
+    body="Status lives in how the line is drawn, not just its color, so it still reads in grayscale in a borough packet or a district office printout. Solid ink is walkable today. Faded ink is on the ground but brushed over. Pink dashes are not built, and every one of them says so on its own page."
     href="/network"
     cta="Open the explorer"
   >
     <ul class="card divide-y divide-contour/40">
       {
         [
-          { label: "Existing", note: "Usable today", dash: false, color: "var(--ink)", op: 1 },
-          { label: "Needs work", note: "Brushed over or degraded", dash: false, color: "var(--ink)", op: 0.55 },
-          { label: "Under construction", note: "Funded and being built", dash: true, color: "var(--muskeg)", op: 1 },
-          { label: "Proposed", note: "The gap — not surveyed", dash: true, color: "var(--flagging)", op: 1 },
+          { label: "Existing", note: "Walk it this weekend", dash: false, color: "var(--ink)", op: 1 },
+          {
+            label: "Needs work",
+            note: "There, but the alders won",
+            dash: false,
+            color: "var(--ink)",
+            op: 0.55,
+          },
+          {
+            label: "Proposed",
+            note: "Not cut, not surveyed",
+            dash: true,
+            color: "var(--flagging)",
+            op: 1,
+          },
         ].map((row) => (
           <li class="flex items-center gap-5 px-5 py-4">
             <svg width="72" height="6" viewBox="0 0 72 6" aria-hidden="true" class="shrink-0">
@@ -158,46 +145,50 @@ const proposedCount = segments.filter((segment) => segment.status === "proposed"
   <FeatureBlock
     flip
     eyebrow="The hard part"
-    title="Land ownership is the work"
-    body="One line on a topo sheet can cross Forest Service, State, Mental Health Trust, Borough, City, and Native corporation ground. That is not a footnote — it is why the network was never connected. Every segment page leads with its land managers."
+    title="A mile of trail can cross four landlords"
+    body="Out here the tape measure is the easy instrument. One line on a quad sheet can leave Forest Service ground, cross State selections, clip a Mental Health Trust parcel, and finish on Borough land. That is the reason the island was never stitched together, so every segment page leads with who you have to ask."
     href="/vision"
     cta="Read the plan"
   >
     <div class="card p-6">
-      <p class="eyebrow">Managers on the network</p>
+      <p class="eyebrow">Who owns the ground</p>
       <ul class="mt-4 flex flex-wrap gap-2">
         {managers.map((manager) => <li class="chip">{manager}</li>)}
       </ul>
       <p class="mt-6 text-sm leading-relaxed text-ink/75">
-        Intersected at build time from public layers. A planning picture, not a title search.
+        Pulled from public ownership layers when the map is built. Good enough to know whose
+        door to knock on. Not a title search.
       </p>
     </div>
   </FeatureBlock>
 
-  <!-- Corridors -->
-  <section class="border-t border-contour/60 bg-sheet-raised py-16 md:py-24">
-    <div class="shell">
-      <div class="reveal max-w-2xl">
-        <p class="eyebrow">Priority corridors</p>
-        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-          {corridors.length} routes the group can actually stand behind
-        </h2>
-        <p class="lede mt-5 text-ink/85">
-          A corridor is a named end-to-end connection made of ordered segments. A short list beats
-          an exhaustive one nobody agreed to.
-        </p>
-      </div>
-      <div class="mt-12 grid gap-6 md:grid-cols-2">
-        {
-          corridors.map((corridor) => (
-            <div class="reveal h-full">
-              <CorridorCard client:visible corridor={corridor} segments={segments} />
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <!-- Remaining corridors -->
+  {
+    rest.length ? (
+      <section class="border-t border-contour/60 bg-sheet-raised py-16 md:py-24">
+        <div class="shell">
+          <div class="reveal max-w-2xl">
+            <p class="eyebrow">After that</p>
+            <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+              The rest of the list, in order
+            </h2>
+            <p class="lede mt-5 text-ink/85">
+              A corridor is a named route made of segments you can point at. Short list on
+              purpose — a plan the board will actually stand behind beats a wish list nobody
+              signed.
+            </p>
+          </div>
+          <div class="mt-12 grid gap-6 md:grid-cols-3">
+            {rest.map((corridor) => (
+              <div class="reveal h-full">
+                <CorridorCard client:visible corridor={corridor} segments={segments} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ) : null
+  }
 
   <!-- Sign on -->
   <section id="sign-on" class="on-dark scroll-mt-20 bg-ink py-16 text-sheet md:py-24">
@@ -208,12 +199,13 @@ const proposedCount = segments.filter((segment) => segment.status === "proposed"
           supporters.count == null ? (
             <>
               <h2 class="headline mt-4 text-[length:var(--text-display-lg)]">
-                Put your name on connecting Revilla's trails.
+                Put your name behind it.
               </h2>
               <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
-                There is no donate button. The group is informal, so an email list is worth more than
-                a payment processor — it is what we put in front of the Assembly and the Forest
-                Service. We will publish the count once there is a real one to publish.
+                We are not asking for money. There is no entity to hold it and nothing here is
+                tax-deductible. What moves a ranger district and an assembly is a list of
+                residents who want the route, so that is what we are building. We will publish
+                the count when there is a real one to publish.
               </p>
             </>
           ) : (
@@ -222,18 +214,18 @@ const proposedCount = segments.filter((segment) => segment.status === "proposed"
                 {supporters.count.toLocaleString("en-US")}
               </p>
               <h2 class="headline mt-2 text-[length:var(--text-display-md)]">
-                people have signed on to connecting Revilla's trails.
+                people have put their name behind connecting the island.
               </h2>
               <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
-                There is no donate button. The group is informal, so an email list with a visible
-                number is worth more than a payment processor — it is what we put in front of the
-                Assembly and the Forest Service.
+                We are not asking for money. There is no entity to hold it and nothing here is
+                tax-deductible. A list of residents is what moves a ranger district and an
+                assembly.
               </p>
             </>
           )
         }
         <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-sheet/60">
-          Not a donation · Not tax-deductible · {proposedCount} gaps still unbuilt
+          Not a donation · Not tax-deductible · {totals.gapMi.toFixed(0)} miles still uncut
         </p>
       </div>
       <div class="reveal">
@@ -246,15 +238,10 @@ const proposedCount = segments.filter((segment) => segment.status === "proposed"
   <section class="shell py-16 md:py-24">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div class="reveal">
-        <p class="eyebrow">The latest</p>
-        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Notes from the work</h2>
+        <p class="eyebrow">From the field</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Notes off the trail</h2>
       </div>
-      <a
-        href="/news"
-        class="btn btn-outline !min-h-11 !px-5 !text-sm"
-      >
-        All posts
-      </a>
+      <a href="/news" class="btn btn-outline !min-h-11 !px-5 !text-sm">All posts</a>
     </div>
     <div class="mt-10 grid gap-6 md:grid-cols-3">
       {

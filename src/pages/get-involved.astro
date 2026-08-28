@@ -12,21 +12,33 @@ const upcoming = parties.filter((item) => item.data.status === "upcoming");
 const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
 
 const skills = [
-  { title: "Certified sawyers", note: "Current certs, and the judgment to know when not to cut." },
-  { title: "Letter writers", note: "People who can put a land-manager request in plain language." },
-  { title: "Data keepers", note: "Someone to keep the supporter ZIP counts honest." },
-  { title: "Saturday crews", note: "Anyone willing to spend a day on tread that already exists." },
+  {
+    title: "Certified sawyers",
+    note: "Current card, and the judgment to know when a leaner is somebody else's problem.",
+  },
+  {
+    title: "People who can walk a line",
+    note: "GPS, flagging, notes that somebody else can follow. Wet boots guaranteed.",
+  },
+  {
+    title: "Somebody who writes well",
+    note: "Comment letters and a clean request to a ranger district beat good intentions.",
+  },
+  {
+    title: "Anyone with a Saturday",
+    note: "Most of the work is brushing tread that already exists. No experience needed.",
+  },
 ];
 ---
 
 <BaseLayout
   title="Get involved"
-  description="Work parties, volunteer signup, and the skills this network actually needs."
+  description="Work parties, the crew list, and the skills this actually needs."
 >
   <PageHeader
     eyebrow="Get involved"
-    title="Show up to the work"
-    lede="Signing on puts your name on the public count. A work party puts your hands on an existing mile. Both matter. Neither is a donation."
+    title="Bring a saw or bring a notebook"
+    lede="Signing on puts your name on the list we take to the ranger district. A work party puts your hands on tread. Neither one costs you a dollar, because we are not set up to take one."
   />
 
   <section class="shell py-16 md:py-20">
@@ -40,9 +52,9 @@ const skills = [
     {
       upcoming.length === 0 ? (
         <div class="card mt-8 p-8">
-          <p class="font-display text-xl font-bold tracking-tight">Nothing scheduled yet.</p>
+          <p class="font-display text-xl font-bold tracking-tight">Nothing on the books.</p>
           <p class="mt-2 text-sm leading-relaxed text-ink/80">
-            Email <a class="underline decoration-flagging underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a> to be on the next crew list.
+            Email <a class="underline decoration-flagging underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a> and we will put you on the list for the next one.
           </p>
         </div>
       ) : (
@@ -66,21 +78,17 @@ const skills = [
 
               <dl class="mt-6 grid gap-4 border-t border-contour/50 pt-5 text-sm sm:grid-cols-2">
                 <div>
-                  <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
-                    Location
-                  </dt>
+                  <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">Where</dt>
                   <dd class="mt-1">{party.data.location}</dd>
                 </div>
                 <div>
                   <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
-                    Meeting point
+                    Meet at
                   </dt>
                   <dd class="mt-1">{party.data.meetingPoint}</dd>
                 </div>
                 <div class="sm:col-span-2">
-                  <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
-                    What to bring
-                  </dt>
+                  <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">Bring</dt>
                   <dd class="mt-1">{party.data.whatToBring}</dd>
                 </div>
               </dl>
@@ -103,8 +111,12 @@ const skills = [
       <div class="max-w-2xl reveal">
         <p class="eyebrow">Skills</p>
         <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-          The useful list is not "likes hiking"
+          "Likes hiking" is not a skill
         </h2>
+        <p class="lede mt-5 text-ink/85">
+          Everybody out here likes hiking. Here is what actually moves a trail from a line on a
+          map to something you can walk.
+        </p>
       </div>
       <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {
@@ -122,11 +134,11 @@ const skills = [
   <section class="shell py-16 md:py-20">
     <div class="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <div>
-        <p class="eyebrow">Volunteer</p>
-        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Get on the crew list</h2>
+        <p class="eyebrow">Crew list</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Get on the list</h2>
         <p class="mt-5 leading-relaxed text-ink/85">
-          We use this to fill the next work party, not for a mailing blast. Tell us what you can
-          actually do on a wet Saturday.
+          This fills the next work party. It is not a mailing blast. Tell us what you can
+          actually do on a wet Saturday in October, and whether you have a saw card.
         </p>
       </div>
       <div class="card p-6 md:p-8">

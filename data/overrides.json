@@ -1,4 +1,18 @@
 {
+  "naha-river-national-recreation": {
+    "id": "naha-river",
+    "name": "Naha River",
+    "status": "existing",
+    "corridorId": "patching-heckman-cabins",
+    "difficulty": "moderate",
+    "surface": "native",
+    "seasonality": "Walkable year-round; boardwalk slick in freeze-thaw",
+    "summary": "Six miles up the Naha from tidewater to the Heckman Lake cabin, past Roosevelt Lagoon, Jordan Lake, and the falls. Steelhead and salmon in the river, bears on it in season. You still need a boat to reach the trailhead at Naha Bay.",
+    "whatItNeeds": null
+  },
+  "naha-shelter-loop": { "include": false },
+  "naha-tram-loop": { "include": false },
+
   "deer-mountain-national-recreat": {
     "id": "deer-mountain",
     "name": "Deer Mountain",
@@ -6,14 +20,14 @@
     "corridorId": "deer-mountain-to-silvis",
     "difficulty": "difficult",
     "surface": "native",
-    "elevationGainFt": 3000,
-    "seasonality": "Snow-free late June–September on the upper mountain",
-    "summary": "The island's signature climb from downtown to the Deer Mountain ridge. Usable today; the gap is what happens after the summit."
+    "seasonality": "Snow lingers on the upper mountain into late June",
+    "summary": "Straight up out of town to the ridge. Three thousand feet of gain and the whole channel underneath you when it is clear. Usable today — the question is what happens past the summit."
   },
   "deer-mt-john-mountain-spur": { "include": false },
   "deer-mt-mahoney-mt-spur": { "include": false },
   "deer-mt-summit-spur": { "include": false },
   "deer-mt-shelter-spur": { "include": false },
+
   "carlanna-lake-spur-1": { "include": false },
   "carlanna-lake-spur-2": { "include": false },
   "carlanna-lake-spur-3": { "include": false },
@@ -27,8 +41,9 @@
     "difficulty": "moderate",
     "surface": "native",
     "landManagers": ["City of Ketchikan", "Ketchikan Gateway Borough"],
-    "summary": "Existing trail from the Carlanna neighborhood to Carlanna Lake. A built mile on the downtown-to-Ward spine."
+    "summary": "Out the back of the Carlanna neighborhood to the lake and the dam. Short, steep in spots, and busy on a dry evening."
   },
+
   "connell-lake": {
     "id": "connell-lake",
     "name": "Connell Lake",
@@ -36,19 +51,21 @@
     "corridorId": "ward-to-lunch-creek",
     "difficulty": "moderate",
     "surface": "native",
-    "summary": "Existing USFS trail at Connell Lake. The gap is getting here from Ward without walking the road."
+    "summary": "Forest Service trail along the reservoir. Good ground, and it ends where it starts — getting here from Ward still means walking the road."
   },
   "connell-lake-talbot-spur": { "include": false },
+
   "dude-mountain-trail": {
     "id": "dude-mountain",
     "name": "Dude Mountain",
     "status": "existing",
-    "corridorId": "north-tongass-coastal",
     "difficulty": "moderate",
     "surface": "native",
     "elevationGainFt": 1800,
-    "summary": "Existing climb above the north highway. A built destination waiting on a coastal connection that does not require a car."
+    "seasonality": "Alpine; cornices hold late",
+    "summary": "A short hard pull to open alpine above the north end. One of the few places you can be in goat country an hour after leaving the truck."
   },
+
   "lunch-creek": {
     "id": "lunch-creek",
     "name": "Lunch Creek",
@@ -56,8 +73,9 @@
     "corridorId": "ward-to-lunch-creek",
     "difficulty": "moderate",
     "surface": "native",
-    "summary": "Existing USFS trail at Lunch Creek. The northern anchor of the Ward-to-interior corridor."
+    "summary": "Forest Service tread up Lunch Creek. The north anchor of the interior route, and a walk-in for now."
   },
+
   "perseverance-trail": {
     "id": "perseverance-trail",
     "name": "Perseverance Trail",
@@ -65,9 +83,10 @@
     "corridorId": "downtown-to-ward-lake",
     "difficulty": "moderate",
     "surface": "native",
-    "whatItNeeds": "Brushing, tread repair, and a current condition walk with the Forest Service.",
-    "summary": "A historic connection north of town. It exists, but sections are brushed over and the tread is uneven — a built mile that does not yet carry the network."
+    "whatItNeeds": "Brushing, tread repair where the boardwalk has gone soft, and a condition walk with the district before anyone calls it a through-route.",
+    "summary": "An old connection north of town. It is still there, but the alders have taken the corridor back and the boardwalk is soft in places. Built ground that does not yet carry a network."
   },
+
   "pipeline-trail": {
     "id": "pipeline-trail",
     "name": "Pipeline Trail",
@@ -75,17 +94,19 @@
     "corridorId": "downtown-to-ward-lake",
     "difficulty": "moderate",
     "surface": "native",
-    "summary": "Existing trail in the Ward drainage. One of the pieces already on the ground between town and the lake."
+    "summary": "Runs the Ward drainage on old pipeline ground. Wet, easy grade, and already part of how people get from town toward the lake."
   },
+
   "salvage-trail": {
     "id": "salvage-trail",
     "name": "Salvage Trail",
     "status": "needs-work",
     "difficulty": "moderate",
     "surface": "native",
-    "whatItNeeds": "Corridor clearing and a decision on whether this remains a local trail or a network link.",
-    "summary": "Exists but is degraded. Not yet assigned to a priority corridor."
+    "whatItNeeds": "Corridor clearing, and a decision on whether this stays a neighborhood trail or becomes a link.",
+    "summary": "On the ground and brushed over. Not assigned to a priority corridor yet."
   },
+
   "silvis-lake": {
     "id": "silvis-lake",
     "name": "Silvis Lake",
@@ -93,8 +114,9 @@
     "corridorId": "deer-mountain-to-silvis",
     "difficulty": "moderate",
     "surface": "native",
-    "summary": "Existing trail to Silvis Lake on the south island. The missing piece is a ridge connection from Deer Mountain."
+    "summary": "Road-end walk to the lakes above Silvis. The missing piece is the ridge coming down off Deer Mountain."
   },
+
   "ward-creek": {
     "id": "ward-creek",
     "name": "Ward Creek",
@@ -102,7 +124,7 @@
     "corridorId": "ward-to-lunch-creek",
     "difficulty": "easy",
     "surface": "gravel",
-    "summary": "Existing trail along Ward Creek. The built start of the northbound interior corridor."
+    "summary": "Flat gravel along the creek, good for anybody, and the built start of the run north."
   },
   "ward-creek-amana-gulch-spur": { "include": false },
   "ward-creek-fish-deck": { "include": false },
@@ -118,70 +140,58 @@
     "corridorId": "downtown-to-ward-lake",
     "difficulty": "easy",
     "surface": "gravel",
-    "summary": "The accessible loop at Ward Lake. The destination at the north end of the downtown spine."
+    "summary": "The loop around the lake. Level, wide, and the one trail out here that a stroller or a bad knee can handle."
   },
-  "naha-river-national-recreation": {
-    "id": "naha-river",
-    "name": "Naha River",
-    "status": "existing",
-    "difficulty": "moderate",
-    "surface": "native",
-    "summary": "Existing National Recreation Trail at the north end of the island. Not on a Phase 1 priority corridor; it shows how far the built network already reaches."
-  },
-  "naha-shelter-loop": { "include": false },
-  "naha-tram-loop": { "include": false },
+
   "white-river-nordic-trail-spur": { "include": false },
   "orchard-lake-spur": { "include": false },
+
   "minerva-mountain": {
     "name": "Minerva Mountain",
     "status": "existing",
     "difficulty": "difficult",
     "surface": "native",
-    "summary": "Existing high-country trail. A built mile that is not yet tied to a named corridor."
+    "summary": "High ground back of the Ward country. Real elevation, no handrails, and no corridor assignment yet."
   },
   "frog-pond-trail": {
     "name": "Frog Pond",
     "status": "existing",
     "difficulty": "easy",
     "surface": "native",
-    "summary": "Short existing USFS trail. Kept on the map because residents already use it."
+    "summary": "Short Forest Service walk. On the map because people use it."
   },
   "gokachin-trail": {
     "name": "Gokachin",
     "status": "existing",
-    "summary": "Existing USFS trail on the island network inventory."
+    "summary": "Forest Service tread in the Gokachin lakes country. Remote — you are not walking in from a road."
   },
   "white-river-nordic-trail": {
     "name": "White River Nordic",
     "status": "existing",
     "difficulty": "easy",
     "surface": "native",
-    "seasonality": "Winter ski; snow-free walking May–October",
-    "summary": "Existing nordic trail near the Harriet Hunt / White River area."
+    "seasonality": "Ski when there is snow; walk it May–October",
+    "summary": "Gentle ground near Harriet Hunt. Groomed by volunteers in a good winter."
   },
   "orchard-lake-trail": {
     "name": "Orchard Lake",
     "status": "existing",
-    "summary": "Existing USFS trail at Orchard Lake."
+    "summary": "Forest Service trail at Orchard Lake, in the same north country as the cabin routes."
   },
   "ella-lake": {
     "name": "Ella Lake",
     "status": "existing",
-    "summary": "Existing USFS trail at Ella Lake."
+    "summary": "Trail into Ella Lake off the saltwater. Boat access, no road, no crowd."
   },
   "manzanita-lake": {
     "name": "Manzanita Lake",
     "status": "existing",
-    "summary": "Existing USFS trail at Manzanita Lake."
+    "summary": "Walk-in from the beach to Manzanita Lake. Another one that only exists if you have a hull."
   },
-  "margaret-trail": {
-    "name": "Margaret Trail",
-    "status": "existing",
-    "summary": "Existing USFS trail in the Margaret drainage."
-  },
+  "margaret-trail": { "include": false },
   "low-lake-big-lake": {
     "name": "Low Lake / Big Lake",
     "status": "existing",
-    "summary": "Existing USFS trail between Low Lake and Big Lake."
+    "summary": "Links Low Lake and Big Lake in the interior lake chain."
   }
 }

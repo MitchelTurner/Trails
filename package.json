@@ -14,6 +14,7 @@
     "data": "tsx scripts/fetch-sources.ts && tsx scripts/build-network.ts",
     "data:build": "tsx scripts/build-network.ts",
     "og": "tsx scripts/build-og.ts",
+    "topo": "tsx scripts/build-topo-bg.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "astro check"

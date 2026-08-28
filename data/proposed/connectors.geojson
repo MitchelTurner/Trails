@@ -70,32 +70,6 @@
           [-131.5784, 55.3292]
         ]
       }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "north-tongass-coastal",
-        "name": "North Tongass coastal connector",
-        "status": "proposed",
-        "corridorId": "north-tongass-coastal",
-        "sourceRef": "hand-drawn-concept",
-        "surface": "unbuilt",
-        "summary": "Conceptual alignment only — not surveyed. A coastal walking connection along North Tongass so the highway is not the only public route between the north-end communities and the interior trails.",
-        "whatItNeeds": "Right-of-way conversations with the Borough, State, and shoreline landowners, then a surveyed line. This is not a road project."
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-131.7488, 55.4086],
-          [-131.7364, 55.4248],
-          [-131.7182, 55.4486],
-          [-131.6924, 55.4782],
-          [-131.6628, 55.5124],
-          [-131.6284, 55.5486],
-          [-131.5862, 55.5724],
-          [-131.5428, 55.5926]
-        ]
-      }
     }
   ]
 }

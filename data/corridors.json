@@ -1,5 +1,15 @@
 [
   {
+    "id": "patching-heckman-cabins",
+    "name": "Naha to the Patching and Heckman cabins",
+    "segmentIds": [
+      "naha-river",
+      "heckman-shore-link",
+      "heckman-to-patching"
+    ],
+    "blurb": "The first project. Three Forest Service cabins sit up the Naha country and only one of them can be reached on foot. The Naha River trail already carries you six miles to the Heckman Lake cabin; from there the Southeast Heckman cabin and the Patching Lake cabin are float-plane country, which means weather picks who gets in and who gets stuck. A trail along the south shore and over the low divide puts all three on boot leather, gives a way out that does not depend on a ceiling, and opens goat country above Patching that nobody walks into now."
+  },
+  {
     "id": "downtown-to-ward-lake",
     "name": "Downtown to Ward Lake",
     "segmentIds": [
@@ -11,7 +21,7 @@
       "pipeline-trail",
       "ward-lake-nature-trail"
     ],
-    "blurb": "The first fundable spine: from the downtown hillside to the Ward Lake recreation area, stitching trails residents already use across City, Borough, and Forest Service land."
+    "blurb": "The in-town spine. Walk out of the neighborhood, up the hillside, and keep going to Ward Lake without putting a foot on the highway shoulder. Most of it exists. The pieces that do not are short, and they cross City, Borough, and Forest Service ground in the space of a few miles."
   },
   {
     "id": "ward-to-lunch-creek",
@@ -23,7 +33,7 @@
       "connell-to-lunch-creek",
       "lunch-creek"
     ],
-    "blurb": "North from Ward through Connell Lake toward Lunch Creek — the interior connection that turns scattered USFS trails into a through-route instead of a set of dead ends."
+    "blurb": "North through the interior. Ward Creek, Connell Lake, and Lunch Creek are all walkable today and all dead-end. Link them and the middle of the island becomes a through-route instead of three separate afternoons."
   },
   {
     "id": "deer-mountain-to-silvis",
@@ -33,16 +43,6 @@
       "deer-to-silvis",
       "silvis-lake"
     ],
-    "blurb": "The south-island ridge: a surveyed-later connection from the Deer Mountain National Recreation Trail to Silvis Lake, so the high country is a network instead of a single out-and-back."
-  },
-  {
-    "id": "north-tongass-coastal",
-    "name": "North Tongass coastal",
-    "segmentIds": [
-      "refuge-cove-coastal",
-      "north-tongass-coastal",
-      "dude-mountain"
-    ],
-    "blurb": "A coastal walking connection along North Tongass — Refuge Cove toward Settler's Cove — so the highway is not the only way to move between the north-end communities and the interior trails."
+    "blurb": "The high line above town. Deer Mountain is the climb everyone knows; Silvis Lake is the trail on the other side. The ridge between them is alpine, exposed, and late to melt out — a summer route only, and one that needs a surveyed alignment before anyone hangs tape."
   }
 ]

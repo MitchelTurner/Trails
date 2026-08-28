@@ -4,7 +4,7 @@ export const site = {
   orgName: "Ketchikan Trail Association",
   tagline: "Connect the island.",
   description:
-    "A status-coded map of every existing and proposed trail segment on Revillagigedo Island — the public case for connecting the network across jurisdictions.",
+    "Every trail on Revillagigedo Island, every gap between them, and who owns the ground. First project: walking routes to the Patching Lake and Heckman Lake cabins.",
   url: "https://revillatrails.org",
   email: "hello@revillatrails.org",
   locale: "en-US",
