@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TrailMap from "../../components/TrailMap.tsx";
 import { StatusChip } from "../../components/StatusChip.tsx";
+import { getCollection, render } from "astro:content";
 import { loadNetwork, loadCorridors, getCorridorById, getSegmentById } from "../../lib/network";
 import { formatElevation, formatMiles, formatSurface, isConceptual } from "../../lib/format";
 
@@ -33,6 +34,9 @@ const facts = [
 const neighbors = segment.connectsTo
   .map((id) => getSegmentById(id)?.properties)
   .filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+const guideEntry = (await getCollection("trailGuides")).find((entry) => entry.id === segment.id);
+const Guide = guideEntry ? (await render(guideEntry)).Content : null;
 ---
 
 <BaseLayout
@@ -176,5 +180,50 @@ const neighbors = segment.connectsTo
         </p>
       </aside>
     </div>
+    {
+      Guide ? (
+        <section class="shell pb-16">
+          <div class="prose-revilla max-w-2xl border-t border-contour/70 pt-10 leading-relaxed">
+            <Guide />
+            {segment.id === "naha-river" ? (
+              <p class="mt-8 font-mono text-[10px] uppercase tracking-[0.12em] text-tide">
+                Part of the proposed{" "}
+                <a
+                  href="/projects/naha-connector"
+                  class="underline decoration-flagging underline-offset-4 hover:text-ink"
+                >
+                  Shelter Cove → Loring connector
+                </a>{" "}
+                ·{" "}
+                <a href="/naha" class="underline decoration-contour underline-offset-4 hover:text-ink">
+                  history of the Naha
+                </a>
+              </p>
+            ) : null}
+          </div>
+        </section>
+      ) : null
+    }
   </article>
 </BaseLayout>
+
+<style>
+  .prose-revilla :global(h2) {
+    font-family: var(--font-display, inherit);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+  }
+  .prose-revilla :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-revilla :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .prose-revilla :global(em) {
+    font-family: var(--font-hydro);
+    font-style: italic;
+  }
+</style>

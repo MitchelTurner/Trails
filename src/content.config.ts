@@ -23,4 +23,14 @@ const workParties = defineCollection({
   }),
 });
 
-export const collections = { news, workParties };
+// Long-form trail documentation rendered on the matching /network/<id> page.
+// The entry `id` (filename without extension) must equal a segment id in the network.
+const trailGuides = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/trail-guides" }),
+  schema: z.object({
+    title: z.string(),
+    updated: z.coerce.date().optional(),
+  }),
+});
+
+export const collections = { news, workParties, trailGuides };
