@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Pending from "../components/Pending.astro";
+---
+
+<BaseLayout
+  title="The Naha"
+  description="A short history and orientation for the Naha — the chain of lakes running west from Heckman to saltwater at Loring, and the valley the proposed Shelter Cove connector would reach."
+  canonical="/naha"
+>
+  <article class="mx-auto max-w-2xl px-4 py-12">
+    <p class="font-mono text-[11px] uppercase tracking-wider text-tide">Background</p>
+    <h1 class="font-display mt-2 text-4xl font-semibold tracking-tight">The Naha</h1>
+    <p class="mt-5 text-lg leading-relaxed text-ink/90">
+      A short history and orientation for the valley at the north end of the island — the
+      country the proposed
+      <a href="/projects/naha-connector" class="underline decoration-flagging underline-offset-4 hover:text-tide">
+        Shelter Cove connector</a> would reach.
+    </p>
+
+    <div class="prose-revilla mt-10 space-y-6 leading-relaxed">
+      <section>
+        <h2 class="font-display text-2xl font-semibold">Land of the distant lakes</h2>
+        <p class="mt-3">
+          Naha is a Tlingit name, and the river runs west through a chain of lakes for
+          seventeen miles to saltwater. The mouth was an ancient Tlingit village where, by
+          oral tradition, the Eagle clan lived on one bank and the Wolf clan on the other.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl font-semibold">The cannery years</h2>
+        <p class="mt-3">
+          A saltery went in at Naha Bay in 1883, a cannery in 1888. By 1897 Loring packed more
+          salmon than any cannery in Alaska, and it held the only post office in southern
+          Southeast before Ketchikan grew. In 1901 the operation built the Fortmann Hatchery on
+          Heckman Lake and connected it to tidewater with a tramway along the river. The runs
+          declined after 1913 and the cannery came apart around 1930.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl font-semibold">What's left</h2>
+        <p class="mt-3">
+          A few families at Loring. Four Forest Service cabins. A
+          <a href="/network/naha-river" class="underline decoration-contour underline-offset-4 hover:text-tide">National Recreation Trail</a>.
+          Steelhead. And a valley that has been industrially connected to the coast before, and
+          isn't now.
+        </p>
+      </section>
+    </div>
+
+    <p class="mt-10 border border-contour/70 bg-sheet px-4 py-3 text-sm leading-relaxed text-tide">
+      <Pending>[To add]</Pending> what the association's involvement here has been, and any oral
+      history or photographs gathered locally. A page like this is also where a Loring resident
+      or a Tlingit tribal voice belongs, if they're willing.
+    </p>
+
+    <p class="mt-8 font-mono text-[11px] uppercase tracking-wider text-tide">
+      Read next ·{" "}
+      <a href="/projects/naha-connector" class="underline decoration-contour underline-offset-4 hover:text-ink">Shelter Cove to Loring</a>{" "}
+      ·{" "}
+      <a href="/network/naha-river" class="underline decoration-contour underline-offset-4 hover:text-ink">Naha River trail page</a>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .prose-revilla :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .prose-revilla :global(em) {
+    font-family: var(--font-hydro);
+    font-style: italic;
+  }
+</style>
