@@ -46,10 +46,10 @@ const STATUS_PAINT: Record<
   Segment["status"],
   { color: string; dash?: number[]; opacity: number }
 > = {
-  existing: { color: "#17211F", opacity: 1 },
-  "needs-work": { color: "#17211F", opacity: 0.55 },
-  "under-construction": { color: "#B4863C", dash: [2, 2], opacity: 1 },
-  proposed: { color: "#E8467C", dash: [2, 2], opacity: 1 },
+  existing: { color: "#24344F", opacity: 1 },
+  "needs-work": { color: "#24344F", opacity: 0.55 },
+  "under-construction": { color: "#A86A32", dash: [2, 2], opacity: 1 },
+  proposed: { color: "#D47C1F", dash: [2, 2], opacity: 1 },
 };
 
 function boundsFor(feature: TrailFeature): maplibregl.LngLatBounds {
@@ -217,8 +217,8 @@ export function useTrailMap({
             source: HIGHLIGHT_SOURCE,
             layout: { "line-cap": "round", "line-join": "round" },
             paint: {
-              // Tide, not flagging: pink is reserved for "does not exist yet".
-              "line-color": "#24404A",
+              // Highlight stays in tide. Orange marks a line that is still a proposal.
+              "line-color": "#3A5274",
               "line-width": ["interpolate", ["linear"], ["zoom"], 8, 8, 12, 13, 15, 18],
               "line-opacity": 0.38,
             },
@@ -236,7 +236,7 @@ export function useTrailMap({
               "text-max-angle": 40,
             },
             paint: {
-              "text-color": "#17211F",
+              "text-color": "#24344F",
               "text-halo-color": "#E7E4D9",
               "text-halo-width": 1.4,
             },

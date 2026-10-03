@@ -17,11 +17,11 @@ const OUT_DIR = "public/og";
 const W = 1200;
 const H = 630;
 
-const INK = "#17211F";
+const INK = "#24344F";
 const SHEET = "#E7E4D9";
-const TIDE = "#24404A";
-const FLAGGING = "#E8467C";
-const MUSKEG = "#B4863C";
+const TIDE = "#3A5274";
+const FLAGGING = "#D47C1F";
+const MUSKEG = "#A86A32";
 
 const read = (relative: string) =>
   JSON.parse(readFileSync(resolve(process.cwd(), relative), "utf8"));

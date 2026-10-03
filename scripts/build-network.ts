@@ -275,10 +275,10 @@ function writeStaticSvg(
     return [px, py];
   };
   const color = (status: SegmentT["status"]) => {
-    if (status === "proposed") return "#E8467C";
-    if (status === "under-construction") return "#B4863C";
-    if (status === "needs-work") return "rgba(23,33,31,0.55)";
-    return "#17211F";
+    if (status === "proposed") return "#D47C1F";
+    if (status === "under-construction") return "#A86A32";
+    if (status === "needs-work") return "rgba(36,52,79,0.55)";
+    return "#24344F";
   };
   const dash = (status: SegmentT["status"]) =>
     status === "proposed" || status === "under-construction" ? "7 6" : "none";

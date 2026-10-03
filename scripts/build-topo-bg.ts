@@ -12,7 +12,7 @@ const H = 1000;
 const LEVELS = 34;
 const STEP = 7;
 
-const INK = "#17211F";
+const INK = "#24344F";
 const CONTOUR = "#A9A695";
 
 /** Deterministic value noise: a fixed sum of sines. No RNG, no seed to lose. */

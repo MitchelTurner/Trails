@@ -11,36 +11,36 @@
 @import "@fontsource-variable/source-serif-4/wght-italic.css";
 
 :root {
-  --ink: #17211f;
-  --tide: #24404a;
-  --muskeg: #b4863c;
+  /* Sampled from the header contour graphic: field navy, line orange. */
+  --ink: #24344f;
+  --tide: #3a5274;
+  --muskeg: #a86a32;
   --sheet: #e7e4d9;
-  --contour: #a9a695;
-  --flagging: #e8467c;
+  --contour: #9aa6b8;
+  --flagging: #d47c1f;
 
   --sheet-raised: #efece3;
-  --ink-deep: #101715;
+  --ink-deep: #17263c;
   --shell: 80rem;
 
-  /* --flagging is the documented flagging-tape color and stays exact on map lines,
-     dashes, borders, and large display type. These two variants exist only to hit
-     WCAG AA where the exact value cannot: a hair lighter behind dark button text,
-     and deeper for small pink text on paper. */
-  --flagging-cta: #ea4f82;
-  --flagging-deep: #c2185b;
+  /* --flagging is the contour orange and stays exact on map lines, dashes, and
+     large type. The button face is a step lighter so navy text clears WCAG AA.
+     The deep orange is for small type on the paper. */
+  --flagging-cta: #d98c3a;
+  --flagging-deep: #8a4b12;
 }
 
 @theme {
-  --color-ink: #17211f;
-  --color-ink-deep: #101715;
-  --color-tide: #24404a;
-  --color-muskeg: #b4863c;
+  --color-ink: #24344f;
+  --color-ink-deep: #17263c;
+  --color-tide: #3a5274;
+  --color-muskeg: #a86a32;
   --color-sheet: #e7e4d9;
   --color-sheet-raised: #efece3;
-  --color-contour: #a9a695;
-  --color-flagging: #e8467c;
-  --color-flagging-cta: #ea4f82;
-  --color-flagging-deep: #c2185b;
+  --color-contour: #9aa6b8;
+  --color-flagging: #d47c1f;
+  --color-flagging-cta: #d98c3a;
+  --color-flagging-deep: #8a4b12;
 
   --font-display: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Public Sans", ui-sans-serif, system-ui, sans-serif;
@@ -75,8 +75,11 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--flagging);
+  /* The contour orange disappears on the paper (about 2.5:1). A navy ring
+     just outside it stays visible there; on a navy band the orange is what shows. */
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--flagging);
 }
 
 ::selection {
@@ -126,9 +129,9 @@ body {
   /* Navy contour field behind page banners. The wash keeps cream type readable
      where the orange lines cross the headline. */
   .topo-header {
-    background-color: #1b3563;
+    background-color: var(--ink);
     background-image:
-      linear-gradient(105deg, rgb(12 28 58 / 0.86) 0%, rgb(12 28 58 / 0.68) 48%, rgb(12 28 58 / 0.46) 100%),
+      linear-gradient(105deg, rgb(36 52 79 / 0.88) 0%, rgb(36 52 79 / 0.7) 48%, rgb(36 52 79 / 0.45) 100%),
       url("/topo-header.webp");
     background-position: center;
     background-size: cover;
@@ -223,7 +226,7 @@ body {
   .card-hover:hover {
     transform: translateY(-4px);
     border-color: var(--tide);
-    box-shadow: 0 18px 40px -24px rgb(23 33 31 / 0.45);
+    box-shadow: 0 18px 40px -24px rgb(36 52 79 / 0.45);
   }
 
   .chip {

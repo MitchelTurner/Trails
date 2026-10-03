@@ -14,7 +14,7 @@ const ROWS: Array<{
     label: "Existing",
     note: "Walk it this weekend",
     dash: false,
-    color: "#17211F",
+    color: "#24344F",
     opacity: 1,
   },
   {
@@ -22,14 +22,14 @@ const ROWS: Array<{
     label: "Needs work",
     note: "There, but the alders won",
     dash: false,
-    color: "#17211F",
+    color: "#24344F",
     opacity: 0.55,
   },
   {
     status: "under-construction",
     label: "Under construction",
     dash: true,
-    color: "#B4863C",
+    color: "#A86A32",
     opacity: 1,
   },
   {
@@ -37,7 +37,7 @@ const ROWS: Array<{
     label: "Proposed",
     note: "Not cut, not surveyed",
     dash: true,
-    color: "#E8467C",
+    color: "#D47C1F",
     opacity: 1,
   },
 ];
