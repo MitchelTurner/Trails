@@ -177,10 +177,16 @@ const posts = (await getCollection("news"))
           <div class="mt-12 grid gap-6 md:grid-cols-3">
             {rest.map((corridor) => (
               <div class="reveal h-full">
-                <CorridorCard client:visible corridor={corridor} segments={segments} />
+                <CorridorCard client:visible compact corridor={corridor} segments={segments} />
               </div>
             ))}
           </div>
+          <a
+            href="/vision"
+            class="mt-8 inline-flex min-h-11 items-center font-mono text-[11px] uppercase tracking-[0.14em] text-ink underline decoration-contour underline-offset-4 hover:decoration-ink"
+          >
+            All four routes, segment by segment →
+          </a>
         </div>
       </section>
     ) : null
