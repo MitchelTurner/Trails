@@ -30,17 +30,14 @@ const posts = (await getCollection("news"))
 ---
 
 <BaseLayout>
-  <!-- Hero: quad-sheet paper, a headline, and the pitch. No map. -->
-  <section
-    class="relative isolate border-b border-contour/60"
-    style="background-image:url('/topo-bg.svg');background-size:cover;background-position:center;"
-  >
+  <!-- Hero: the contour field, a headline, and the pitch. No map. -->
+  <section class="topo-header on-dark relative isolate text-sheet">
     <div class="shell py-24 md:py-36">
       <p class="eyebrow">Southeast Alaska</p>
       <h1 class="headline mt-5 max-w-4xl text-[length:var(--text-display-xl)]">
         {site.tagline}
       </h1>
-      <p class="lede mt-7 max-w-2xl text-ink/85">
+      <p class="lede mt-7 max-w-2xl text-sheet/85">
         Southeast communities built SEAtrails so a person could step off the ferry and walk a
         trail their town had already chosen. The organization went quiet. This is the site for
         starting it again. The first map is Revillagigedo Island. Students can join the crew
