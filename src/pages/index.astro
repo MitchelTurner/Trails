@@ -36,19 +36,20 @@ const posts = (await getCollection("news"))
     style="background-image:url('/topo-bg.svg');background-size:cover;background-position:center;"
   >
     <div class="shell py-24 md:py-36">
-      <p class="eyebrow">Revillagigedo Island · Southeast Alaska</p>
+      <p class="eyebrow">Southeast Alaska</p>
       <h1 class="headline mt-5 max-w-4xl text-[length:var(--text-display-xl)]">
         {site.tagline}
       </h1>
       <p class="lede mt-7 max-w-2xl text-ink/85">
-        Revilla has trails. What it does not have is a way to walk from one to the next. The
-        good ground runs out at a property line, a lake, or a stretch of alder nobody has cut,
-        and the rest of the island stays float-plane country. We are mapping the gaps and
-        closing them one at a time.
+        Southeast communities built SEAtrails so a person could step off the ferry and walk a
+        trail their town had already chosen. The organization went quiet. This is the site for
+        starting it again. The first map is Revillagigedo Island. Students can join the crew
+        that builds the gaps. Universities can put a scholarship or a certificate on that work.
       </p>
       <div class="mt-10 flex flex-wrap items-center gap-3">
         <a href="#sign-on" class="btn btn-primary">Sign on</a>
         <a href="/network" class="btn btn-outline">Open the map</a>
+        <a href="/get-involved#youth" class="btn btn-outline">Join the youth crew</a>
       </div>
     </div>
   </section>
@@ -62,6 +63,46 @@ const posts = (await getCollection("news"))
       { value: String(managers.length), label: "Outfits that own the ground" },
     ]}
   />
+
+  <section class="border-b border-contour/60">
+    <div class="shell py-16 md:py-20">
+      <div class="reveal max-w-2xl">
+        <p class="eyebrow">Start here</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Three ways in</h2>
+      </div>
+      <ul class="mt-10 grid gap-6 lg:grid-cols-3">
+        <li class="card reveal flex flex-col p-6">
+          <p class="eyebrow">Youth</p>
+          <h3 class="headline mt-3 text-2xl">Come build trail</h3>
+          <p class="mt-4 text-sm leading-relaxed text-ink/85">
+            High school and college students can volunteer on the crew: brushing tread, walking
+            a flagged line, and learning the work that comes before a cut. Under 18, a parent or
+            guardian signs up with you.
+          </p>
+          <a href="/get-involved#youth" class="btn btn-outline mt-6 self-start">Join the youth crew</a>
+        </li>
+        <li class="card reveal flex flex-col p-6">
+          <p class="eyebrow">Universities</p>
+          <h3 class="headline mt-3 text-2xl">Scholarships and certificates</h3>
+          <p class="mt-4 text-sm leading-relaxed text-ink/85">
+            We are asking campuses to award a scholarship or an educational certificate to
+            students who do that work. No campus has agreed. The money, if a campus offers it,
+            goes to the student. This group cannot take it.
+          </p>
+          <a href="/universities" class="btn btn-outline mt-6 self-start">For universities</a>
+        </li>
+        <li class="card reveal flex flex-col p-6">
+          <p class="eyebrow">The organization</p>
+          <h3 class="headline mt-3 text-2xl">Who is publishing this</h3>
+          <p class="mt-4 text-sm leading-relaxed text-ink/85">
+            SEAtrails, as an informal group. No corporation, no 501(c)(3), no donate button.
+            The email, the archive, and where the paperwork stands are on one page.
+          </p>
+          <a href="/about" class="btn btn-outline mt-6 self-start">Organizational info</a>
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <!-- The first project leads the page. -->
   {
@@ -193,16 +234,17 @@ const posts = (await getCollection("news"))
 
   <section class="shell py-16 md:py-24">
     <div class="reveal max-w-2xl">
-      <p class="eyebrow">The region</p>
+      <p class="eyebrow">The towns</p>
       <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-        Revilla is one town in a system that used to have nineteen.
+        Nineteen communities built this once.
       </h2>
       <p class="lede mt-5 text-ink/85">
-        SEAtrails tied Southeast communities together with the ferry and the trails each town
-        nominated for itself. The organization went quiet. The old domain went somewhere else.
-        The archive is still up, and the Ketchikan piece of bringing it back is this map.
+        Each town nominated its own trails, and the ferry tied them together. Those resolutions
+        are history. This site is where the revival is being published. The map we can defend
+        today is Ketchikan, because that is the ground this group walks. A town gets a page
+        when people who live there are doing the work.
       </p>
-      <a href="/seatrails" class="btn btn-outline mt-8">Where this fits</a>
+      <a href="/seatrails" class="btn btn-outline mt-8">The nineteen towns</a>
     </div>
   </section>
 

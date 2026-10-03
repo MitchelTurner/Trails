@@ -22,12 +22,12 @@ const checked = new Date(`${SEATRAILS.lostDomainChecked}T00:00:00-09:00`).toLoca
 
 <BaseLayout
   title="SEAtrails"
-  description="Revilla Trails is the Ketchikan piece of bringing SEAtrails back with the Southeast Alaska communities that built it. The trail archive is akseatrails.org."
+  description="The nineteen Southeast Alaska communities that built SEAtrails, the archive at akseatrails.org, and the Ketchikan map this revival can stand behind today."
 >
   <PageHeader
-    eyebrow="SEAtrails · Southeast Alaska"
+    eyebrow="The towns · Southeast Alaska"
     title="Nineteen towns, one ferry, and a system that went quiet."
-    lede="SEAtrails was how Southeast communities put their own trails on one map and tied them together with the Alaska Marine Highway. This site is the Ketchikan piece of bringing that back — with the people who live in the towns."
+    lede="SEAtrails was how Southeast communities put their own trails on one map and tied them together with the Alaska Marine Highway. This site is where that work is being published again. The first map is Ketchikan."
   />
 
   <StatBand
@@ -107,21 +107,22 @@ const checked = new Date(`${SEATRAILS.lostDomainChecked}T00:00:00-09:00`).toLoca
   <section class="border-y border-contour/60 bg-sheet-raised py-16 md:py-24">
     <div class="shell">
       <div class="max-w-2xl reveal">
-        <p class="eyebrow">This group</p>
+        <p class="eyebrow">This site</p>
         <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-          We can speak for Revilla. That is the whole claim.
+          The public home for the revival
         </h2>
         <p class="lede mt-5 text-ink/85">
-          {site.name} is an informal group in Ketchikan, working under the name {site.orgName}.
+          {site.name} is the name on this website. The people publishing it are an informal
+          group. The mapped work starts in Ketchikan, under the field name {site.workingName}.
           The original system gave each community one job: decide what is real. On this island
           that job is the map — every segment we could get linework for, the gaps, and who owns
           the ground.
         </p>
         <p class="mt-4 leading-relaxed text-ink/85">
-          There is no entity behind the group. Southeast Conference holds the old organizational
-          materials. Putting the two efforts in the same conversation is the point of this page,
-          and it stays a conversation until a town, or the people holding those materials, says
-          otherwise in writing.
+          There is no new corporation behind the name. The old organization became a 501(c)(3)
+          and then left the field. Southeast Conference holds the materials it acquired in{" "}
+          {SEATRAILS.materialsAcquiredYear}. This site is not that conference. A town, or the
+          people holding those materials, would have to say otherwise in writing.
         </p>
         <p class="mt-4 leading-relaxed text-ink/85">
           {home?.name}'s old resolution is on the archive. It is evidence the community once

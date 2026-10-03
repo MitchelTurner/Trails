@@ -5,6 +5,8 @@ const nav = [
   { href: "/network", label: "Map" },
   { href: "/vision", label: "The plan" },
   { href: "/get-involved", label: "Get involved" },
+  { href: "/get-involved#youth", label: "Youth" },
+  { href: "/universities", label: "Universities" },
   { href: "/news", label: "News" },
   { href: "/about", label: "About" },
 ];
@@ -42,13 +44,13 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
             href={item.href}
             aria-current={isActive(item.href) ? "page" : undefined}
             class:list={[
-              "relative flex min-h-11 items-center px-3 font-mono text-[11px] uppercase tracking-[0.14em] text-tide transition-colors hover:text-ink",
+              "relative flex min-h-11 items-center px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-tide transition-colors hover:text-ink xl:px-3 xl:tracking-[0.14em]",
               isActive(item.href) ? "text-ink" : "",
             ]}
           >
             {item.label}
             {isActive(item.href) ? (
-              <span class="absolute inset-x-3 bottom-3 h-0.5 bg-ink" aria-hidden="true"></span>
+              <span class="absolute inset-x-2 bottom-3 h-0.5 bg-ink xl:inset-x-3" aria-hidden="true"></span>
             ) : null}
           </a>
         ))

@@ -5,6 +5,12 @@ type State = "idle" | "submitting" | "success" | "error";
 
 const ANY_EVENT = "any";
 
+const ROLES = [
+  { id: "crew", label: "Crew" },
+  { id: "student", label: "Student volunteer" },
+  { id: "guardian", label: "Parent or guardian with a student" },
+] as const;
+
 export default function VolunteerForm({
   formId,
   events = [],
@@ -15,12 +21,18 @@ export default function VolunteerForm({
   const [state, setState] = useState<State>("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [eventId, setEventId] = useState(ANY_EVENT);
+  const [role, setRole] = useState<(typeof ROLES)[number]["id"]>("crew");
   const endpoint = formId || site.formspree.signOn;
 
   useEffect(() => {
-    const requested = new URLSearchParams(window.location.search).get("event");
+    const params = new URLSearchParams(window.location.search);
+    const requested = params.get("event");
     if (requested && events.some((item) => item.id === requested)) {
       setEventId(requested);
+    }
+    const requestedRole = params.get("role");
+    if (requestedRole && ROLES.some((item) => item.id === requestedRole)) {
+      setRole(requestedRole as (typeof ROLES)[number]["id"]);
     }
   }, [events]);
 
@@ -72,6 +84,32 @@ export default function VolunteerForm({
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Email
         <input name="email" type="email" className="border border-contour bg-sheet px-3 py-2 font-body text-sm" />
+      </label>
+      <label className="md:col-span-2 flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
+        Who you are
+        <select
+          name="role"
+          value={role}
+          onChange={(event) => setRole(event.target.value as (typeof ROLES)[number]["id"])}
+          className="min-h-11 border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+        >
+          {ROLES.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      {role === "student" || role === "guardian" ? (
+        <p className="md:col-span-2 text-sm leading-relaxed text-ink/80">
+          A scholarship or a certificate is not available yet. Those would come from a university,
+          and none has agreed. If the student is under 18, a parent or guardian has to be on this
+          signup too.
+        </p>
+      ) : null}
+      <label className="md:col-span-2 flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
+        School, if you have one
+        <input name="school" className="border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal" />
       </label>
       <label className="md:col-span-2 flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Which work party

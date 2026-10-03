@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import UniversityForm from "../components/UniversityForm.tsx";
+import { site } from "../config/site";
+
+const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
+
+const asks = [
+  {
+    title: "A scholarship",
+    note: "Awarded by the campus to the student. This group has no bank account and cannot accept the money.",
+  },
+  {
+    title: "An educational certificate",
+    note: "Issued by the campus, in the campus's name, for hours on a published work party. We will not print one and call it a university credential.",
+  },
+  {
+    title: "A written agreement",
+    note: "Nothing on this page is a partnership. A campus is involved when it says so in its own words.",
+  },
+];
+---
+
+<BaseLayout
+  title="Universities"
+  description="An invitation for universities to offer scholarships and educational certificates to students who volunteer on SEAtrails construction. No campus has agreed."
+>
+  <PageHeader
+    eyebrow="Universities"
+    title="Put a scholarship or a certificate on the work."
+    lede="Students are being recruited to volunteer on trail construction. A campus that wants to back that with money for school, or with a certificate that names what they did, can start here. No university has agreed to either one."
+  />
+
+  <section class="shell grid gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">
+    <div class="reveal">
+      <p class="eyebrow">What a student does</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+        Documented hours on a real crew
+      </h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-ink/85">
+        <p>
+          The work is brushing tread that already exists, walking a flagged line, and learning
+          why a survey and an environmental study come before anybody cuts new trail. Work
+          parties are published on this site with a date, a meeting point, and a list of what to
+          bring.
+        </p>
+        <p>
+          A chainsaw stays with someone who holds a current saw card. Students under 18 sign up
+          with a parent or guardian. Hours count when the student was on a crew we published,
+          not because someone filled out a form.
+        </p>
+      </div>
+      <a href="/get-involved#youth" class="btn btn-outline mt-8">The youth crew</a>
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">Who we are writing</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+        Campuses in these towns, and any other that wants in
+      </h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-ink/85">
+        <p>
+          The public university already sits in the ferry towns. University of Alaska Southeast
+          has campuses in Ketchikan, Sitka, and Juneau. The rest of the University of Alaska
+          system, and any other campus that wants to attach credit, a certificate, or a
+          scholarship to this work, can write too.
+        </p>
+        <p>
+          Naming those campuses says who the letter is for. It does not mean any of them have
+          answered it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-contour/60 bg-sheet-raised py-16 md:py-24">
+    <div class="shell">
+      <div class="max-w-2xl reveal">
+        <p class="eyebrow">The ask</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+          Three things, none of them in place
+        </h2>
+      </div>
+      <ul class="mt-10 grid gap-6 lg:grid-cols-3">
+        {
+          asks.map((item) => (
+            <li class="reveal border-t-2 border-t-ink pt-5">
+              <p class="font-display text-lg font-bold tracking-tight">{item.title}</p>
+              <p class="mt-2 text-sm leading-relaxed text-ink/80">{item.note}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="shell py-16 md:py-24">
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <div>
+        <p class="eyebrow">Write from the campus</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Start the conversation</h2>
+        <p class="mt-5 leading-relaxed text-ink/85">
+          Say which campus you are at, what you do there, and whether you can talk about a
+          scholarship, a certificate, or just the idea. We will answer at {site.email}.
+        </p>
+        <p class="mt-4 leading-relaxed text-ink/85">
+          There is no dollar amount, no credit-hour count, and no certificate title, because a
+          campus has to decide those. This group will not invent them.
+        </p>
+      </div>
+      <div class="card p-6 md:p-8">
+        <UniversityForm client:visible formId={formId} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

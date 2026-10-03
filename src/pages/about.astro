@@ -2,6 +2,50 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import { site } from "../config/site";
+import { SEATRAILS } from "../data/seatrails";
+
+const facts = [
+  { label: "Public name", value: site.name },
+  { label: "Field name for the Ketchikan map", value: site.workingName },
+  {
+    label: "Status",
+    value: "Informal group. Not incorporated. Not a 501(c)(3).",
+  },
+  {
+    label: "Money",
+    value: "Not soliciting donations. Nothing on this site is tax-deductible.",
+  },
+  { label: "Region", value: "Southeast Alaska" },
+  {
+    label: "Map on this site",
+    value: "Revillagigedo Island, starting in Ketchikan.",
+  },
+  { label: "Contact", value: site.email },
+  {
+    label: "This website",
+    value: "Published at revillatrails.org. The hostname seatrails.org served an unrelated commercial site when it was checked on October 3, 2026, so this site does not link it.",
+  },
+  {
+    label: "Archive",
+    value: "akseatrails.org, the historical record.",
+  },
+  {
+    label: "Old materials",
+    value: `Southeast Conference has held them since ${SEATRAILS.materialsAcquiredYear}. This group is not Southeast Conference.`,
+  },
+  {
+    label: "Youth crew",
+    value: "Open. High school and college students can sign up to volunteer on trail work.",
+  },
+  {
+    label: "Scholarships and certificates",
+    value: "Not in place. Universities are invited to create them. No campus has agreed.",
+  },
+  {
+    label: "People",
+    value: "Names are not on this page yet. Someone reads the email.",
+  },
+];
 
 const audiences = [
   {
@@ -10,14 +54,19 @@ const audiences = [
     act: "Sign on. Come out on a work party.",
   },
   {
+    who: "Students",
+    need: "A crew that will teach the work and publish the date, and a straight answer about what a university has not offered yet.",
+    act: "Join the youth crew.",
+  },
+  {
+    who: "Universities",
+    need: "A place to say whether a campus will award a scholarship or a certificate to those students.",
+    act: "Write from the campus.",
+  },
+  {
     who: "The outfits that own the ground",
     need: "A route drawn honestly, with the ownership named and the process respected.",
     act: "Take a meeting.",
-  },
-  {
-    who: "Whoever funds trail work",
-    need: "A project with a surveyed line, a study, and a materials list — not a feeling.",
-    act: "Fund a segment.",
   },
 ];
 
@@ -35,42 +84,67 @@ const partners = [
 
 <BaseLayout
   title="About"
-  description="An informal group working on walking routes across Revillagigedo Island, starting with the Naha cabins."
+  description="Organizational facts for SEAtrails: an informal group, the Ketchikan map, contact, and where scholarships and certificates stand."
 >
   <PageHeader
-    eyebrow="About"
+    eyebrow="The organization"
     title={site.name}
-    lede={`Working name for the ${site.orgName} — a few residents who would rather walk to the cabins than wait on a floatplane. There is no entity and no 501(c)(3) behind it, which is exactly why this site does not ask you for money.`}
+    lede="An informal group bringing the regional trail system back with the towns that built it. There is no corporation and no 501(c)(3), which is why this site does not ask you for money."
   />
 
   <section class="shell py-16 md:py-20">
-    <h2 class="headline text-[length:var(--text-display-md)]">Who this is for</h2>
-    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+    <h2 class="headline text-[length:var(--text-display-md)]">The facts</h2>
+    <dl class="mt-10 divide-y divide-contour/60 border-y border-contour/60">
       {
-        audiences.map((item) => (
-          <div class="card reveal p-6">
-            <p class="font-display text-xl font-bold tracking-tight">{item.who}</p>
-            <p class="mt-4 text-sm leading-relaxed text-ink/85">{item.need}</p>
-            <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-flagging-deep">
-              {item.act}
-            </p>
+        facts.map((fact) => (
+          <div class="grid gap-2 py-5 md:grid-cols-[16rem_1fr] md:gap-8">
+            <dt class="font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-tide">
+              {fact.label}
+            </dt>
+            <dd class="leading-relaxed text-ink/90">{fact.value}</dd>
           </div>
         ))
       }
+    </dl>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href={`mailto:${site.email}`} class="btn btn-solid">{site.email}</a>
+      <a href="/seatrails" class="btn btn-outline">The nineteen towns</a>
+      <a href={SEATRAILS.archiveUrl} class="btn btn-outline" rel="noopener noreferrer">
+        The archive
+      </a>
     </div>
   </section>
 
   <section class="border-y border-contour/60 bg-sheet-raised py-16 md:py-20">
-    <div class="shell grid gap-12 lg:grid-cols-2 lg:gap-16">
+    <div class="shell">
+      <h2 class="headline text-[length:var(--text-display-md)]">Who this is for</h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {
+          audiences.map((item) => (
+            <div class="card reveal p-6">
+              <p class="font-display text-xl font-bold tracking-tight">{item.who}</p>
+              <p class="mt-4 text-sm leading-relaxed text-ink/85">{item.need}</p>
+              <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-tide">
+                {item.act}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="shell py-16 md:py-20">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
         <p class="eyebrow">Who owns the ground</p>
         <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
           Nobody on this list has signed off on anything
         </h2>
         <p class="mt-5 leading-relaxed text-ink/85">
-          These are the outfits that hold ground on Revilla. Naming them says who has to be in
-          the room. It does not mean any of them have blessed a line on our map, and we are not
-          going to imply otherwise.
+          These are the outfits that hold ground on Revillagigedo Island, where the map starts.
+          Naming them says who has to be in the room. It does not mean any of them have blessed
+          a line on the map.
         </p>
         <p class="mt-4 leading-relaxed text-ink/85">
           The first project sits on Tongass ground, so the Ketchikan–Misty Fjords Ranger District
@@ -83,51 +157,25 @@ const partners = [
     </div>
   </section>
 
-  <section class="shell grid gap-12 py-16 lg:grid-cols-2 lg:gap-16 md:py-20">
-    <div>
-      <p class="eyebrow">SEAtrails</p>
-      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-        The Ketchikan piece of a regional system
-      </h2>
-      <p class="mt-5 leading-relaxed text-ink/85">
-        SEAtrails was the community trail system that tied Southeast towns together on the
-        Alaska Marine Highway. It went quiet. Southeast Conference holds the old materials, and
-        the archive is still at akseatrails.org. This group is mapping Revilla and asking the
-        other towns to pick their own trails back up. We do not speak for them, and we do not
-        speak for Southeast Conference.
-      </p>
-      <a href="/seatrails" class="btn btn-outline mt-8">Read how it fits</a>
-    </div>
-    <div>
-      <p class="eyebrow">The domain</p>
-      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-        seatrails.org is not the archive
-      </h2>
-      <p class="mt-5 leading-relaxed text-ink/85">
-        Checked October 3, 2026, that hostname serves an unrelated commercial site, so this
-        site does not link it. The trail record is akseatrails.org. The Ketchikan work starts
-        here.
-      </p>
-    </div>
-  </section>
-
-  <section class="shell grid gap-12 py-16 lg:grid-cols-2 lg:gap-16 md:py-20 border-t border-contour/60">
-    <div>
-      <h2 class="headline text-[length:var(--text-display-md)]">Who is doing this</h2>
-      <p class="mt-5 leading-relaxed text-ink/85">
-        Names go here when the group decides to put them on a public page. Until then, write to
-        us — someone reads it.
-      </p>
-      <a href={`mailto:${site.email}`} class="btn btn-outline mt-8">{site.email}</a>
-    </div>
-    <div>
-      <h2 class="headline text-[length:var(--text-display-md)]">Where the paperwork stands</h2>
-      <p class="mt-5 leading-relaxed text-ink/85">
-        Nothing is incorporated. None of this is legal advice, and the group should get some
-        before it takes a dollar. The two normal roads are incorporating as an Alaska nonprofit
-        with DCCED and filing IRS Form 1023-EZ, or working under a fiscal sponsor — Alaska Trails
-        or a community foundation — in the meantime.
-      </p>
+  <section class="border-t border-contour/60">
+    <div class="shell grid gap-12 py-16 lg:grid-cols-2 lg:gap-16 md:py-20">
+      <div>
+        <h2 class="headline text-[length:var(--text-display-md)]">Who is doing this</h2>
+        <p class="mt-5 leading-relaxed text-ink/85">
+          Names go here when the group decides to put them on a public page. Until then, write
+          to us — someone reads it.
+        </p>
+        <a href={`mailto:${site.email}`} class="btn btn-outline mt-8">{site.email}</a>
+      </div>
+      <div>
+        <h2 class="headline text-[length:var(--text-display-md)]">Where the paperwork stands</h2>
+        <p class="mt-5 leading-relaxed text-ink/85">
+          Nothing is incorporated. None of this is legal advice, and the group should get some
+          before it takes a dollar. The two normal roads are incorporating as an Alaska nonprofit
+          with DCCED and filing IRS Form 1023-EZ, or working under a fiscal sponsor — Alaska Trails
+          or a community foundation — in the meantime.
+        </p>
+      </div>
     </div>
   </section>
 </BaseLayout>

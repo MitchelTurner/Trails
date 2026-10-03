@@ -1,8 +1,11 @@
-# Revilla Trails
+# SEAtrails
 
-Working name for the Ketchikan Trail Association — a static, prerendered site for connecting the
-trails on Revillagigedo Island. Every existing and proposed segment is mapped, status-coded, and
-carries the land managers who own the ground under it.
+Public site for bringing SEAtrails back with Southeast Alaska communities. The mapped network is
+the Ketchikan piece, on Revillagigedo Island (field name Revilla Trails). Every existing and
+proposed segment is mapped, status-coded, and carries the land managers who own the ground under
+it. Students can join the youth crew. Universities are invited to offer scholarships and
+certificates; none have agreed. The site is published at revillatrails.org because seatrails.org
+is an unrelated commercial hostname and is not linked.
 
 **First project: walking routes to the Patching Lake and Heckman Lake cabins.** Three Forest
 Service cabins sit up the Naha country and only one can be reached on foot. The route is being

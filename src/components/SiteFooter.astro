@@ -15,6 +15,8 @@ const columns = [
     title: "Take part",
     links: [
       { href: "/#sign-on", label: "Sign on" },
+      { href: "/get-involved#youth", label: "Youth crew" },
+      { href: "/universities", label: "Universities" },
       { href: "/get-involved", label: "Work parties" },
       { href: "/report", label: "Report an issue" },
     ],
@@ -23,7 +25,7 @@ const columns = [
     title: "The group",
     links: [
       { href: "/about", label: "About" },
-      { href: "/seatrails", label: "SEAtrails" },
+      { href: "/seatrails", label: "The nineteen towns" },
       { href: "/news", label: "News" },
       { href: `mailto:${site.email}`, label: site.email },
     ],
@@ -37,9 +39,9 @@ const columns = [
       <div>
         <p class="font-display text-2xl font-bold tracking-tight">{site.name}</p>
         <p class="mt-4 max-w-sm text-sm leading-relaxed text-sheet/75">
-          Working name for the {site.orgName} — an informal group on Revillagigedo Island, mapping
-          the Ketchikan piece of {SEATRAILS.name}. Not an incorporated entity, not a 501(c)(3),
-          and not soliciting donations.
+          An informal group bringing {SEATRAILS.name} back with Southeast Alaska communities. The
+          map on this site is the Ketchikan piece, on Revillagigedo Island. Not an incorporated
+          entity, not a 501(c)(3), and not soliciting donations.
         </p>
         <div class="mt-6 flex items-center gap-3">
           <svg width="120" height="8" viewBox="0 0 120 8" aria-hidden="true">
@@ -94,7 +96,7 @@ const columns = [
         surveyed.
       </p>
       <p class="mt-4 font-mono uppercase tracking-[0.12em] md:mt-0">
-        {new Date().getFullYear()} · Revillagigedo Island, Alaska
+        {new Date().getFullYear()} · Southeast Alaska
       </p>
     </div>
   </div>

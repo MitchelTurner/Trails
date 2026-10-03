@@ -1,10 +1,11 @@
 export const site = {
-  name: "Revilla Trails",
+  name: "SEAtrails",
+  /** Field name for the Ketchikan map, the only network this site can stand behind today. */
   workingName: "Revilla Trails",
-  orgName: "Ketchikan Trail Association",
-  tagline: "Connect the island.",
+  orgName: "SEAtrails",
+  tagline: "Bring the trails back.",
   description:
-    "Every trail on Revillagigedo Island, every gap between them, and who owns the ground. First project: walking routes to the Patching Lake and Heckman Lake cabins.",
+    "The public site for bringing SEAtrails back with Southeast Alaska communities. The mapped work starts on Revillagigedo Island. Students can volunteer to build trail. Universities are invited to offer scholarships and certificates for that work.",
   url: "https://revillatrails.org",
   email: "hello@revillatrails.org",
   locale: "en-US",

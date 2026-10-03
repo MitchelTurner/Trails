@@ -55,7 +55,7 @@ export default function SignOnForm({ count, formId }: SignOnFormProps) {
       const response = await fetch(`https://formspree.io/f/${endpoint}`, {
         method: "POST",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, zip, _subject: "Revilla Trails sign-on" }),
+        body: JSON.stringify({ name, email, zip, _subject: "SEAtrails sign-on" }),
       });
       if (!response.ok) throw new Error("form");
       setState("success");

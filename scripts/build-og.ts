@@ -171,7 +171,7 @@ async function main() {
   await render(
     "default",
     card({
-      eyebrow: "Revillagigedo Island · Alaska",
+      eyebrow: "Southeast Alaska · Revillagigedo Island",
       title: site.tagline,
       facts: [
         `${(totalMi - gapMi).toFixed(0)} mi built`,

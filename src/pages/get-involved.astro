@@ -36,15 +36,71 @@ const skills = [
 
 <BaseLayout
   title="Get involved"
-  description="Work parties, the crew list, and the skills this actually needs."
+  description="Youth crew, work parties, and the skills trail building actually needs."
 >
   <PageHeader
     eyebrow="Get involved"
     title="Bring a saw or bring a notebook"
-    lede="Signing on puts your name on the list we take to the ranger district. A work party puts your hands on tread. Neither one costs you a dollar, because we are not set up to take one."
+    lede="Signing on puts your name on the list we take to the ranger district. A work party puts your hands on tread. Students can join that crew. Neither one costs you a dollar, because we are not set up to take one."
   />
 
-  <section class="shell py-16 md:py-20">
+  <section id="youth" class="shell scroll-mt-24 py-16 md:py-20">
+    <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+      <div class="reveal">
+        <p class="eyebrow">Youth crew</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+          Students, come build the trail
+        </h2>
+        <div class="mt-6 space-y-4 leading-relaxed text-ink/85">
+          <p>
+            High school and college students can volunteer on construction. The work is brushing
+            tread that already exists, walking a flagged line, and learning why a survey comes
+            before a cut. A chainsaw stays with someone who holds a current saw card.
+          </p>
+          <p>
+            If you are under 18, a parent or guardian signs up with you. Joining the crew does
+            not enroll you in a class and does not award credit.
+          </p>
+          <p>
+            A scholarship or an educational certificate would come from a university. None is
+            available yet. Campuses that want to create one can start that conversation on the
+            universities page.
+          </p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/get-involved?role=student#crew-list" class="btn btn-solid">
+            Add me to the crew list
+          </a>
+          <a href="/universities" class="btn btn-outline">For universities</a>
+        </div>
+      </div>
+      <ul class="reveal grid content-start gap-4">
+        <li class="border-t-2 border-t-ink pt-4">
+          <p class="font-display text-lg font-bold tracking-tight">Who</p>
+          <p class="mt-2 text-sm leading-relaxed text-ink/80">
+            High school students, college students, and a parent or guardian when the student is
+            under 18.
+          </p>
+        </li>
+        <li class="border-t-2 border-t-ink pt-4">
+          <p class="font-display text-lg font-bold tracking-tight">What you do</p>
+          <p class="mt-2 text-sm leading-relaxed text-ink/80">
+            Show up for a published work party. Hours count when you were there, not when you
+            filled out the form.
+          </p>
+        </li>
+        <li class="border-t-2 border-t-ink pt-4">
+          <p class="font-display text-lg font-bold tracking-tight">What you do not get yet</p>
+          <p class="mt-2 text-sm leading-relaxed text-ink/80">
+            No scholarship, no certificate, no course credit. Those exist when a campus says they
+            do.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="shell border-t border-contour/60 py-16 md:py-20">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <h2 class="headline text-[length:var(--text-display-md)]">Work parties</h2>
       <p data-party-count class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
@@ -153,17 +209,28 @@ const skills = [
     </div>
   </section>
 
-  <section class="shell pb-16 md:pb-20">
+  <section class="shell grid gap-6 pb-16 md:grid-cols-2 md:pb-20">
+    <a href="/universities" class="card reveal block p-6 md:p-8">
+      <p class="eyebrow">Universities</p>
+      <h2 class="headline mt-3 text-2xl md:text-3xl">Scholarships and certificates</h2>
+      <p class="mt-4 leading-relaxed text-ink/85">
+        Campuses that want to award either one to students on this crew can write from there.
+        No campus has agreed.
+      </p>
+      <p class="mt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+        For universities →
+      </p>
+    </a>
     <a href="/seatrails" class="card reveal block p-6 md:p-8">
       <p class="eyebrow">Other towns</p>
       <h2 class="headline mt-3 text-2xl md:text-3xl">If you are not in Ketchikan</h2>
-      <p class="mt-4 max-w-2xl leading-relaxed text-ink/85">
-        SEAtrails was nineteen communities and the ferry between them. This crew can speak for
-        the island we walk. The other towns, the old resolutions, and the address to write from
-        yours are on the SEAtrails page.
+      <p class="mt-4 leading-relaxed text-ink/85">
+        Nineteen communities and the ferry between them built this system. This crew walks
+        Revillagigedo Island. The other towns and the old resolutions are listed with the
+        history.
       </p>
       <p class="mt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
-        Where Revilla fits →
+        The nineteen towns →
       </p>
     </a>
   </section>
