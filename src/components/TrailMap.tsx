@@ -187,7 +187,7 @@ export default function TrailMap({
           ))}
         </div>
         {showLegend ? (
-          <div className="hidden sm:block">
+          <div className="hidden md:block">
             <MapLegend statuses={presentStatuses} />
           </div>
         ) : null}
