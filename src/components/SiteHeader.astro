@@ -2,11 +2,9 @@
 import { site } from "../config/site";
 
 const nav = [
-  { href: "/network", label: "Network" },
-  { href: "/vision", label: "Vision" },
-  { href: "/seatrails", label: "SEAtrails" },
+  { href: "/network", label: "Map" },
+  { href: "/vision", label: "The plan" },
   { href: "/get-involved", label: "Get involved" },
-  { href: "/report", label: "Report" },
   { href: "/news", label: "News" },
   { href: "/about", label: "About" },
 ];
@@ -50,17 +48,17 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
           >
             {item.label}
             {isActive(item.href) ? (
-              <span class="absolute inset-x-3 bottom-3 h-0.5 bg-flagging" aria-hidden="true"></span>
+              <span class="absolute inset-x-3 bottom-3 h-0.5 bg-ink" aria-hidden="true"></span>
             ) : null}
           </a>
         ))
       }
+      <a href="/#sign-on" class="btn btn-primary ml-2 !min-h-10 !px-4 !text-sm">
+        Sign on
+      </a>
     </nav>
 
     <div class="flex items-center gap-2">
-      <a href="/#sign-on" class="btn btn-primary hidden !min-h-10 !px-4 !text-sm sm:inline-flex">
-        Sign on
-      </a>
       <button
         type="button"
         data-menu-toggle
@@ -92,7 +90,7 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
           </a>
         ))
       }
-      <a href="/#sign-on" class="btn btn-primary mt-4 mb-3">Sign on</a>
+      <a href="/#sign-on" class="btn btn-primary mt-4 mb-3 w-full">Sign on</a>
     </nav>
   </div>
 </header>

@@ -144,10 +144,15 @@ export default function TrailMap({
         </p>
         <a
           href="/network?view=list"
-          className="mt-3 font-mono text-[12px] uppercase tracking-wider text-ink underline decoration-flagging underline-offset-4"
+          className="mt-3 font-mono text-[12px] uppercase tracking-wider text-ink underline decoration-contour underline-offset-4"
         >
           Open the list view
         </a>
+        {showLegend ? (
+          <div className="mt-6 hidden w-full max-w-md border border-contour/70 text-left md:block">
+            <MapLegend collapsible={false} />
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -187,7 +192,7 @@ export default function TrailMap({
           ))}
         </div>
         {showLegend ? (
-          <div className="hidden sm:block">
+          <div className="hidden md:block">
             <MapLegend statuses={presentStatuses} />
           </div>
         ) : null}

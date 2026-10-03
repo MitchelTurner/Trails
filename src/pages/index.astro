@@ -5,7 +5,6 @@ import SignOnForm from "../components/SignOnForm.tsx";
 import StatBand from "../components/StatBand.astro";
 import FeatureBlock from "../components/FeatureBlock.astro";
 import { site } from "../config/site";
-import { communities } from "../data/seatrails";
 import {
   getSegments,
   loadCorridors,
@@ -48,7 +47,7 @@ const posts = (await getCollection("news"))
         closing them one at a time.
       </p>
       <div class="mt-10 flex flex-wrap items-center gap-3">
-        <a href="/vision" class="btn btn-primary">See the first project</a>
+        <a href="#sign-on" class="btn btn-primary">Sign on</a>
         <a href="/network" class="btn btn-outline">Open the map</a>
       </div>
     </div>
@@ -94,129 +93,7 @@ const posts = (await getCollection("news"))
     ) : null
   }
 
-  <FeatureBlock
-    eyebrow="Reading the map"
-    title="A solid line means boots. A pink dash means bring a floatplane."
-    body="Status lives in how the line is drawn, not just its color, so it still reads in grayscale in a borough packet or a district office printout. Solid ink is walkable today. Faded ink is on the ground but brushed over. Pink dashes are not built, and every one of them says so on its own page."
-    href="/network"
-    cta="Open the explorer"
-  >
-    <ul class="card divide-y divide-contour/40">
-      {
-        [
-          { label: "Existing", note: "Walk it this weekend", dash: false, color: "var(--ink)", op: 1 },
-          {
-            label: "Needs work",
-            note: "There, but the alders won",
-            dash: false,
-            color: "var(--ink)",
-            op: 0.55,
-          },
-          {
-            label: "Proposed",
-            note: "Not cut, not surveyed",
-            dash: true,
-            color: "var(--flagging)",
-            op: 1,
-          },
-        ].map((row) => (
-          <li class="flex items-center gap-5 px-5 py-4">
-            <svg width="72" height="6" viewBox="0 0 72 6" aria-hidden="true" class="shrink-0">
-              <line
-                x1="0"
-                y1="3"
-                x2="72"
-                y2="3"
-                stroke={row.color}
-                stroke-opacity={row.op}
-                stroke-width="4"
-                stroke-dasharray={row.dash ? "8 6" : undefined}
-              />
-            </svg>
-            <div>
-              <p class="font-display text-sm font-bold tracking-tight">{row.label}</p>
-              <p class="font-mono text-[10px] uppercase tracking-[0.12em] text-tide">{row.note}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-  </FeatureBlock>
-
-  <FeatureBlock
-    flip
-    eyebrow="The hard part"
-    title="A mile of trail can cross four landlords"
-    body="Out here the tape measure is the easy instrument. One line on a quad sheet can leave Forest Service ground, cross State selections, clip a Mental Health Trust parcel, and finish on Borough land. That is the reason the island was never stitched together, so every segment page leads with who you have to ask."
-    href="/vision"
-    cta="Read the plan"
-  >
-    <div class="card p-6">
-      <p class="eyebrow">Who owns the ground</p>
-      <ul class="mt-4 flex flex-wrap gap-2">
-        {managers.map((manager) => <li class="chip">{manager}</li>)}
-      </ul>
-      <p class="mt-6 text-sm leading-relaxed text-ink/75">
-        Pulled from public ownership layers when the map is built. Good enough to know whose
-        door to knock on. Not a title search.
-      </p>
-    </div>
-  </FeatureBlock>
-
-  <!-- Remaining corridors -->
-  {
-    rest.length ? (
-      <section class="border-t border-contour/60 bg-sheet-raised py-16 md:py-24">
-        <div class="shell">
-          <div class="reveal max-w-2xl">
-            <p class="eyebrow">After that</p>
-            <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
-              The rest of the list, in order
-            </h2>
-            <p class="lede mt-5 text-ink/85">
-              A corridor is a named route made of segments you can point at. Short list on
-              purpose — a plan the board will actually stand behind beats a wish list nobody
-              signed.
-            </p>
-          </div>
-          <div class="mt-12 grid gap-6 md:grid-cols-3">
-            {rest.map((corridor) => (
-              <div class="reveal h-full">
-                <CorridorCard client:visible corridor={corridor} segments={segments} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    ) : null
-  }
-
-  <FeatureBlock
-    eyebrow="The region"
-    title="Revilla is one town in a system that used to have nineteen."
-    body="SEAtrails tied Southeast communities together with the ferry and the trails each town nominated for itself. The organization went quiet. The old domain went somewhere else. The archive is still up, and the Ketchikan piece of bringing it back is this map."
-    href="/seatrails"
-    cta="Where this fits"
-  >
-    <div class="card p-6">
-      <p class="eyebrow">The old list</p>
-      <ul class="mt-4 flex flex-wrap gap-2">
-        {
-          communities.map((community) => (
-            <li class:list={["chip", community.home ? "chip-home" : ""]}>
-              {community.name}
-            </li>
-          ))
-        }
-      </ul>
-      <p class="mt-6 text-sm leading-relaxed text-ink/75">
-        Ketchikan is the only one this group can speak for. The other eighteen are the towns
-        that passed resolutions when the system was active.
-      </p>
-    </div>
-  </FeatureBlock>
-
-  <!-- Sign on -->
+  <!-- Sign on, second content section. The id is what header and footer links use. -->
   <section id="sign-on" class="on-dark scroll-mt-20 bg-ink py-16 text-sheet md:py-24">
     <div class="shell grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
       <div class="reveal">
@@ -257,6 +134,75 @@ const posts = (await getCollection("news"))
       <div class="reveal">
         <SignOnForm client:visible count={supporters.count} formId={formId} />
       </div>
+    </div>
+  </section>
+
+  <FeatureBlock
+    flip
+    eyebrow="The hard part"
+    title="A mile of trail can cross four landlords"
+    body="Out here the tape measure is the easy instrument. One line on a quad sheet can leave Forest Service ground, cross State selections, clip a Mental Health Trust parcel, and finish on Borough land. That is the reason the island was never stitched together, so every segment page leads with who you have to ask."
+    href="/vision"
+    cta="The plan"
+  >
+    <div class="card p-6">
+      <p class="eyebrow">Who owns the ground</p>
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {managers.map((manager) => <li class="chip">{manager}</li>)}
+      </ul>
+      <p class="mt-6 text-sm leading-relaxed text-ink/75">
+        Pulled from public ownership layers when the map is built. Good enough to know whose
+        door to knock on. Not a title search.
+      </p>
+    </div>
+  </FeatureBlock>
+
+  <!-- Remaining corridors -->
+  {
+    rest.length ? (
+      <section class="border-t border-contour/60 bg-sheet-raised py-16 md:py-24">
+        <div class="shell">
+          <div class="reveal max-w-2xl">
+            <p class="eyebrow">After that</p>
+            <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+              The rest of the list, in order
+            </h2>
+            <p class="lede mt-5 text-ink/85">
+              A corridor is a named route made of segments you can point at. Short list on
+              purpose — a plan the board will actually stand behind beats a wish list nobody
+              signed.
+            </p>
+          </div>
+          <div class="mt-12 grid gap-6 md:grid-cols-3">
+            {rest.map((corridor) => (
+              <div class="reveal h-full">
+                <CorridorCard client:visible compact corridor={corridor} segments={segments} />
+              </div>
+            ))}
+          </div>
+          <a
+            href="/vision"
+            class="mt-8 inline-flex min-h-11 items-center font-mono text-[11px] uppercase tracking-[0.14em] text-ink underline decoration-contour underline-offset-4 hover:decoration-ink"
+          >
+            All four routes, segment by segment →
+          </a>
+        </div>
+      </section>
+    ) : null
+  }
+
+  <section class="shell py-16 md:py-24">
+    <div class="reveal max-w-2xl">
+      <p class="eyebrow">The region</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+        Revilla is one town in a system that used to have nineteen.
+      </h2>
+      <p class="lede mt-5 text-ink/85">
+        SEAtrails tied Southeast communities together with the ferry and the trails each town
+        nominated for itself. The organization went quiet. The old domain went somewhere else.
+        The archive is still up, and the Ketchikan piece of bringing it back is this map.
+      </p>
+      <a href="/seatrails" class="btn btn-outline mt-8">Where this fits</a>
     </div>
   </section>
 

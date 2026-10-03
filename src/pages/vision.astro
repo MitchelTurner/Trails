@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import StatBand from "../components/StatBand.astro";
+import NahaConnectorCard from "../components/NahaConnectorCard.astro";
 import { getSegments, loadCorridors, namedLandManagers, networkTotals } from "../lib/network";
 import { formatMiles } from "../lib/format";
 
@@ -63,7 +64,9 @@ const byId = new Map(segments.map((segment) => [segment.id, segment]));
             const members = corridor.segmentIds
               .map((id) => byId.get(id))
               .filter((segment): segment is NonNullable<typeof segment> => Boolean(segment));
+            const hideDescription = index === 0;
             return (
+              <>
               <li id={corridor.id} class="card reveal scroll-mt-24 p-6 md:p-8">
                 <div class="grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-12">
                   <div>
@@ -71,7 +74,11 @@ const byId = new Map(segments.map((segment) => [segment.id, segment]));
                       {index === 0 ? "First project" : `Route ${String(index + 1).padStart(2, "0")}`}
                     </p>
                     <h3 class="headline mt-3 text-2xl md:text-3xl">{corridor.name}</h3>
-                    <p class="mt-4 max-w-2xl leading-relaxed text-ink/85">{corridor.blurb}</p>
+                    {
+                      hideDescription ? null : (
+                        <p class="mt-4 max-w-2xl leading-relaxed text-ink/85">{corridor.blurb}</p>
+                      )
+                    }
 
                     <ol class="mt-6 divide-y divide-contour/40 border-y border-contour/40">
                       {members.map((segment) => (
@@ -112,30 +119,17 @@ const byId = new Map(segments.map((segment) => [segment.id, segment]));
                   </div>
                 </div>
               </li>
+              {index === 0 ? (
+                <li class="reveal list-none">
+                  <NahaConnectorCard />
+                </li>
+              ) : null}
+              </>
             );
           })
         }
       </ol>
     </div>
-  </section>
-
-  <section class="shell py-16 md:py-20">
-    <a
-      href="/projects/naha-connector"
-      class="card reveal block scroll-mt-24 p-6 transition hover:border-flagging/60 md:p-8"
-    >
-      <p class="eyebrow">Featured project · Shelter Cove → Loring</p>
-      <h2 class="headline mt-3 text-[length:var(--text-display-md)]">The Naha Connector</h2>
-      <p class="mt-5 max-w-2xl leading-relaxed text-ink/85">
-        The State opened Shelter Cove Road in October 2025, then stopped at the edge of a
-        roadless area written to accommodate recreation access. Two trail segments would
-        complete the first walk-in route from Ketchikan's road system to the Naha's cabins and
-        the National Recreation Trail down to Loring.
-      </p>
-      <p class="mt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-flagging-deep">
-        Read the project →
-      </p>
-    </a>
   </section>
 
   <section class="shell grid gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">

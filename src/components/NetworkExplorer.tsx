@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import TrailMap from "./TrailMap";
 import NetworkList from "./NetworkList";
+import { MapLegend } from "./MapLegend";
 import type { Corridor, Segment } from "../lib/schema";
 import { formatStatus } from "../lib/format";
 
@@ -143,16 +144,29 @@ export default function NetworkExplorer({
       </div>
 
       {view === "map" ? (
-        <div className="mt-6 h-[min(72vh,44rem)] border border-contour/70">
-          <TrailMap
-            urlSync
-            initialSegmentId={initialSegmentId}
-            filterIds={activeFilters ? filteredIds : null}
-            corridors={corridors}
-          />
-        </div>
+        <>
+          <details className="mt-6 border border-contour/70 md:hidden">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center px-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink [&::-webkit-details-marker]:hidden">
+              How to read the map
+            </summary>
+            <div className="border-t border-contour/60">
+              <MapLegend collapsible={false} />
+            </div>
+          </details>
+          <div className="mt-6 h-[min(72vh,44rem)] border border-contour/70">
+            <TrailMap
+              urlSync
+              initialSegmentId={initialSegmentId}
+              filterIds={activeFilters ? filteredIds : null}
+              corridors={corridors}
+            />
+          </div>
+        </>
       ) : (
         <div className="mt-8">
+          <div className="mb-8 max-w-md border border-contour/70">
+            <MapLegend collapsible={false} />
+          </div>
           <NetworkList
             segments={segments}
             landManagers={landManagers}
