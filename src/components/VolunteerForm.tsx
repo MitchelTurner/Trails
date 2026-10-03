@@ -91,7 +91,7 @@ export default function VolunteerForm({
           name="role"
           value={role}
           onChange={(event) => setRole(event.target.value as (typeof ROLES)[number]["id"])}
-          className="min-h-11 border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+          className="min-h-11 w-full max-w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
         >
           {ROLES.map((item) => (
             <option key={item.id} value={item.id}>
@@ -117,7 +117,7 @@ export default function VolunteerForm({
           name="event"
           value={eventId}
           onChange={(event) => setEventId(event.target.value)}
-          className="min-h-11 border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+          className="min-h-11 w-full max-w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
         >
           <option value={ANY_EVENT}>Any future work party</option>
           {events.map((item) => (

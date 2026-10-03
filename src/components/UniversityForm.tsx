@@ -5,9 +5,9 @@ type State = "idle" | "submitting" | "success" | "error";
 
 const OFFERS = [
   { id: "conversation", label: "A conversation" },
-  { id: "scholarship", label: "A scholarship the campus awards to the student" },
-  { id: "certificate", label: "An educational certificate the campus issues" },
-  { id: "both", label: "Both a scholarship and a certificate" },
+  { id: "scholarship", label: "A scholarship for the student" },
+  { id: "certificate", label: "A certificate from the campus" },
+  { id: "both", label: "Both" },
 ] as const;
 
 export default function UniversityForm({ formId }: { formId?: string }) {
@@ -62,28 +62,28 @@ export default function UniversityForm({ formId }: { formId?: string }) {
     <form className="grid gap-3" onSubmit={onSubmit} noValidate>
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Name
-        <input name="name" className="border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal" />
+        <input name="name" className="w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal" />
       </label>
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Email
         <input
           name="email"
           type="email"
-          className="border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+          className="w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
         />
       </label>
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Campus
         <input
           name="campus"
-          className="border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+          className="w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
         />
       </label>
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Your role there
         <input
           name="campus_role"
-          className="border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+          className="w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
         />
       </label>
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
@@ -91,7 +91,7 @@ export default function UniversityForm({ formId }: { formId?: string }) {
         <select
           name="offer"
           defaultValue="conversation"
-          className="min-h-11 border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+          className="min-h-11 w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
         >
           {OFFERS.map((item) => (
             <option key={item.id} value={item.id}>
@@ -105,7 +105,7 @@ export default function UniversityForm({ formId }: { formId?: string }) {
         <textarea
           name="note"
           rows={4}
-          className="border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+          className="w-full border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
         />
       </label>
       <div>

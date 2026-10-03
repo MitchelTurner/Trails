@@ -194,7 +194,7 @@ const skills = [
   </section>
 
   <section id="crew-list" class="shell scroll-mt-24 py-16 md:py-20">
-    <div class="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+    <div class="grid min-w-0 gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <div>
         <p class="eyebrow">Crew list</p>
         <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Get on the list</h2>
@@ -203,7 +203,7 @@ const skills = [
           actually do on a wet Saturday in October, and whether you have a saw card.
         </p>
       </div>
-      <div class="card p-6 md:p-8">
+      <div class="card min-w-0 p-6 md:p-8">
         <VolunteerForm client:visible formId={formId} events={crewEvents} />
       </div>
     </div>

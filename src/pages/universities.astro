@@ -95,7 +95,7 @@ const asks = [
   </section>
 
   <section class="shell py-16 md:py-24">
-    <div class="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+    <div class="grid min-w-0 gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <div>
         <p class="eyebrow">Write from the campus</p>
         <h2 class="headline mt-4 text-[length:var(--text-display-md)]">Start the conversation</h2>
@@ -108,7 +108,7 @@ const asks = [
           campus has to decide those. This group will not invent them.
         </p>
       </div>
-      <div class="card p-6 md:p-8">
+      <div class="card min-w-0 p-6 md:p-8">
         <UniversityForm client:visible formId={formId} />
       </div>
     </div>
