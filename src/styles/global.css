@@ -228,6 +228,12 @@ body {
     color: var(--tide);
   }
 
+  .chip-home {
+    border-color: var(--flagging);
+    color: var(--flagging-deep);
+    background: color-mix(in srgb, var(--flagging) 8%, transparent);
+  }
+
   .on-dark .chip {
     border-color: color-mix(in srgb, var(--sheet) 34%, transparent);
     background: color-mix(in srgb, var(--sheet) 10%, transparent);

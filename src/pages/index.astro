@@ -5,6 +5,7 @@ import SignOnForm from "../components/SignOnForm.tsx";
 import StatBand from "../components/StatBand.astro";
 import FeatureBlock from "../components/FeatureBlock.astro";
 import { site } from "../config/site";
+import { communities } from "../data/seatrails";
 import {
   getSegments,
   loadCorridors,
@@ -189,6 +190,31 @@ const posts = (await getCollection("news"))
       </section>
     ) : null
   }
+
+  <FeatureBlock
+    eyebrow="The region"
+    title="Revilla is one town in a system that used to have nineteen."
+    body="SEAtrails tied Southeast communities together with the ferry and the trails each town nominated for itself. The organization went quiet. The old domain went somewhere else. The archive is still up, and the Ketchikan piece of bringing it back is this map."
+    href="/seatrails"
+    cta="Where this fits"
+  >
+    <div class="card p-6">
+      <p class="eyebrow">The old list</p>
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {
+          communities.map((community) => (
+            <li class:list={["chip", community.home ? "chip-home" : ""]}>
+              {community.name}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 text-sm leading-relaxed text-ink/75">
+        Ketchikan is the only one this group can speak for. The other eighteen are the towns
+        that passed resolutions when the system was active.
+      </p>
+    </div>
+  </FeatureBlock>
 
   <!-- Sign on -->
   <section id="sign-on" class="on-dark scroll-mt-20 bg-ink py-16 text-sheet md:py-24">

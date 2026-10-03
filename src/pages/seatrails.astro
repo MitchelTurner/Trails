@@ -1,0 +1,318 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import StatBand from "../components/StatBand.astro";
+import { site } from "../config/site";
+import {
+  SEATRAILS,
+  communities,
+  guideTrails,
+  guideTrailsOnMap,
+  ketchikanRoutes,
+} from "../data/seatrails";
+
+const guideCount = guideTrails().length;
+const onMapCount = guideTrailsOnMap().length;
+const home = communities.find((community) => community.home);
+const checked = new Date(`${SEATRAILS.lostDomainChecked}T00:00:00-09:00`).toLocaleDateString(
+  "en-US",
+  { month: "long", day: "numeric", year: "numeric", timeZone: "America/Sitka" },
+);
+---
+
+<BaseLayout
+  title="SEAtrails"
+  description="Revilla Trails is the Ketchikan piece of bringing SEAtrails back with the Southeast Alaska communities that built it. The trail archive is akseatrails.org."
+>
+  <PageHeader
+    eyebrow="SEAtrails · Southeast Alaska"
+    title="Nineteen towns, one ferry, and a system that went quiet."
+    lede="SEAtrails was how Southeast communities put their own trails on one map and tied them together with the Alaska Marine Highway. This site is the Ketchikan piece of bringing that back — with the people who live in the towns."
+  />
+
+  <StatBand
+    stats={[
+      { value: String(communities.length), label: "Communities on the old list" },
+      {
+        value: String(onMapCount),
+        label: `Of ${guideCount} Ketchikan trails on this map`,
+        accent: true,
+      },
+      { value: String(SEATRAILS.founded), label: "The year the system started" },
+      {
+        value: String(SEATRAILS.materialsAcquiredYear),
+        label: "Materials passed to Southeast Conference",
+      },
+    ]}
+  />
+
+  <section class="shell grid gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">
+    <div class="reveal">
+      <p class="eyebrow">What it was</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+        Each town picked its own trails
+      </h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-ink/85">
+        <p>
+          SEAtrails started in {SEATRAILS.founded} as a regional partnership run by the
+          communities themselves. The premise, still printed on the archive, is that each town
+          decides which of its trails belong on the system, working with the state and federal
+          people who manage the ground. Hiking, biking, paddling, cultural walks, and dive sites
+          all counted. {SEATRAILS.marineHighwayNote}
+        </p>
+        <p>
+          The archive's history says it became a 501(c)(3), grew to {communities.length}{" "}
+          communities, and in 2003 put Public Lands Highway money into trail projects, maps, and
+          signs. Almost $120,000 of that went out as grants to 10 communities. In 2004 the
+          program received a Partners in Stewardship award.
+        </p>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">What happened to it</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+        The record survived. The organization did not stay in the field.
+      </h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-ink/85">
+        <p>
+          A later Tongass recreation assessment describes the project as largely dormant, with
+          the website left behind as the record. In {SEATRAILS.materialsAcquiredYear} Southeast
+          Conference acquired the materials and said it hopes to fund a regional revival. Their
+          page still describes that as exploring funding.
+        </p>
+        <p>
+          The archive they sponsor is still online. It is a trip-planning record. The archive
+          itself says the maps were heads-up digitized and not checked on the ground with GPS,
+          and should not be used for navigation.
+        </p>
+      </div>
+      <aside class="mt-6 border border-contour/80 bg-sheet-raised px-5 py-4">
+        <p class="eyebrow">The domain</p>
+        <p class="mt-3 text-sm leading-relaxed text-ink/85">
+          Checked {checked}, <span class="font-mono text-[13px]">{SEATRAILS.lostDomain}</span>{" "}
+          serves an unrelated commercial site. It does not describe these trails. This page does
+          not link it. The archive that still does is{" "}
+          <a
+            href={SEATRAILS.archiveUrl}
+            class="underline decoration-flagging underline-offset-4"
+            rel="noopener noreferrer"
+          >
+            akseatrails.org
+          </a>.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="border-y border-contour/60 bg-sheet-raised py-16 md:py-24">
+    <div class="shell">
+      <div class="max-w-2xl reveal">
+        <p class="eyebrow">This group</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+          We can speak for Revilla. That is the whole claim.
+        </h2>
+        <p class="lede mt-5 text-ink/85">
+          {site.name} is an informal group in Ketchikan, working under the name {site.orgName}.
+          The original system gave each community one job: decide what is real. On this island
+          that job is the map — every segment we could get linework for, the gaps, and who owns
+          the ground.
+        </p>
+        <p class="mt-4 leading-relaxed text-ink/85">
+          We are an informal group with no entity behind it. Southeast Conference holds the old
+          organizational materials. Putting the two efforts in the same conversation is the point
+          of this page, and it stays a conversation until a town, or the people holding those
+          materials, says otherwise in writing.
+        </p>
+        <p class="mt-4 leading-relaxed text-ink/85">
+          {home?.name}'s old resolution is on the archive. It is evidence the community once
+          signed on. It is not a current endorsement of this group, and it is not permission to
+          cut trail.
+        </p>
+      </div>
+
+      <h3 class="headline mt-16 text-2xl md:text-3xl">
+        What the old Ketchikan guide named
+      </h3>
+      <p class="mt-4 max-w-2xl leading-relaxed text-ink/85">
+        {onMapCount} of the {guideCount} trails in that list are on this map. The spelling and
+        the condition notes below are ours, checked against the segments. The archive wording is
+        in the small type.
+      </p>
+      <ol class="mt-8 grid gap-4">
+        {
+          ketchikanRoutes.map((route) => (
+            <li class="card reveal grid gap-4 p-5 md:grid-cols-[1.4fr_1fr] md:items-start md:gap-8 md:p-6">
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+                  {route.onMap ? "On this map" : route.inGuideList ? "In the old guide only" : "Also in the old guide"}
+                </p>
+                <h4 class="headline mt-2 text-xl">{route.name}</h4>
+                <p class="mt-3 text-sm leading-relaxed text-ink/80">{route.note}</p>
+              </div>
+              <div class="flex flex-col items-start gap-3 border-t border-contour/40 pt-4 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+                <p class="font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-tide">
+                  Archive name · {route.archiveName}
+                </p>
+                {route.href ? (
+                  <a href={route.href} class="btn btn-outline !min-h-11 !px-5 !text-sm">
+                    Open it here
+                  </a>
+                ) : (
+                  <a
+                    href={SEATRAILS.ketchikanGuideUrl}
+                    class="text-sm underline decoration-flagging underline-offset-4"
+                    rel="noopener noreferrer"
+                  >
+                    Read it on the archive
+                  </a>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="shell py-16 md:py-24">
+    <div class="max-w-2xl reveal">
+      <p class="eyebrow">The nineteen</p>
+      <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+        The communities that already did this once
+      </h2>
+      <p class="lede mt-5 text-ink/85">
+        Names and documents below are the historical membership, copied from the archive. A
+        resolution from that era means the town signed on then. It does not mean the town has
+        signed on to this group, and we will not imply that it has.
+      </p>
+    </div>
+    <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        communities.map((community) => (
+          <li
+            class:list={[
+              "card reveal flex flex-col p-5",
+              community.home ? "border-flagging/70" : "",
+            ]}
+          >
+            <div class="flex flex-wrap items-center gap-2">
+              <h3 class="font-display text-xl font-bold tracking-tight">{community.name}</h3>
+              {community.home ? <span class="chip">This map</span> : null}
+            </div>
+            {community.note ? (
+              <p class="mt-3 text-sm leading-relaxed text-ink/80">{community.note}</p>
+            ) : (
+              <p class="mt-3 text-sm leading-relaxed text-ink/70">
+                Passed a resolution when SEAtrails was active.
+              </p>
+            )}
+            <p class="mt-auto flex flex-wrap gap-x-4 gap-y-2 pt-5 font-mono text-[10px] uppercase tracking-[0.12em]">
+              <a
+                href={community.guideUrl}
+                class="underline decoration-flagging underline-offset-4"
+                rel="noopener noreferrer"
+              >
+                Old guide
+              </a>
+              <a
+                href={community.resolutionUrl}
+                class="underline decoration-flagging underline-offset-4"
+                rel="noopener noreferrer"
+              >
+                Resolution
+              </a>
+              {community.home ? (
+                <a href="/network" class="underline decoration-flagging underline-offset-4">
+                  The network
+                </a>
+              ) : null}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-8 max-w-2xl text-sm leading-relaxed text-ink/70">
+      Guides and resolutions are hosted by the archive at{" "}
+      <a
+        href={SEATRAILS.communitiesUrl}
+        class="underline decoration-flagging underline-offset-4"
+        rel="noopener noreferrer"
+      >
+        akseatrails.org
+      </a>. Naukati is listed there as Naukati West. Resolution files are the copies the archive
+      still publishes.
+    </p>
+  </section>
+
+  <section class="on-dark bg-ink py-16 text-sheet md:py-24">
+    <div class="shell grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <div class="reveal">
+        <p class="eyebrow">If your town wants in</p>
+        <h2 class="headline mt-4 text-[length:var(--text-display-md)]">
+          Write from the place you live
+        </h2>
+        <div class="mt-6 space-y-4 leading-relaxed text-sheet/85">
+          <p>
+            Email <a class="underline decoration-flagging underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a> and
+            say which community you are writing from, and which trails you would actually put
+            your name on.
+          </p>
+          <p>
+            The old first step was a resolution of support from the governing body. The template
+            is still on the archive, and so is the trail nomination form. Passing one now would
+            be that community's decision, addressed to whoever they choose. We will not draft it
+            so that it looks like we are the old nonprofit.
+          </p>
+          <p>
+            What we can share is the method on this site. Status drawn so a black-and-white
+            printout still reads. Ownership named from public layers, with the coarse guesses
+            labeled as coarse. Proposed lines marked conceptual until somebody walks them. No
+            donate button until there is an entity that can legally take a dollar.
+          </p>
+          <p>
+            A town that wants a page here gets one when residents of that town are doing the
+            work. Until then the list above is history.
+          </p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={`mailto:${site.email}?subject=${encodeURIComponent("SEAtrails — our community")}`} class="btn btn-primary">
+            Write to the group
+          </a>
+          <a href="/get-involved" class="btn btn-outline">Get on the Ketchikan crew list</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <ul class="divide-y divide-sheet/15 border-y border-sheet/15">
+          {
+            [
+              { href: SEATRAILS.archiveUrl, label: "The archive", note: "akseatrails.org" },
+              { href: SEATRAILS.historyUrl, label: "History and mission", note: "As the archive still prints it" },
+              { href: SEATRAILS.conferenceUrl, label: "Southeast Conference", note: "Holds the materials since 2022" },
+              { href: SEATRAILS.resolutionTemplateUrl, label: "Resolution template", note: "Word document on the archive" },
+              { href: SEATRAILS.nominationFormUrl, label: "Trail nomination form", note: "PDF on the archive" },
+              { href: "/vision", label: "The Ketchikan plan", note: "Cabins first, then the rest of the island" },
+            ].map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="group flex min-h-16 items-center justify-between gap-4 py-3"
+                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                >
+                  <span>
+                    <span class="block font-display text-lg font-bold tracking-tight group-hover:underline group-hover:decoration-flagging group-hover:underline-offset-4">
+                      {item.label}
+                    </span>
+                    <span class="mt-1 block font-mono text-[10px] uppercase tracking-[0.12em] text-sheet/60">
+                      {item.note}
+                    </span>
+                  </span>
+                  <span aria-hidden="true" class="font-mono text-flagging">→</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
