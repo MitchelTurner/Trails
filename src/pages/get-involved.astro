@@ -3,13 +3,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import VolunteerForm from "../components/VolunteerForm.tsx";
 import { getCollection } from "astro:content";
-import { site } from "../config/site";
+import { eventDayKey, isOnOrAfterToday } from "../lib/work-parties";
 
 const parties = (await getCollection("workParties")).sort(
   (a, b) => a.data.date.getTime() - b.data.date.getTime(),
 );
-const upcoming = parties.filter((item) => item.data.status === "upcoming");
+const upcoming = parties.filter(
+  (item) => item.data.status === "upcoming" && isOnOrAfterToday(item.data.date),
+);
 const formId = import.meta.env.PUBLIC_FORMSPREE_SIGNON;
+const crewEvents = upcoming.map((party) => ({ id: party.id, title: party.data.title }));
 
 const skills = [
   {
@@ -44,66 +47,69 @@ const skills = [
   <section class="shell py-16 md:py-20">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <h2 class="headline text-[length:var(--text-display-md)]">Work parties</h2>
-      <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+      <p data-party-count class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
         {upcoming.length} on the calendar
       </p>
     </div>
 
-    {
-      upcoming.length === 0 ? (
-        <div class="card mt-8 p-8">
-          <p class="font-display text-xl font-bold tracking-tight">Nothing on the books.</p>
-          <p class="mt-2 text-sm leading-relaxed text-ink/80">
-            Email <a class="underline decoration-flagging underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a> and we will put you on the list for the next one.
-          </p>
-        </div>
-      ) : (
-        <ol class="mt-10 grid gap-6 lg:grid-cols-2">
-          {upcoming.map((party) => (
-            <li class="card card-hover reveal flex flex-col p-6 md:p-8">
-              <div class="flex items-start justify-between gap-4">
-                <p class="eyebrow">
-                  {party.data.date.toLocaleDateString("en-US", {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                    timeZone: "America/Sitka",
-                  })}
-                </p>
-                <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
-                  {party.data.date.getUTCFullYear()}
-                </p>
+    <div data-party-empty class:list={["card mt-8 p-8", upcoming.length === 0 ? "" : "hidden"]}>
+      <p class="font-display text-xl font-bold tracking-tight">
+        No date set yet. Get on the crew list below and we'll tell you when the next one is.
+      </p>
+    </div>
+
+    <ol
+      data-party-list
+      class:list={["mt-10 grid gap-6 lg:grid-cols-2", upcoming.length === 0 ? "hidden" : ""]}
+    >
+      {
+        upcoming.map((party) => (
+          <li
+            data-event-date={eventDayKey(party.data.date)}
+            class="card card-hover reveal flex flex-col p-6 md:p-8"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <p class="eyebrow">
+                {party.data.date.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "America/Sitka",
+                })}
+              </p>
+              <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+                {party.data.date.getUTCFullYear()}
+              </p>
+            </div>
+            <h3 class="headline mt-3 text-2xl">{party.data.title}</h3>
+
+            <dl class="mt-6 grid gap-4 border-t border-contour/50 pt-5 text-sm sm:grid-cols-2">
+              <div>
+                <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">Where</dt>
+                <dd class="mt-1">{party.data.location}</dd>
               </div>
-              <h3 class="headline mt-3 text-2xl">{party.data.title}</h3>
+              <div>
+                <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+                  Meet at
+                </dt>
+                <dd class="mt-1">{party.data.meetingPoint}</dd>
+              </div>
+              <div class="sm:col-span-2">
+                <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">Bring</dt>
+                <dd class="mt-1">{party.data.whatToBring}</dd>
+              </div>
+            </dl>
 
-              <dl class="mt-6 grid gap-4 border-t border-contour/50 pt-5 text-sm sm:grid-cols-2">
-                <div>
-                  <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">Where</dt>
-                  <dd class="mt-1">{party.data.location}</dd>
-                </div>
-                <div>
-                  <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
-                    Meet at
-                  </dt>
-                  <dd class="mt-1">{party.data.meetingPoint}</dd>
-                </div>
-                <div class="sm:col-span-2">
-                  <dt class="font-mono text-[10px] uppercase tracking-[0.14em] text-tide">Bring</dt>
-                  <dd class="mt-1">{party.data.whatToBring}</dd>
-                </div>
-              </dl>
-
-              <a
-                href={`mailto:${party.data.contact}?subject=${encodeURIComponent(`Work party: ${party.data.title}`)}`}
-                class="btn btn-solid mt-auto !min-h-11 self-start !px-5 !text-sm"
-              >
-                Join the work party
-              </a>
-            </li>
-          ))}
-        </ol>
-      )
-    }
+            <a
+              href={`/get-involved?event=${party.id}#crew-list`}
+              class="btn btn-solid mt-auto !min-h-11 self-start !px-5 !text-sm"
+            >
+              Join the work party
+            </a>
+          </li>
+        ))
+      }
+    </ol>
   </section>
 
   <section class="border-y border-contour/60 bg-sheet-raised py-16 md:py-20">
@@ -131,22 +137,7 @@ const skills = [
     </div>
   </section>
 
-  <section class="shell pt-16 md:pt-20">
-    <a href="/seatrails" class="card reveal block p-6 md:p-8">
-      <p class="eyebrow">Other towns</p>
-      <h2 class="headline mt-3 text-2xl md:text-3xl">If you are not in Ketchikan</h2>
-      <p class="mt-4 max-w-2xl leading-relaxed text-ink/85">
-        SEAtrails was nineteen communities and the ferry between them. This crew can speak for
-        the island we walk. The other towns, the old resolutions, and the address to write from
-        yours are on the SEAtrails page.
-      </p>
-      <p class="mt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-flagging-deep">
-        Where Revilla fits →
-      </p>
-    </a>
-  </section>
-
-  <section class="shell py-16 md:py-20">
+  <section id="crew-list" class="shell scroll-mt-24 py-16 md:py-20">
     <div class="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <div>
         <p class="eyebrow">Crew list</p>
@@ -157,8 +148,45 @@ const skills = [
         </p>
       </div>
       <div class="card p-6 md:p-8">
-        <VolunteerForm client:visible formId={formId} />
+        <VolunteerForm client:visible formId={formId} events={crewEvents} />
       </div>
     </div>
   </section>
+
+  <section class="shell pb-16 md:pb-20">
+    <a href="/seatrails" class="card reveal block p-6 md:p-8">
+      <p class="eyebrow">Other towns</p>
+      <h2 class="headline mt-3 text-2xl md:text-3xl">If you are not in Ketchikan</h2>
+      <p class="mt-4 max-w-2xl leading-relaxed text-ink/85">
+        SEAtrails was nineteen communities and the ferry between them. This crew can speak for
+        the island we walk. The other towns, the old resolutions, and the address to write from
+        yours are on the SEAtrails page.
+      </p>
+      <p class="mt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-tide">
+        Where Revilla fits →
+      </p>
+    </a>
+  </section>
 </BaseLayout>
+
+<script>
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Sitka",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  const items = [...document.querySelectorAll<HTMLElement>("[data-event-date]")];
+  let visible = 0;
+  for (const item of items) {
+    const show = (item.dataset.eventDate ?? "") >= today;
+    item.hidden = !show;
+    if (show) visible += 1;
+  }
+  const count = document.querySelector("[data-party-count]");
+  if (count) count.textContent = `${visible} on the calendar`;
+  const list = document.querySelector<HTMLElement>("[data-party-list]");
+  const empty = document.querySelector<HTMLElement>("[data-party-empty]");
+  if (list) list.hidden = visible === 0;
+  if (empty) empty.hidden = visible !== 0;
+</script>

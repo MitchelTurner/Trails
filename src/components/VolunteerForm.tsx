@@ -1,12 +1,28 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { site } from "../config/site";
 
 type State = "idle" | "submitting" | "success" | "error";
 
-export default function VolunteerForm({ formId }: { formId?: string }) {
+const ANY_EVENT = "any";
+
+export default function VolunteerForm({
+  formId,
+  events = [],
+}: {
+  formId?: string;
+  events?: { id: string; title: string }[];
+}) {
   const [state, setState] = useState<State>("idle");
   const [message, setMessage] = useState<string | null>(null);
+  const [eventId, setEventId] = useState(ANY_EVENT);
   const endpoint = formId || site.formspree.signOn;
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("event");
+    if (requested && events.some((item) => item.id === requested)) {
+      setEventId(requested);
+    }
+  }, [events]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,6 +74,22 @@ export default function VolunteerForm({ formId }: { formId?: string }) {
         <input name="email" type="email" className="border border-contour bg-sheet px-3 py-2 font-body text-sm" />
       </label>
       <label className="md:col-span-2 flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
+        Which work party
+        <select
+          name="event"
+          value={eventId}
+          onChange={(event) => setEventId(event.target.value)}
+          className="min-h-11 border border-contour bg-sheet px-3 py-2 font-body text-sm normal-case tracking-normal"
+        >
+          <option value={ANY_EVENT}>Any future work party</option>
+          {events.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.title}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="md:col-span-2 flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Skills you can bring
         <input name="skills" className="border border-contour bg-sheet px-3 py-2 font-body text-sm" />
       </label>
@@ -67,7 +99,7 @@ export default function VolunteerForm({ formId }: { formId?: string }) {
           disabled={state === "submitting"}
           className="bg-ink px-5 py-2.5 font-display text-sm font-semibold text-sheet disabled:opacity-60"
         >
-          {state === "submitting" ? "Sending…" : "Join the work party"}
+          {state === "submitting" ? "Sending…" : "Add me to the crew list"}
         </button>
         {message && state === "error" ? (
           <p className="mt-2 text-sm text-ink" role="alert">
