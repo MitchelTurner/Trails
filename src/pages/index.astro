@@ -94,54 +94,49 @@ const posts = (await getCollection("news"))
     ) : null
   }
 
-  <FeatureBlock
-    eyebrow="Reading the map"
-    title="A solid line means boots. A pink dash means bring a floatplane."
-    body="Status lives in how the line is drawn, not just its color, so it still reads in grayscale in a borough packet or a district office printout. Solid ink is walkable today. Faded ink is on the ground but brushed over. Pink dashes are not built, and every one of them says so on its own page."
-    href="/network"
-    cta="Open the explorer"
-  >
-    <ul class="card divide-y divide-contour/40">
-      {
-        [
-          { label: "Existing", note: "Walk it this weekend", dash: false, color: "var(--ink)", op: 1 },
-          {
-            label: "Needs work",
-            note: "There, but the alders won",
-            dash: false,
-            color: "var(--ink)",
-            op: 0.55,
-          },
-          {
-            label: "Proposed",
-            note: "Not cut, not surveyed",
-            dash: true,
-            color: "var(--flagging)",
-            op: 1,
-          },
-        ].map((row) => (
-          <li class="flex items-center gap-5 px-5 py-4">
-            <svg width="72" height="6" viewBox="0 0 72 6" aria-hidden="true" class="shrink-0">
-              <line
-                x1="0"
-                y1="3"
-                x2="72"
-                y2="3"
-                stroke={row.color}
-                stroke-opacity={row.op}
-                stroke-width="4"
-                stroke-dasharray={row.dash ? "8 6" : undefined}
-              />
-            </svg>
-            <div>
-              <p class="font-display text-sm font-bold tracking-tight">{row.label}</p>
-              <p class="font-mono text-[10px] uppercase tracking-[0.12em] text-tide">{row.note}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-  </FeatureBlock>
+  <!-- Sign on, second content section. The id is what header and footer links use. -->
+  <section id="sign-on" class="on-dark scroll-mt-20 bg-ink py-16 text-sheet md:py-24">
+    <div class="shell grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+      <div class="reveal">
+        <p class="eyebrow">Sign on</p>
+        {
+          supporters.count == null ? (
+            <>
+              <h2 class="headline mt-4 text-[length:var(--text-display-lg)]">
+                Put your name behind it.
+              </h2>
+              <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
+                We are not asking for money. There is no entity to hold it and nothing here is
+                tax-deductible. What moves a ranger district and an assembly is a list of
+                residents who want the route, so that is what we are building. We will publish
+                the count when there is a real one to publish.
+              </p>
+            </>
+          ) : (
+            <>
+              <p class="headline mt-4 text-[length:var(--text-display-lg)] text-flagging">
+                {supporters.count.toLocaleString("en-US")}
+              </p>
+              <h2 class="headline mt-2 text-[length:var(--text-display-md)]">
+                people have put their name behind connecting the island.
+              </h2>
+              <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
+                We are not asking for money. There is no entity to hold it and nothing here is
+                tax-deductible. A list of residents is what moves a ranger district and an
+                assembly.
+              </p>
+            </>
+          )
+        }
+        <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-sheet/60">
+          Not a donation · Not tax-deductible · {totals.gapMi.toFixed(0)} miles still uncut
+        </p>
+      </div>
+      <div class="reveal">
+        <SignOnForm client:visible count={supporters.count} formId={formId} />
+      </div>
+    </div>
+  </section>
 
   <FeatureBlock
     flip
@@ -215,50 +210,6 @@ const posts = (await getCollection("news"))
       </p>
     </div>
   </FeatureBlock>
-
-  <!-- Sign on -->
-  <section id="sign-on" class="on-dark scroll-mt-20 bg-ink py-16 text-sheet md:py-24">
-    <div class="shell grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
-      <div class="reveal">
-        <p class="eyebrow">Sign on</p>
-        {
-          supporters.count == null ? (
-            <>
-              <h2 class="headline mt-4 text-[length:var(--text-display-lg)]">
-                Put your name behind it.
-              </h2>
-              <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
-                We are not asking for money. There is no entity to hold it and nothing here is
-                tax-deductible. What moves a ranger district and an assembly is a list of
-                residents who want the route, so that is what we are building. We will publish
-                the count when there is a real one to publish.
-              </p>
-            </>
-          ) : (
-            <>
-              <p class="headline mt-4 text-[length:var(--text-display-lg)] text-flagging">
-                {supporters.count.toLocaleString("en-US")}
-              </p>
-              <h2 class="headline mt-2 text-[length:var(--text-display-md)]">
-                people have put their name behind connecting the island.
-              </h2>
-              <p class="mt-6 max-w-md leading-relaxed text-sheet/80">
-                We are not asking for money. There is no entity to hold it and nothing here is
-                tax-deductible. A list of residents is what moves a ranger district and an
-                assembly.
-              </p>
-            </>
-          )
-        }
-        <p class="mt-4 font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-sheet/60">
-          Not a donation · Not tax-deductible · {totals.gapMi.toFixed(0)} miles still uncut
-        </p>
-      </div>
-      <div class="reveal">
-        <SignOnForm client:visible count={supporters.count} formId={formId} />
-      </div>
-    </div>
-  </section>
 
   <!-- The latest -->
   <section class="shell py-16 md:py-24">
