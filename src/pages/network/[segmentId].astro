@@ -76,6 +76,14 @@ const Guide = guideEntry ? (await render(guideEntry)).Content : null;
 
         <h1 class="headline mt-4 text-[length:var(--text-display-lg)]">{segment.name}</h1>
         <p class="lede mt-5 max-w-2xl text-sheet/85">{segment.summary}</p>
+        <p class="mt-6">
+          <a
+            href={`/report?trail=${encodeURIComponent(segment.name)}`}
+            class="font-mono text-[11px] uppercase tracking-[0.14em] text-sheet underline decoration-sheet/40 underline-offset-4 hover:decoration-sheet"
+          >
+            Report an issue on this trail
+          </a>
+        </p>
 
         <dl class="mt-10 grid gap-6 border-t border-sheet/15 pt-8 sm:grid-cols-3 lg:grid-cols-5">
           {

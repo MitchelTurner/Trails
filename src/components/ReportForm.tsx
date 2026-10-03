@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { site } from "../config/site";
 
 type State = "idle" | "submitting" | "success" | "error";
@@ -10,7 +10,13 @@ interface ReportFormProps {
 export default function ReportForm({ formId }: ReportFormProps) {
   const [state, setState] = useState<State>("idle");
   const [message, setMessage] = useState<string | null>(null);
+  const [trail, setTrail] = useState("");
   const endpoint = formId || site.formspree.report;
+
+  useEffect(() => {
+    const fromQuery = new URLSearchParams(window.location.search).get("trail");
+    if (fromQuery) setTrail(fromQuery);
+  }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -70,7 +76,12 @@ export default function ReportForm({ formId }: ReportFormProps) {
     <form className="grid gap-4" onSubmit={onSubmit} noValidate>
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         Trail or location
-        <input name="trail" className="border border-contour bg-sheet px-3 py-2 font-body text-sm" />
+        <input
+          name="trail"
+          value={trail}
+          onChange={(event) => setTrail(event.target.value)}
+          className="border border-contour bg-sheet px-3 py-2 font-body text-sm"
+        />
       </label>
       <label className="flex flex-col gap-1 font-mono text-[11px] uppercase tracking-wider text-tide">
         What you found
